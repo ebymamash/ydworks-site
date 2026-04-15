@@ -34,6 +34,33 @@
     object-fit: cover;
   }
 </style>
+ .hero::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.15) 0px,
+    rgba(0,0,0,0.15) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+}
+
+.hero {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+  filter: contrast(1.1) grayscale(0.3);
+}
 </head>
 <body>
 <nav>
