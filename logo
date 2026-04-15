@@ -1,0 +1,6 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+<rect width="120" height="120" fill="#0a0a0b"/>
+<path d="M0,38 C15,20 30,56 45,38 C60,20 75,56 90,38 C105,20 120,56 135,38" fill="none" stroke="#cc2020" stroke-width="6" stroke-linecap="round"/>
+<path d="M0,60 C15,42 30,78 45,60 C60,42 75,78 90,60 C105,42 120,78 135,60" fill="none" stroke="#cc2020" stroke-width="6" stroke-linecap="round"/>
+<path d="M0,82 C15,64 30,100 45,82 C60,64 75,100 90,82 C105,64 120,100 135,82" fill="none" stroke="#cc2020" stroke-width="6" stroke-linecap="round"/>
+</svg>
