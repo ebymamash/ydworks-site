@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YD Works</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -14,7 +15,7 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: sans-serif;
+    font-family: 'VT323', monospace;
     min-height: 100vh;
   }
   nav {
@@ -50,6 +51,27 @@
     );
     pointer-events: none;
   }
+  .hero-content {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 5;
+  }
+  .start-btn {
+    font-family: 'VT323', monospace;
+    font-size: 2rem;
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 2px solid var(--text);
+    padding-bottom: 2px;
+    letter-spacing: 0.1em;
+    transition: opacity 0.2s;
+  }
+  .start-btn:hover {
+    opacity: 0.6;
+  }
 </style>
 </head>
 <body>
@@ -58,6 +80,9 @@
 </nav>
 <div class="hero">
   <img src="hero.jpg" class="hero-img">
+  <div class="hero-content">
+    <a href="#services" class="start-btn">&gt;Start</a>
+  </div>
 </div>
 </body>
 </html>
