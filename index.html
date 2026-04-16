@@ -73,15 +73,135 @@
   .start-btn:hover {
     opacity: 0.6;
   }
+  #terminal {
+    display: none;
+    min-height: 100vh;
+    background: var(--bg);
+    padding: 3rem 2rem;
+    font-family: 'VT323', monospace;
+    font-size: 1.5rem;
+    line-height: 1.6;
+  }
+  #term-output {
+    white-space: pre-wrap;
+    color: var(--text);
+  }
+  #term-cursor {
+    display: inline-block;
+    width: 0.6em;
+    height: 1.1em;
+    background: var(--text);
+    vertical-align: text-bottom;
+    animation: blink 0.8s step-end infinite;
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+  #term-menu {
+    display: none;
+    margin-top: 1rem;
+  }
+  .term-btn {
+    font-family: 'VT323', monospace;
+    font-size: 1.5rem;
+    color: var(--text);
+    text-decoration: none;
+    margin-right: 2rem;
+    letter-spacing: 0.05em;
+    transition: opacity 0.2s;
+  }
+  .term-btn:hover {
+    opacity: 0.6;
+  }
 </style>
 </head>
 <body>
 <nav>
   <a href="#"><img src="logo.svg"></a>
-  <a href="#services" class="start-btn">&gt;Start</a>
+  <a href="#terminal" class="start-btn" id="start-btn">&gt;Start</a>
 </nav>
 <div class="hero">
   <img src="hero.jpg" class="hero-img">
 </div>
+<section id="terminal">
+  <pre id="term-output"></pre><span id="term-cursor"></span>
+  <div id="term-menu">
+    <a href="#mastering" class="term-btn">[MASTERING]</a>
+    <a href="#post" class="term-btn">[POST]</a>
+    <a href="mailto:chudooyudoo@gmail.com" class="term-btn">[CONTACT]</a>
+  </div>
+</section>
+<script>
+  const lines = [
+    '> INITIALIZING...',
+    '> LOCATION: BIELEFELD, DE',
+    '> OPERATOR: YEGOR DEMCHENKO',
+    '',
+    '> AUDIO ENGINEER',
+    '> MASTERING / POST-PRODUCTION',
+    '',
+    '> CURRENTLY AT DD MASTERING, OBERHAUSEN',
+    '',
+    '> AVAILABLE FOR PROJECTS',
+    '> chudooyudoo@gmail.com',
+    '',
+  ];
+
+  const output = document.getElementById('term-output');
+  const cursor = document.getElementById('term-cursor');
+  const menu = document.getElementById('term-menu');
+
+  document.getElementById('start-btn').addEventListener('click', function(e) {
+    e.preventDefault();
+    const terminal = document.getElementById('terminal');
+    terminal.style.display = 'block';
+    terminal.scrollIntoView({ behavior: 'smooth' });
+    setTimeout(startTyping, 400);
+  });
+
+  function startTyping() {
+    let lineIndex = 0;
+    let charIndex = 0;
+    let text = '';
+    let lastTime = 0;
+    const charDelay = 35;
+    const pauseDelay = 280;
+
+    function tick(timestamp) {
+      if (timestamp - lastTime < (lines[lineIndex] === '' ? pauseDelay : charDelay)) {
+        requestAnimationFrame(tick);
+        return;
+      }
+      lastTime = timestamp;
+
+      if (lineIndex >= lines.length) {
+        cursor.style.display = 'none';
+        menu.style.display = 'block';
+        return;
+      }
+
+      const line = lines[lineIndex];
+      if (line === '') {
+        text += '\n';
+        output.textContent = text;
+        lineIndex++;
+        charIndex = 0;
+      } else if (charIndex < line.length) {
+        text += line[charIndex];
+        output.textContent = text;
+        charIndex++;
+      } else {
+        text += '\n';
+        output.textContent = text;
+        lineIndex++;
+        charIndex = 0;
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  }
+</script>
 </body>
 </html>
