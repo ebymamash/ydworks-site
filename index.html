@@ -147,7 +147,31 @@
   const cursor = document.getElementById('term-cursor');
 
   let started = false;
+  let skipped = false;
   const startBtn = document.getElementById('start-btn');
+
+  function showFull() {
+    skipped = true;
+    const terminal = document.getElementById('terminal');
+    terminal.style.display = 'flex';
+    output.textContent = lines.join('\n');
+    cursor.style.display = 'none';
+    if (!output.querySelector('.term-btn')) {
+      const menuSpan = document.createElement('span');
+      menuSpan.innerHTML = '> <a href="#mastering" class="term-btn">MASTERING</a>   <a href="#post" class="term-btn">POST</a>   <a href="mailto:chudooyudoo@gmail.com" class="term-btn">CONTACT</a>';
+      output.appendChild(menuSpan);
+    }
+  }
+
+  document.querySelector('nav a').addEventListener('click', function(e) {
+    e.preventDefault();
+    if (!started) {
+      started = true;
+      startBtn.style.display = 'none';
+    }
+    showFull();
+    document.getElementById('terminal').scrollIntoView({ behavior: 'smooth' });
+  });
 
   startBtn.addEventListener('click', function(e) {
     e.preventDefault();
@@ -169,6 +193,7 @@
     const pauseDelay = 280;
 
     function tick(timestamp) {
+      if (skipped) return;
       if (timestamp - lastTime < (lines[lineIndex] === '' ? pauseDelay : charDelay)) {
         requestAnimationFrame(tick);
         return;
