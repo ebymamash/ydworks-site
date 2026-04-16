@@ -23,12 +23,10 @@
     position: fixed;
     top: 0; left: 0;
     padding: 1rem 1.5rem;
-    z-index: 10;
-  }
-  .hero-start {
-    position: fixed;
-    top: 1rem;
-    right: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
     z-index: 10;
   }
   .hero {
@@ -58,7 +56,7 @@
   }
   nav img {
     display: block;
-    width: 80px;
+    width: 100%;
     height: auto;
   }
   .start-btn {
@@ -122,10 +120,8 @@
 <body>
 <nav>
   <a href="#"><img src="logo.svg"></a>
-</nav>
-<div class="hero-start">
   <a href="#terminal" class="start-btn" id="start-btn">&gt;Start</a>
-</div>
+</nav>
 <div class="hero">
   <img src="hero.jpg" class="hero-img">
 </div>
