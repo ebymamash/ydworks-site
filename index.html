@@ -153,8 +153,14 @@
   const cursor = document.getElementById('term-cursor');
   const menu = document.getElementById('term-menu');
 
-  document.getElementById('start-btn').addEventListener('click', function(e) {
+  let started = false;
+  const startBtn = document.getElementById('start-btn');
+
+  startBtn.addEventListener('click', function(e) {
     e.preventDefault();
+    if (started) return;
+    started = true;
+    startBtn.style.display = 'none';
     const terminal = document.getElementById('terminal');
     terminal.style.display = 'flex';
     terminal.scrollIntoView({ behavior: 'smooth' });
