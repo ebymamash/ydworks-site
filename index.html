@@ -99,9 +99,6 @@
   @keyframes blink {
     50% { opacity: 0; }
   }
-  #term-menu {
-    display: none;
-  }
   .term-btn {
     font-family: 'VT323', monospace;
     font-size: 1.5rem;
@@ -127,7 +124,7 @@
 </div>
 <section id="terminal">
   <div id="term-wrap">
-    <pre id="term-output"></pre><span id="term-cursor"></span><div id="term-menu"><a href="#mastering" class="term-btn">MASTERING</a><a href="#post" class="term-btn">POST</a><a href="mailto:chudooyudoo@gmail.com" class="term-btn">CONTACT</a></div>
+    <pre id="term-output"></pre><span id="term-cursor"></span>
   </div>
 </section>
 <script>
@@ -148,7 +145,6 @@
 
   const output = document.getElementById('term-output');
   const cursor = document.getElementById('term-cursor');
-  const menu = document.getElementById('term-menu');
 
   let started = false;
   const startBtn = document.getElementById('start-btn');
@@ -181,7 +177,9 @@
 
       if (lineIndex >= lines.length) {
         cursor.style.display = 'none';
-        menu.style.display = 'block';
+        const menuSpan = document.createElement('span');
+        menuSpan.innerHTML = '> <a href="#mastering" class="term-btn">MASTERING</a>   <a href="#post" class="term-btn">POST</a>   <a href="mailto:chudooyudoo@gmail.com" class="term-btn">CONTACT</a>';
+        output.appendChild(menuSpan);
         return;
       }
 
