@@ -102,10 +102,10 @@
   .term-btn {
     font-family: 'VT323', monospace;
     font-size: 1.5rem;
+    font-weight: normal;
     color: var(--text);
     text-decoration: underline;
     text-underline-offset: 3px;
-    margin-right: 2.5em;
     letter-spacing: 0.05em;
     transition: opacity 0.2s;
   }
@@ -158,7 +158,7 @@
     cursor.style.display = 'none';
     if (!output.querySelector('.term-btn')) {
       const menuSpan = document.createElement('span');
-      menuSpan.innerHTML = '> <a href="#mastering" class="term-btn">MASTERING</a>   <a href="#post" class="term-btn">POST</a>   <a href="mailto:chudooyudoo@gmail.com" class="term-btn">CONTACT</a>';
+      menuSpan.innerHTML = '\n> <a href="#mastering" class="term-btn">MASTERING</a>\n> <a href="#post" class="term-btn">POST</a>\n> <a href="mailto:chudooyudoo@gmail.com" class="term-btn">CONTACT</a>';
       output.appendChild(menuSpan);
     }
   }
@@ -203,7 +203,7 @@
       if (lineIndex >= lines.length) {
         cursor.style.display = 'none';
         const menuSpan = document.createElement('span');
-        menuSpan.innerHTML = '> <a href="#mastering" class="term-btn">MASTERING</a>   <a href="#post" class="term-btn">POST</a>   <a href="mailto:chudooyudoo@gmail.com" class="term-btn">CONTACT</a>';
+        menuSpan.innerHTML = '\n> <a href="#mastering" class="term-btn">MASTERING</a>\n> <a href="#post" class="term-btn">POST</a>\n> <a href="mailto:chudooyudoo@gmail.com" class="term-btn">CONTACT</a>';
         output.appendChild(menuSpan);
         return;
       }
