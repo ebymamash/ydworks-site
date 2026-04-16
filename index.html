@@ -78,8 +78,8 @@
     min-height: 100vh;
     background: var(--bg);
     padding: 14rem 2rem 3rem;
-    font-family: 'VT323', monospace;
-    font-size: 1.5rem;
+    font-family: 'Lucida Console', 'Courier New', monospace;
+    font-size: 1rem;
     line-height: 1.6;
     flex-direction: column;
     align-items: center;
@@ -100,13 +100,10 @@
     50% { opacity: 0; }
   }
   .term-btn {
-    font-family: 'VT323', monospace;
-    font-size: 1.5rem;
-    font-weight: normal;
-    color: var(--text);
+    font: inherit;
+    color: inherit;
     text-decoration: underline;
     text-underline-offset: 3px;
-    letter-spacing: 0.05em;
     transition: opacity 0.2s;
   }
   .term-btn:hover {
