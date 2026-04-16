@@ -79,7 +79,7 @@
     background: var(--bg);
     padding: 14rem 2rem 3rem;
     font-family: 'Lucida Console', 'Courier New', monospace;
-    font-size: 1rem;
+    font-size: 1.5rem;
     line-height: 1.6;
     flex-direction: column;
     align-items: center;
@@ -102,8 +102,7 @@
   .term-btn {
     font: inherit;
     color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    text-decoration: none;
     transition: opacity 0.2s;
   }
   .term-btn:hover {
@@ -126,17 +125,17 @@
 </section>
 <script>
   const lines = [
-    '> INITIALIZING...',
-    '> LOCATION: BIELEFELD, DE',
-    '> OPERATOR: YEGOR DEMCHENKO',
+    'INITIALIZING...',
+    'LOCATION: BIELEFELD, DE',
+    'OPERATOR: YEGOR DEMCHENKO',
     '',
-    '> AUDIO ENGINEER',
-    '> MASTERING / POST-PRODUCTION',
+    'AUDIO ENGINEER',
+    'MASTERING / POST-PRODUCTION',
     '',
-    '> CURRENTLY AT DD MASTERING, OBERHAUSEN',
+    'CURRENTLY AT DD MASTERING, OBERHAUSEN',
     '',
-    '> AVAILABLE FOR PROJECTS',
-    '> chudooyudoo@gmail.com',
+    'AVAILABLE FOR PROJECTS',
+    'chudooyudoo@gmail.com',
     '',
   ];
 
@@ -155,7 +154,7 @@
     cursor.style.display = 'none';
     if (!output.querySelector('.term-btn')) {
       const menuSpan = document.createElement('span');
-      menuSpan.innerHTML = '\n> <a href="#mastering" class="term-btn">MASTERING</a>\n> <a href="#post" class="term-btn">POST</a>\n> <a href="mailto:chudooyudoo@gmail.com" class="term-btn">CONTACT</a>';
+      menuSpan.innerHTML = '\n> <a href="#mastering" class="term-btn">[MASTERING]</a>\n> <a href="#post" class="term-btn">[POST]</a>\n> <a href="mailto:chudooyudoo@gmail.com" class="term-btn">[CONTACT]</a>';
       output.appendChild(menuSpan);
     }
   }
@@ -200,7 +199,7 @@
       if (lineIndex >= lines.length) {
         cursor.style.display = 'none';
         const menuSpan = document.createElement('span');
-        menuSpan.innerHTML = '\n> <a href="#mastering" class="term-btn">MASTERING</a>\n> <a href="#post" class="term-btn">POST</a>\n> <a href="mailto:chudooyudoo@gmail.com" class="term-btn">CONTACT</a>';
+        menuSpan.innerHTML = '\n> <a href="#mastering" class="term-btn">[MASTERING]</a>\n> <a href="#post" class="term-btn">[POST]</a>\n> <a href="mailto:chudooyudoo@gmail.com" class="term-btn">[CONTACT]</a>';
         output.appendChild(menuSpan);
         return;
       }
