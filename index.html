@@ -77,10 +77,12 @@
     display: none;
     min-height: 100vh;
     background: var(--bg);
-    padding: 3rem 2rem;
+    padding: 14rem 2rem 3rem;
     font-family: 'VT323', monospace;
     font-size: 1.5rem;
     line-height: 1.6;
+    flex-direction: column;
+    align-items: center;
   }
   #term-output {
     white-space: pre-wrap;
@@ -154,7 +156,7 @@
   document.getElementById('start-btn').addEventListener('click', function(e) {
     e.preventDefault();
     const terminal = document.getElementById('terminal');
-    terminal.style.display = 'block';
+    terminal.style.display = 'flex';
     terminal.scrollIntoView({ behavior: 'smooth' });
     setTimeout(startTyping, 400);
   });
