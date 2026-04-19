@@ -326,8 +326,14 @@
     if (isBack) {
       if (target === 'main') {
         clearOutput();
-        output.appendChild(document.createTextNode('IDENTITY CONFIRMED: a GUEST\nNOW CHOOSE.\n'));
-        showMenu('main', null, true);
+        const hLines = ['IDENTITY CONFIRMED: a GUEST', '\nNOW CHOOSE.\n'];
+        let hi = 0;
+        function addHeaderLine() {
+          if (hi >= hLines.length) { showMenu('main', null, true); return; }
+          output.appendChild(document.createTextNode(hLines[hi++]));
+          setTimeout(addHeaderLine, 80);
+        }
+        addHeaderLine();
       } else {
         const sections = output.querySelectorAll('.term-section');
         if (sections.length) sections[sections.length - 1].remove();
