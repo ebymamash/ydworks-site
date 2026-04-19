@@ -204,27 +204,51 @@
   function showMenu(sectionName, container) {
     const parent = container || output;
     const items = sectionMenus[sectionName] || [['BACK', 'main']];
+    const itemColors = { 'AUDIO': '#c8a800', 'DIGITAL': '#c8a800', 'AI': '#c8a800', 'OPERATOR': '#c8a800', 'WHAT IS MASTERING?': '#c8a800', 'THE PROCESS': '#c8a800', 'SPECS & DELIVERY': '#c8a800', 'PRICING': '#c8a800' };
     const span = document.createElement('span');
     span.className = 'term-menu-span';
-    let html = '\n';
-    const itemColors = { 'AUDIO': '#c8a800', 'DIGITAL': '#c8a800', 'AI': '#c8a800', 'OPERATOR': '#c8a800', 'WHAT IS MASTERING?': '#c8a800', 'THE PROCESS': '#c8a800', 'SPECS & DELIVERY': '#c8a800', 'PRICING': '#c8a800' };
-    items.forEach(item => {
-      const isBack = Array.isArray(item);
-      const label  = isBack ? item[0] : item;
-      const target = isBack ? item[1] : item;
-      const prefix = isBack ? '\n' : '\n> ';
-      html += `${prefix}<a class="term-btn" data-target="${target}" data-label="${label}" data-isback="${isBack}">[${label}]</a>`;
-    });
-    span.innerHTML = html;
-    span.querySelectorAll('.term-btn').forEach(btn => {
-      const isBack = btn.dataset.isback === 'true';
-      if (!isBack) {
-        if (itemColors[btn.dataset.target]) btn.style.color = itemColors[btn.dataset.target];
-      }
-      btn.addEventListener('click', handleClick);
-    });
+    span.appendChild(document.createTextNode('\n'));
     parent.appendChild(span);
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+
+    function makeBtn(item) {
+      const isBack = Array.isArray(item);
+      const label = isBack ? item[0] : item;
+      const target = isBack ? item[1] : item;
+      const prefix = document.createTextNode(isBack ? '\n' : '\n> ');
+      const btn = document.createElement('a');
+      btn.className = 'term-btn';
+      btn.dataset.target = target;
+      btn.dataset.label = label;
+      btn.dataset.isback = String(isBack);
+      btn.textContent = `[${label}]`;
+      if (!isBack && itemColors[target]) btn.style.color = itemColors[target];
+      btn.addEventListener('click', handleClick);
+      return [prefix, btn];
+    }
+
+    if (skipped) {
+      items.forEach(item => {
+        const [prefix, btn] = makeBtn(item);
+        span.appendChild(prefix);
+        span.appendChild(btn);
+      });
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      return;
+    }
+
+    let i = 0;
+    function addNext() {
+      if (i >= items.length) {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        return;
+      }
+      const [prefix, btn] = makeBtn(items[i++]);
+      span.appendChild(prefix);
+      span.appendChild(btn);
+      window.scrollTo({ top: document.body.scrollHeight });
+      setTimeout(addNext, 80);
+    }
+    addNext();
   }
 
   function typeText(text, container, callback) {
@@ -246,28 +270,49 @@
     requestAnimationFrame(tick);
   }
 
+  function typeSegments(segments, container, callback) {
+    let i = 0;
+    function next() {
+      if (i >= segments.length) { callback(); return; }
+      const { text, color } = segments[i++];
+      if (color) {
+        const s = document.createElement('span');
+        s.style.color = color;
+        container.appendChild(s);
+        typeText(text, s, next);
+      } else {
+        typeText(text, container, next);
+      }
+    }
+    next();
+  }
+
   function navigateTo(target, label, section) {
     const echoColors = { 'YD WORKS': '#cc2020' };
     const echo = document.createElement('span');
     if (echoColors[label]) echo.style.color = echoColors[label];
     echo.appendChild(document.createTextNode(`\n\n> [${label}]\n`));
     section.appendChild(echo);
-    const text = sectionContent[target] ? '\n' + sectionContent[target] + '\n' : '\n';
-    typeText(text, section, () => {
-      section.childNodes.forEach(node => {
-        if (node.nodeType !== Node.TEXT_NODE) return;
-        if (node.textContent.includes('DISCIPLINES.')) {
-          const wrap = document.createElement('span');
-          wrap.innerHTML = node.textContent.replace('DISCIPLINES.', '<span style="color:#c8a800">DISCIPLINES.</span>');
-          section.replaceChild(wrap, node);
-        } else if (target === 'MASTERING' && node.textContent.includes('MASTERING.')) {
-          const wrap = document.createElement('span');
-          wrap.innerHTML = node.textContent.replace('MASTERING.', '<span style="color:#c8a800">MASTERING.</span>');
-          section.replaceChild(wrap, node);
-        }
-      });
-      showMenu(target, section);
-    });
+
+    const rawText = sectionContent[target] ? '\n' + sectionContent[target] + '\n' : '\n';
+    const colorWords = {
+      'YD WORKS': { word: 'DISCIPLINES.', color: '#c8a800' },
+      'MASTERING': { word: 'MASTERING.', color: '#c8a800' },
+    };
+    const info = colorWords[target];
+    let segments;
+    if (info) {
+      const idx = rawText.indexOf(info.word);
+      segments = idx !== -1 ? [
+        { text: rawText.slice(0, idx), color: null },
+        { text: info.word, color: info.color },
+        { text: rawText.slice(idx + info.word.length), color: null },
+      ].filter(s => s.text.length > 0) : [{ text: rawText, color: null }];
+    } else {
+      segments = [{ text: rawText, color: null }];
+    }
+
+    typeSegments(segments, section, () => showMenu(target, section));
   }
 
   function handleClick(e) {
