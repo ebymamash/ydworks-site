@@ -271,6 +271,8 @@
       return;
     }
 
+    const clickedY = this.getBoundingClientRect().top;
+
     collapseIntro();
     disableLastMenu();
 
@@ -278,7 +280,9 @@
     section.className = 'term-section';
     output.appendChild(section);
     appendText(`\n\n> [${label}]\n`, section);
-    section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    const targetScroll = window.scrollY + section.getBoundingClientRect().top - clickedY;
+    window.scrollTo({ top: targetScroll, behavior: 'smooth' });
 
     if (target === 'ENTER CODE') {
       handleEnterCode(section);
