@@ -356,6 +356,13 @@
       parentSection.style.opacity = '0.6';
       const menu = parentSection.querySelector('.term-menu-span');
       if (menu) menu.style.display = 'none';
+    } else if (menuName === 'WHAT ARE YOU?') {
+      const waySection = menuSpan.closest('.term-section');
+      if (waySection) {
+        waySection.textContent = '\nVERY WELL.\n';
+        waySection.style.opacity = '0.4';
+      }
+      noHeader = true;
     } else {
       noHeader = true;
       clearOutput();
