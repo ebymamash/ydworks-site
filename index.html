@@ -185,22 +185,29 @@
   const cursor = document.getElementById('term-cursor');
   let started = false;
   let skipped = false;
+  let typingGen = 0;
   const startBtn = document.getElementById('start-btn');
 
-  function appendText(text) {
-    output.appendChild(document.createTextNode(text));
+  function appendText(text, container) {
+    (container || output).appendChild(document.createTextNode(text));
   }
 
-  function disableMenus() {
-    output.querySelectorAll('.term-btn').forEach(b => {
+  function disableLastMenu() {
+    const spans = output.querySelectorAll('.term-menu-span:not(.disabled)');
+    if (!spans.length) return;
+    const last = spans[spans.length - 1];
+    last.classList.add('disabled');
+    last.querySelectorAll('.term-btn').forEach(b => {
       b.style.opacity = '0.3';
       b.style.pointerEvents = 'none';
     });
   }
 
-  function showMenu(sectionName) {
+  function showMenu(sectionName, container) {
+    const parent = container || output;
     const items = sectionMenus[sectionName] || [['BACK', 'main']];
     const span = document.createElement('span');
+    span.className = 'term-menu-span';
     let html = '\n';
     items.forEach(item => {
       const isBack = Array.isArray(item);
@@ -210,8 +217,27 @@
     });
     span.innerHTML = html;
     span.querySelectorAll('.term-btn').forEach(btn => btn.addEventListener('click', handleClick));
-    output.appendChild(span);
+    parent.appendChild(span);
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+
+  function typeText(text, container, callback) {
+    const gen = ++typingGen;
+    if (skipped) { appendText(text, container); callback(); return; }
+    let i = 0, lastTime = 0;
+    const node = document.createTextNode('');
+    (container || output).appendChild(node);
+    function tick(ts) {
+      if (typingGen !== gen) return;
+      if (skipped) { node.textContent = text; callback(); return; }
+      if (ts - lastTime < 25) { requestAnimationFrame(tick); return; }
+      lastTime = ts;
+      if (i >= text.length) { callback(); return; }
+      node.textContent += text[i++];
+      window.scrollTo({ top: document.body.scrollHeight });
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
   }
 
   function handleClick(e) {
@@ -219,49 +245,63 @@
     const target = this.dataset.target;
     const label  = this.dataset.label;
     const isBack = this.dataset.isback === 'true';
-    disableMenus();
-    appendText(`\n\n> [${label}]\n`);
 
     if (isBack) {
-      showMenu(target);
+      const sections = output.querySelectorAll('.term-section');
+      if (sections.length) sections[sections.length - 1].remove();
+      const menuSpans = output.querySelectorAll('.term-menu-span');
+      if (menuSpans.length) {
+        const last = menuSpans[menuSpans.length - 1];
+        last.classList.remove('disabled');
+        last.querySelectorAll('.term-btn').forEach(b => {
+          b.style.opacity = '';
+          b.style.pointerEvents = '';
+        });
+      }
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
       return;
     }
+
+    disableLastMenu();
+
+    const section = document.createElement('span');
+    section.className = 'term-section';
+    output.appendChild(section);
+    appendText(`\n\n> [${label}]\n`, section);
+
     if (target === 'ENTER CODE') {
-      handleEnterCode();
+      handleEnterCode(section);
       return;
     }
-    if (sectionContent[target]) {
-      appendText('\n' + sectionContent[target] + '\n');
-    }
-    showMenu(target);
+
+    const text = sectionContent[target] ? '\n' + sectionContent[target] + '\n' : '\n';
+    typeText(text, section, () => showMenu(target, section));
   }
 
-  function handleEnterCode() {
-    appendText('\nARE YOU UP TO SOMETHING?\n> ');
+  function handleEnterCode(section) {
+    appendText('\nARE YOU UP TO SOMETHING?\n> ', section);
     const inp = document.createElement('input');
     inp.type = 'text';
     inp.className = 'term-input';
     inp.autocomplete = 'off';
     inp.spellcheck = false;
-    output.appendChild(inp);
+    section.appendChild(inp);
     setTimeout(() => inp.focus(), 50);
     inp.addEventListener('keydown', function(e) {
       if (e.key !== 'Enter') return;
-      const code = this.value.trim().toUpperCase();
       this.disabled = true;
-      appendText('\n');
-      // Secret code TBD
-      appendText('INCORRECT. I AM WATCHING YOU.\n');
-      showMenu('main');
+      appendText('\n\nINCORRECT. I AM WATCHING YOU.\n', section);
+      showMenu('main', section);
     });
   }
 
   function showFull() {
     skipped = true;
+    typingGen++;
     document.getElementById('terminal').style.display = 'flex';
     output.textContent = introLines.join('\n');
     cursor.style.display = 'none';
-    if (!output.querySelector('.term-btn')) showMenu('main');
+    showMenu('main', null);
   }
 
   document.querySelector('nav a').addEventListener('click', function(e) {
@@ -283,25 +323,18 @@
   });
 
   function startTyping() {
-    let lineIndex = 0;
-    let charIndex = 0;
-    let text = '';
-    let lastTime = 0;
-    const charDelay = 35;
-    const pauseDelay = 280;
-
+    let lineIndex = 0, charIndex = 0, text = '', lastTime = 0;
+    const charDelay = 35, pauseDelay = 280;
     function tick(ts) {
       if (skipped) return;
       const delay = introLines[lineIndex] === '' ? pauseDelay : charDelay;
       if (ts - lastTime < delay) { requestAnimationFrame(tick); return; }
       lastTime = ts;
-
       if (lineIndex >= introLines.length) {
         cursor.style.display = 'none';
-        showMenu('main');
+        showMenu('main', null);
         return;
       }
-
       const line = introLines[lineIndex];
       if (charIndex >= line.length) {
         text += '\n'; lineIndex++; charIndex = 0;
@@ -311,7 +344,6 @@
       output.textContent = text;
       requestAnimationFrame(tick);
     }
-
     requestAnimationFrame(tick);
   }
 </script>
