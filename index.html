@@ -191,16 +191,8 @@
   const startBtn = document.getElementById('start-btn');
 
   function clearOutput() {
-    if (noHeader) {
-      output.textContent = '';
-      return;
-    }
-    while (output.childNodes.length > 1) {
-      output.removeChild(output.lastChild);
-    }
-    if (output.firstChild && output.firstChild.nodeType === Node.TEXT_NODE) {
-      output.firstChild.textContent = 'IDENTITY CONFIRMED: a GUEST\nNOW CHOOSE.\n';
-    } else if (!output.firstChild) {
+    output.textContent = '';
+    if (!noHeader) {
       output.appendChild(document.createTextNode('IDENTITY CONFIRMED: a GUEST\nNOW CHOOSE.\n'));
     }
   }
