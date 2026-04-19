@@ -187,15 +187,11 @@
   let started = false;
   let skipped = false;
   let typingGen = 0;
-  let noHeader = false;
   const seenMenus = new Set();
   const startBtn = document.getElementById('start-btn');
 
   function clearOutput() {
     output.textContent = '';
-    if (!noHeader) {
-      output.appendChild(document.createTextNode('IDENTITY CONFIRMED: a GUEST\nNOW CHOOSE.\n'));
-    }
   }
 
   function appendText(text, container) {
@@ -328,9 +324,10 @@
 
     if (isBack) {
       if (target === 'main') {
-        noHeader = false;
         clearOutput();
-        showMenu('main', null);
+        typeText('IDENTITY CONFIRMED: a GUEST\nNOW CHOOSE.\n', output, () => {
+          showMenu('main', null);
+        });
       } else {
         const sections = output.querySelectorAll('.term-section');
         if (sections.length) sections[sections.length - 1].remove();
@@ -362,9 +359,7 @@
         waySection.textContent = '\nVERY WELL.\n';
         waySection.style.opacity = '0.4';
       }
-      noHeader = true;
     } else {
-      noHeader = true;
       clearOutput();
     }
 
@@ -404,9 +399,10 @@
 
     btnWrap.querySelector('#code-no').addEventListener('click', function(e) {
       e.preventDefault();
-      noHeader = false;
       clearOutput();
-      showMenu('main', null);
+      typeText('IDENTITY CONFIRMED: a GUEST\nNOW CHOOSE.\n', output, () => {
+        showMenu('main', null);
+      });
     });
     btnWrap.querySelector('#code-enter').addEventListener('click', function(e) {
       e.preventDefault();
