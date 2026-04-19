@@ -186,27 +186,21 @@
   let started = false;
   let skipped = false;
   let typingGen = 0;
-  let introCollapsed = false;
   const startBtn = document.getElementById('start-btn');
 
-  function collapseIntro() {
-    if (introCollapsed) return;
-    introCollapsed = true;
+  function clearOutput() {
+    while (output.childNodes.length > 1) {
+      output.removeChild(output.lastChild);
+    }
     if (output.firstChild && output.firstChild.nodeType === Node.TEXT_NODE) {
-      output.firstChild.textContent = 'IDENTITY CONFIRMED: a GUEST\nNow, tell me what you want.\n';
+      output.firstChild.textContent = 'IDENTITY CONFIRMED: a GUEST\nNOW CHOOSE.\n';
+    } else if (!output.firstChild) {
+      output.appendChild(document.createTextNode('IDENTITY CONFIRMED: a GUEST\nNOW CHOOSE.\n'));
     }
   }
 
   function appendText(text, container) {
     (container || output).appendChild(document.createTextNode(text));
-  }
-
-  function disableLastMenu() {
-    const spans = output.querySelectorAll('.term-menu-span:not(.disabled)');
-    if (!spans.length) return;
-    const last = spans[spans.length - 1];
-    last.classList.add('disabled');
-    last.style.display = 'none';
   }
 
   function showMenu(sectionName, container) {
@@ -254,48 +248,12 @@
     requestAnimationFrame(tick);
   }
 
-  function handleClick(e) {
-    e.preventDefault();
-    const target = this.dataset.target;
-    const label  = this.dataset.label;
-    const isBack = this.dataset.isback === 'true';
-
-    if (isBack) {
-      const sections = output.querySelectorAll('.term-section');
-
-      if (sections.length) sections[sections.length - 1].remove();
-      const menuSpans = output.querySelectorAll('.term-menu-span');
-      if (menuSpans.length) {
-        const last = menuSpans[menuSpans.length - 1];
-        last.classList.remove('disabled');
-        last.style.display = '';
-      }
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-      return;
-    }
-
-    const clickedY = this.getBoundingClientRect().top;
-
-    collapseIntro();
-    disableLastMenu();
-
-    const section = document.createElement('span');
-    section.className = 'term-section';
-    output.appendChild(section);
+  function navigateTo(target, label, section) {
     const echoColors = { 'YD WORKS': '#cc2020' };
     const echo = document.createElement('span');
     if (echoColors[label]) echo.style.color = echoColors[label];
     echo.appendChild(document.createTextNode(`\n\n> [${label}]\n`));
     section.appendChild(echo);
-
-    const targetScroll = window.scrollY + section.getBoundingClientRect().top - clickedY;
-    window.scrollTo({ top: targetScroll, behavior: 'instant' });
-
-    if (target === 'ENTER CODE') {
-      handleEnterCode(section);
-      return;
-    }
-
     const text = sectionContent[target] ? '\n' + sectionContent[target] + '\n' : '\n';
     typeText(text, section, () => {
       section.childNodes.forEach(node => {
@@ -307,6 +265,40 @@
       });
       showMenu(target, section);
     });
+  }
+
+  function handleClick(e) {
+    e.preventDefault();
+    const target = this.dataset.target;
+    const label  = this.dataset.label;
+    const isBack = this.dataset.isback === 'true';
+
+    clearOutput();
+
+    if (isBack) {
+      if (target === 'main') {
+        showMenu('main', null);
+      } else {
+        const section = document.createElement('span');
+        section.className = 'term-section';
+        output.appendChild(section);
+        navigateTo(target, target, section);
+      }
+      return;
+    }
+
+    if (target === 'ENTER CODE') {
+      const section = document.createElement('span');
+      section.className = 'term-section';
+      output.appendChild(section);
+      handleEnterCode(section);
+      return;
+    }
+
+    const section = document.createElement('span');
+    section.className = 'term-section';
+    output.appendChild(section);
+    navigateTo(target, label, section);
   }
 
   function handleEnterCode(section) {
@@ -329,7 +321,6 @@
   function showFull() {
     skipped = true;
     typingGen++;
-    introCollapsed = false;
     document.getElementById('terminal').style.display = 'flex';
     output.textContent = introLines.join('\n');
     cursor.style.display = 'none';
