@@ -165,6 +165,7 @@
 
   // Each item: string = section name, or ['BACK', parentSection]
   const sectionMenus = {
+    'intro':            ['WHAT ARE YOU?', 'YD WORKS', 'MASTERING', 'SUBMIT FILES', 'CONTACT', 'ENTER CODE'],
     'main':             ['YD WORKS', 'MASTERING', 'SUBMIT FILES', 'CONTACT', 'ENTER CODE'],
     'WHAT ARE YOU?':    ['YD WORKS', 'MASTERING', 'SUBMIT FILES', 'CONTACT', 'ENTER CODE'],
     'YD WORKS':         ['AUDIO', 'DIGITAL', 'AI', 'OPERATOR', ['BACK', 'main']],
@@ -344,7 +345,7 @@
     document.getElementById('terminal').style.display = 'flex';
     output.textContent = introLines.join('\n');
     cursor.style.display = 'none';
-    showMenu('main', null);
+    showMenu('intro', null);
   }
 
   document.querySelector('nav a').addEventListener('click', function(e) {
@@ -375,7 +376,7 @@
       lastTime = ts;
       if (lineIndex >= introLines.length) {
         cursor.style.display = 'none';
-        showMenu('main', null);
+        showMenu('intro', null);
         return;
       }
       const line = introLines[lineIndex];
