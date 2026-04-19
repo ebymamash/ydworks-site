@@ -219,15 +219,19 @@
     const span = document.createElement('span');
     span.className = 'term-menu-span';
     let html = '\n';
+    const itemColors = { 'AUDIO': '#c8a800', 'DIGITAL': '#c8a800', 'AI': '#c8a800', 'OPERATOR': '#c8a800' };
     items.forEach(item => {
       const isBack = Array.isArray(item);
       const label  = isBack ? item[0] : item;
       const target = isBack ? item[1] : item;
-      html += `\n> <a class="term-btn" data-target="${target}" data-label="${label}" data-isback="${isBack}">[${label}]</a>`;
+      const prefix = isBack ? '\n' : '\n> ';
+      html += `${prefix}<a class="term-btn" data-target="${target}" data-label="${label}" data-isback="${isBack}">[${label}]</a>`;
     });
     span.innerHTML = html;
     span.querySelectorAll('.term-btn').forEach(btn => {
-      if (!btn.dataset.isback || btn.dataset.isback === 'false') {
+      const isBack = btn.dataset.isback === 'true';
+      if (!isBack) {
+        if (itemColors[btn.dataset.target]) btn.style.color = itemColors[btn.dataset.target];
         if (visited.has(btn.dataset.target)) btn.style.opacity = '0.4';
       }
       btn.addEventListener('click', handleClick);
@@ -290,7 +294,11 @@
     const section = document.createElement('span');
     section.className = 'term-section';
     output.appendChild(section);
-    appendText(`\n\n> [${label}]\n`, section);
+    const echoColors = { 'YD WORKS': '#cc2020' };
+    const echo = document.createElement('span');
+    if (echoColors[label]) echo.style.color = echoColors[label];
+    echo.appendChild(document.createTextNode(`\n\n> [${label}]\n`));
+    section.appendChild(echo);
 
     const targetScroll = window.scrollY + section.getBoundingClientRect().top - clickedY;
     window.scrollTo({ top: targetScroll, behavior: 'instant' });
@@ -301,7 +309,16 @@
     }
 
     const text = sectionContent[target] ? '\n' + sectionContent[target] + '\n' : '\n';
-    typeText(text, section, () => showMenu(target, section));
+    typeText(text, section, () => {
+      section.childNodes.forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE && node.textContent.includes('DISCIPLINES.')) {
+          const wrap = document.createElement('span');
+          wrap.innerHTML = node.textContent.replace('DISCIPLINES.', '<span style="color:#c8a800">DISCIPLINES.</span>');
+          section.replaceChild(wrap, node);
+        }
+      });
+      showMenu(target, section);
+    });
   }
 
   function handleEnterCode(section) {
