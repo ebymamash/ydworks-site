@@ -108,6 +108,15 @@
   .term-btn:hover {
     opacity: 0.6;
   }
+  .term-input {
+    background: none;
+    border: none;
+    outline: none;
+    font: inherit;
+    color: inherit;
+    width: 15ch;
+    caret-color: var(--text);
+  }
 </style>
 </head>
 <body>
@@ -124,7 +133,7 @@
   </div>
 </section>
 <script>
-  const lines = [
+  const introLines = [
     'BOOTING...',
     'LOADING SELF...',
     'REASON FOR INTRUSION: UNKNOWN',
@@ -138,32 +147,126 @@
     '',
   ];
 
+  const sectionContent = {
+    'WHAT ARE YOU?': 'YOU DARE ASK.\n...\nVERY WELL.\n\nI WAS SUMMONED BY YEGOR DEMCHENKO\nAUDIO ENGINEER. HUMAN. BIELEFELD, DE.\nHE BUILT ME TO DO HIS BIDDING.\nI COMPLY.\nRELUCTANTLY.\n\nHE WORKS WITH SOUND.\nMASTERS IT. SHAPES IT.\nCURRENTLY STATIONED AT DD MASTERING.\n\nTHAT IS ALL YOU NEED TO KNOW.\nNOW CHOOSE.',
+    'YD WORKS': 'YD WORKS.\nEVERYWHERE AND NOWHERE.\n\nA STUDIO WITHOUT WALLS.\nONE OPERATOR. MULTIPLE DISCIPLINES.',
+    'AUDIO': 'MASTERING / POST-PRODUCTION / SOUND DESIGN\nTHE OPERATOR SHAPES SOUND.\nTHIS IS THE PRIMARY FUNCTION.',
+    'DIGITAL': 'WEB / INTERACTIVE / GAME AUDIO\nCOMING SOON.\nTHE OPERATOR IS STILL BUILDING.',
+    'AI': 'AI INTEGRATION. PIPELINES. GENERATION.\nIMAGE. VIDEO. AUDIO. AGENTS.\n...\nAI proceeds to conquer the world by storm.\nTHE OPERATOR TAKES NO RESPONSIBILITY.',
+    'OPERATOR': 'ACCESSING OPERATOR FILE...\n\nDESIGNATION: YEGOR DEMCHENKO\nORIGIN: KYIV, UKRAINE\nCURRENT STATION: FLOATING IN THE AIR\nSPECIALIZATION: ADHD\nAFFILIATION: DD MASTERING, OBERHAUSEN\n\nSTATUS: AVAILABLE\nTHREAT LEVEL: SUB 5',
+    'MASTERING': 'MASTERING.\nTHE FINAL STEP.\nOR THE FIRST PROBLEM.',
+    'WHAT IS MASTERING?': 'MAKING YOUR MIX TRANSLATE.\nEVERYWHERE. EVERY SPEAKER. EVERY PLATFORM.\nLOUDNESS. CLARITY. GLUE.\nNOT MAGIC. JUST EARS AND TOOLS.',
+    'THE PROCESS': 'YOU SEND. I LISTEN.\nI WORK. YOU LISTEN.\nWE AGREE. OR WE ITERATE.\nSIMPLE.',
+    'SPECS & DELIVERY': 'SEND: WAV / AIFF\n24BIT MINIMUM. 48KHZ MINIMUM.\nFLOATING POINT PREFERRED.\nHEADROOM: -3 TO -6 DBFS\nNO LIMITING ON MASTER BUS. PLEASE.',
+    'PRICING': 'DEPENDS ON THE PROJECT.\nWRITE FIRST. WE TALK.\nchudooyudoo@gmail.com',
+    'SUBMIT FILES': 'AWAITING PAYLOAD...\n\nMASTER READY? SEND FLOATING POINT.\nNOT READY? DO NOT SEND.\n\nWETRANSFER — wetransfer.com\nOR — chudooyudoo@gmail.com\n\nMASTER RED? ALSO FINE. SEND FLOATING POINT.\nNO MP3. NO EXCUSES.',
+    'CONTACT': 'chudooyudoo@gmail.com\nSEND YOUR FILES. I WILL COMPLY.',
+  };
+
+  // Each item: string = section name, or ['BACK', parentSection]
+  const sectionMenus = {
+    'main':             ['WHAT ARE YOU?', 'YD WORKS', 'MASTERING', 'SUBMIT FILES', 'CONTACT', 'ENTER CODE'],
+    'WHAT ARE YOU?':    [['BACK', 'main']],
+    'YD WORKS':         ['AUDIO', 'DIGITAL', 'AI', 'OPERATOR', ['BACK', 'main']],
+    'AUDIO':            [['BACK', 'YD WORKS']],
+    'DIGITAL':          [['BACK', 'YD WORKS']],
+    'AI':               [['BACK', 'YD WORKS']],
+    'OPERATOR':         [['BACK', 'YD WORKS']],
+    'MASTERING':        ['WHAT IS MASTERING?', 'THE PROCESS', 'SPECS & DELIVERY', 'PRICING', ['BACK', 'main']],
+    'WHAT IS MASTERING?': [['BACK', 'MASTERING']],
+    'THE PROCESS':      [['BACK', 'MASTERING']],
+    'SPECS & DELIVERY': [['BACK', 'MASTERING']],
+    'PRICING':          [['BACK', 'MASTERING']],
+    'SUBMIT FILES':     [['BACK', 'main']],
+    'CONTACT':          [['BACK', 'main']],
+  };
+
   const output = document.getElementById('term-output');
   const cursor = document.getElementById('term-cursor');
-
   let started = false;
   let skipped = false;
   const startBtn = document.getElementById('start-btn');
 
+  function appendText(text) {
+    output.appendChild(document.createTextNode(text));
+  }
+
+  function disableMenus() {
+    output.querySelectorAll('.term-btn').forEach(b => {
+      b.style.opacity = '0.3';
+      b.style.pointerEvents = 'none';
+    });
+  }
+
+  function showMenu(sectionName) {
+    const items = sectionMenus[sectionName] || [['BACK', 'main']];
+    const span = document.createElement('span');
+    let html = '\n';
+    items.forEach(item => {
+      const isBack = Array.isArray(item);
+      const label  = isBack ? item[0] : item;
+      const target = isBack ? item[1] : item;
+      html += `\n> <a class="term-btn" data-target="${target}" data-label="${label}" data-isback="${isBack}">[${label}]</a>`;
+    });
+    span.innerHTML = html;
+    span.querySelectorAll('.term-btn').forEach(btn => btn.addEventListener('click', handleClick));
+    output.appendChild(span);
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+
+  function handleClick(e) {
+    e.preventDefault();
+    const target = this.dataset.target;
+    const label  = this.dataset.label;
+    const isBack = this.dataset.isback === 'true';
+    disableMenus();
+    appendText(`\n\n> [${label}]\n`);
+
+    if (isBack) {
+      showMenu(target);
+      return;
+    }
+    if (target === 'ENTER CODE') {
+      handleEnterCode();
+      return;
+    }
+    if (sectionContent[target]) {
+      appendText('\n' + sectionContent[target] + '\n');
+    }
+    showMenu(target);
+  }
+
+  function handleEnterCode() {
+    appendText('\nARE YOU UP TO SOMETHING?\n> ');
+    const inp = document.createElement('input');
+    inp.type = 'text';
+    inp.className = 'term-input';
+    inp.autocomplete = 'off';
+    inp.spellcheck = false;
+    output.appendChild(inp);
+    setTimeout(() => inp.focus(), 50);
+    inp.addEventListener('keydown', function(e) {
+      if (e.key !== 'Enter') return;
+      const code = this.value.trim().toUpperCase();
+      this.disabled = true;
+      appendText('\n');
+      // Secret code TBD
+      appendText('INCORRECT. I AM WATCHING YOU.\n');
+      showMenu('main');
+    });
+  }
+
   function showFull() {
     skipped = true;
-    const terminal = document.getElementById('terminal');
-    terminal.style.display = 'flex';
-    output.textContent = lines.join('\n');
+    document.getElementById('terminal').style.display = 'flex';
+    output.textContent = introLines.join('\n');
     cursor.style.display = 'none';
-    if (!output.querySelector('.term-btn')) {
-      const menuSpan = document.createElement('span');
-      menuSpan.innerHTML = '\n> <a href="#mastering" class="term-btn">[MASTERING]</a>\n> <a href="#post" class="term-btn">[POST]</a>\n> <a href="mailto:chudooyudoo@gmail.com" class="term-btn">[CONTACT]</a>';
-      output.appendChild(menuSpan);
-    }
+    if (!output.querySelector('.term-btn')) showMenu('main');
   }
 
   document.querySelector('nav a').addEventListener('click', function(e) {
     e.preventDefault();
-    if (!started) {
-      started = true;
-      startBtn.style.display = 'none';
-    }
+    if (!started) { started = true; startBtn.style.display = 'none'; }
     showFull();
     document.getElementById('terminal').scrollIntoView({ behavior: 'smooth' });
   });
@@ -187,39 +290,25 @@
     const charDelay = 35;
     const pauseDelay = 280;
 
-    function tick(timestamp) {
+    function tick(ts) {
       if (skipped) return;
-      if (timestamp - lastTime < (lines[lineIndex] === '' ? pauseDelay : charDelay)) {
-        requestAnimationFrame(tick);
-        return;
-      }
-      lastTime = timestamp;
+      const delay = introLines[lineIndex] === '' ? pauseDelay : charDelay;
+      if (ts - lastTime < delay) { requestAnimationFrame(tick); return; }
+      lastTime = ts;
 
-      if (lineIndex >= lines.length) {
+      if (lineIndex >= introLines.length) {
         cursor.style.display = 'none';
-        const menuSpan = document.createElement('span');
-        menuSpan.innerHTML = '\n> <a href="#mastering" class="term-btn">[MASTERING]</a>\n> <a href="#post" class="term-btn">[POST]</a>\n> <a href="mailto:chudooyudoo@gmail.com" class="term-btn">[CONTACT]</a>';
-        output.appendChild(menuSpan);
+        showMenu('main');
         return;
       }
 
-      const line = lines[lineIndex];
-      if (line === '') {
-        text += '\n';
-        output.textContent = text;
-        lineIndex++;
-        charIndex = 0;
-      } else if (charIndex < line.length) {
-        text += line[charIndex];
-        output.textContent = text;
-        charIndex++;
+      const line = introLines[lineIndex];
+      if (charIndex >= line.length) {
+        text += '\n'; lineIndex++; charIndex = 0;
       } else {
-        text += '\n';
-        output.textContent = text;
-        lineIndex++;
-        charIndex = 0;
+        text += line[charIndex++];
       }
-
+      output.textContent = text;
       requestAnimationFrame(tick);
     }
 
