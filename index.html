@@ -186,7 +186,16 @@
   let started = false;
   let skipped = false;
   let typingGen = 0;
+  let introCollapsed = false;
   const startBtn = document.getElementById('start-btn');
+
+  function collapseIntro() {
+    if (introCollapsed) return;
+    introCollapsed = true;
+    if (output.firstChild && output.firstChild.nodeType === Node.TEXT_NODE) {
+      output.firstChild.textContent = 'IDENTITY CONFIRMED: a GUEST\nNow, tell me what you want.\n';
+    }
+  }
 
   function appendText(text, container) {
     (container || output).appendChild(document.createTextNode(text));
@@ -248,6 +257,7 @@
 
     if (isBack) {
       const sections = output.querySelectorAll('.term-section');
+
       if (sections.length) sections[sections.length - 1].remove();
       const menuSpans = output.querySelectorAll('.term-menu-span');
       if (menuSpans.length) {
@@ -262,6 +272,7 @@
       return;
     }
 
+    collapseIntro();
     disableLastMenu();
 
     const section = document.createElement('span');
@@ -298,6 +309,7 @@
   function showFull() {
     skipped = true;
     typingGen++;
+    introCollapsed = false;
     document.getElementById('terminal').style.display = 'flex';
     output.textContent = introLines.join('\n');
     cursor.style.display = 'none';
