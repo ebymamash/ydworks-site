@@ -321,20 +321,33 @@
     const label  = this.dataset.label;
     const isBack = this.dataset.isback === 'true';
 
-    noHeader = !(isBack && target === 'main');
-
-    clearOutput();
-
     if (isBack) {
       if (target === 'main') {
+        noHeader = false;
+        clearOutput();
         showMenu('main', null);
       } else {
-        const section = document.createElement('span');
-        section.className = 'term-section';
-        output.appendChild(section);
-        navigateTo(target, target, section);
+        const sections = output.querySelectorAll('.term-section');
+        if (sections.length) sections[sections.length - 1].remove();
+        const remaining = output.querySelectorAll('.term-section');
+        if (remaining.length) {
+          const menu = remaining[remaining.length - 1].querySelector('.term-menu-span');
+          if (menu) menu.style.display = '';
+        }
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
       }
       return;
+    }
+
+    const inSection = !!this.closest('.term-section');
+
+    if (inSection) {
+      const parentSection = this.closest('.term-section');
+      const menu = parentSection.querySelector('.term-menu-span');
+      if (menu) menu.style.display = 'none';
+    } else {
+      noHeader = true;
+      clearOutput();
     }
 
     if (target === 'ENTER CODE') {
