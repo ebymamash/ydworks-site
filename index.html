@@ -187,9 +187,14 @@
   let started = false;
   let skipped = false;
   let typingGen = 0;
+  let noHeader = false;
   const startBtn = document.getElementById('start-btn');
 
   function clearOutput() {
+    if (noHeader) {
+      output.textContent = '';
+      return;
+    }
     while (output.childNodes.length > 1) {
       output.removeChild(output.lastChild);
     }
@@ -274,6 +279,9 @@
     const label  = this.dataset.label;
     const isBack = this.dataset.isback === 'true';
 
+    if (target === 'WHAT ARE YOU?') noHeader = true;
+    if (isBack && target === 'main') noHeader = false;
+
     clearOutput();
 
     if (isBack) {
@@ -324,6 +332,7 @@
 
     btnWrap.querySelector('#code-no').addEventListener('click', function(e) {
       e.preventDefault();
+      noHeader = false;
       clearOutput();
       showMenu('main', null);
     });
