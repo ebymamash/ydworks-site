@@ -187,6 +187,7 @@
   let skipped = false;
   let typingGen = 0;
   let introCollapsed = false;
+  const visited = new Set();
   const startBtn = document.getElementById('start-btn');
 
   function collapseIntro() {
@@ -225,7 +226,12 @@
       html += `\n> <a class="term-btn" data-target="${target}" data-label="${label}" data-isback="${isBack}">[${label}]</a>`;
     });
     span.innerHTML = html;
-    span.querySelectorAll('.term-btn').forEach(btn => btn.addEventListener('click', handleClick));
+    span.querySelectorAll('.term-btn').forEach(btn => {
+      if (!btn.dataset.isback || btn.dataset.isback === 'false') {
+        if (visited.has(btn.dataset.target)) btn.style.opacity = '0.4';
+      }
+      btn.addEventListener('click', handleClick);
+    });
     parent.appendChild(span);
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
   }
@@ -275,6 +281,10 @@
     const clickedY = this.getBoundingClientRect().top;
 
     collapseIntro();
+    visited.add(target);
+    output.querySelectorAll(`.term-btn[data-target="${target}"]`).forEach(b => {
+      if (!b.closest('.term-menu-span.disabled')) b.style.opacity = '0.4';
+    });
     disableLastMenu();
 
     const section = document.createElement('span');
