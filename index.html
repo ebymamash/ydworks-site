@@ -243,7 +243,6 @@
       lastTime = ts;
       if (i >= text.length) { callback(); return; }
       node.textContent += text[i++];
-      window.scrollTo({ top: document.body.scrollHeight });
       requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
@@ -279,6 +278,7 @@
     section.className = 'term-section';
     output.appendChild(section);
     appendText(`\n\n> [${label}]\n`, section);
+    section.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
     if (target === 'ENTER CODE') {
       handleEnterCode(section);
