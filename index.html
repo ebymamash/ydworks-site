@@ -326,9 +326,8 @@
     if (isBack) {
       if (target === 'main') {
         clearOutput();
-        typeText('IDENTITY CONFIRMED: a GUEST\nNOW CHOOSE.\n', output, () => {
-          showMenu('main', null, true);
-        });
+        output.appendChild(document.createTextNode('IDENTITY CONFIRMED: a GUEST\nNOW CHOOSE.\n'));
+        showMenu('main', null, true);
       } else {
         const sections = output.querySelectorAll('.term-section');
         if (sections.length) sections[sections.length - 1].remove();
