@@ -165,7 +165,7 @@
 
   // Each item: string = section name, or ['BACK', parentSection]
   const sectionMenus = {
-    'main':             ['WHAT ARE YOU?', 'YD WORKS', 'MASTERING', 'SUBMIT FILES', 'CONTACT', 'ENTER CODE'],
+    'main':             ['YD WORKS', 'MASTERING', 'SUBMIT FILES', 'CONTACT', 'ENTER CODE'],
     'WHAT ARE YOU?':    ['YD WORKS', 'MASTERING', 'SUBMIT FILES', 'CONTACT', 'ENTER CODE'],
     'YD WORKS':         ['AUDIO', 'DIGITAL', 'AI', 'OPERATOR', ['BACK', 'main']],
     'AUDIO':            [['BACK', 'YD WORKS']],
@@ -309,12 +309,32 @@
     inp.autocomplete = 'off';
     inp.spellcheck = false;
     section.appendChild(inp);
+
+    const btnWrap = document.createElement('span');
+    btnWrap.innerHTML = '\n\n<a class="term-btn" id="code-no">[NO]</a>  <a class="term-btn" id="code-enter">[ENTER]</a>';
+    section.appendChild(btnWrap);
+
+    function submit() {
+      inp.disabled = true;
+      btnWrap.style.display = 'none';
+      appendText('\n\nINCORRECT. I AM WATCHING YOU.\n', section);
+      showMenu('main', section);
+    }
+
+    btnWrap.querySelector('#code-no').addEventListener('click', function(e) {
+      e.preventDefault();
+      clearOutput();
+      showMenu('main', null);
+    });
+    btnWrap.querySelector('#code-enter').addEventListener('click', function(e) {
+      e.preventDefault();
+      submit();
+    });
+
     setTimeout(() => inp.focus(), 50);
     inp.addEventListener('keydown', function(e) {
       if (e.key !== 'Enter') return;
-      this.disabled = true;
-      appendText('\n\nINCORRECT. I AM WATCHING YOU.\n', section);
-      showMenu('main', section);
+      submit();
     });
   }
 
