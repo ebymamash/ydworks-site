@@ -321,8 +321,7 @@
     const label  = this.dataset.label;
     const isBack = this.dataset.isback === 'true';
 
-    if (target === 'WHAT ARE YOU?') noHeader = true;
-    if (isBack && target === 'main') noHeader = false;
+    noHeader = !(isBack && target === 'main');
 
     clearOutput();
 
