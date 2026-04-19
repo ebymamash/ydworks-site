@@ -243,6 +243,7 @@
       lastTime = ts;
       if (i >= text.length) { callback(); return; }
       node.textContent += text[i++];
+      window.scrollTo({ top: document.body.scrollHeight });
       requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
@@ -282,7 +283,7 @@
     appendText(`\n\n> [${label}]\n`, section);
 
     const targetScroll = window.scrollY + section.getBoundingClientRect().top - clickedY;
-    window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+    window.scrollTo({ top: targetScroll, behavior: 'instant' });
 
     if (target === 'ENTER CODE') {
       handleEnterCode(section);
