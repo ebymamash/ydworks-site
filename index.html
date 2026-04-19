@@ -186,6 +186,7 @@
   const cursor = document.getElementById('term-cursor');
   let started = false;
   let skipped = false;
+  let introDone = false;
   let typingGen = 0;
   const seenMenus = new Set();
   const startBtn = document.getElementById('start-btn');
@@ -418,6 +419,7 @@
 
   function showFull() {
     skipped = true;
+    introDone = true;
     typingGen++;
     document.getElementById('terminal').style.display = 'flex';
     output.textContent = introLines.join('\n');
@@ -428,8 +430,10 @@
   document.querySelector('nav a').addEventListener('click', function(e) {
     e.preventDefault();
     if (!started) { started = true; startBtn.style.display = 'none'; }
-    showFull();
-    document.getElementById('terminal').scrollIntoView({ behavior: 'smooth' });
+    if (!introDone) {
+      showFull();
+      document.getElementById('terminal').scrollIntoView({ behavior: 'smooth' });
+    }
   });
 
   startBtn.addEventListener('click', function(e) {
@@ -453,6 +457,7 @@
       lastTime = ts;
       if (lineIndex >= introLines.length) {
         cursor.style.display = 'none';
+        introDone = true;
         showMenu('intro', null);
         return;
       }
