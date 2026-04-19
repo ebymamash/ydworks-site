@@ -331,7 +331,9 @@
         if (sections.length) sections[sections.length - 1].remove();
         const remaining = output.querySelectorAll('.term-section');
         if (remaining.length) {
-          const menu = remaining[remaining.length - 1].querySelector('.term-menu-span');
+          const prev = remaining[remaining.length - 1];
+          prev.style.opacity = '1';
+          const menu = prev.querySelector('.term-menu-span');
           if (menu) menu.style.display = '';
         }
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
@@ -343,6 +345,7 @@
 
     if (inSection) {
       const parentSection = this.closest('.term-section');
+      parentSection.style.opacity = '0.4';
       const menu = parentSection.querySelector('.term-menu-span');
       if (menu) menu.style.display = 'none';
     } else {
