@@ -187,7 +187,6 @@
   let skipped = false;
   let typingGen = 0;
   let introCollapsed = false;
-  const visited = new Set();
   const startBtn = document.getElementById('start-btn');
 
   function collapseIntro() {
@@ -232,7 +231,6 @@
       const isBack = btn.dataset.isback === 'true';
       if (!isBack) {
         if (itemColors[btn.dataset.target]) btn.style.color = itemColors[btn.dataset.target];
-        if (visited.has(btn.dataset.target)) btn.style.opacity = '0.4';
       }
       btn.addEventListener('click', handleClick);
     });
@@ -285,10 +283,6 @@
     const clickedY = this.getBoundingClientRect().top;
 
     collapseIntro();
-    visited.add(target);
-    output.querySelectorAll(`.term-btn[data-target="${target}"]`).forEach(b => {
-      if (!b.closest('.term-menu-span.disabled')) b.style.opacity = '0.4';
-    });
     disableLastMenu();
 
     const section = document.createElement('span');
