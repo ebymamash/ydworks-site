@@ -77,19 +77,21 @@
     display: none;
     min-height: 100vh;
     background: var(--bg);
-    padding: 14rem 2rem 3rem;
+    padding: 13rem 2rem 4rem;
     font-family: 'Lucida Console', 'Courier New', monospace;
     font-size: 1.5rem;
     line-height: 1.6;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
   }
   #term-output {
     white-space: pre-wrap;
     color: var(--text);
+    text-align: center;
   }
   #term-cursor {
-    display: inline-block;
+    display: none;
     width: 0.6em;
     height: 1.1em;
     background: var(--text);
@@ -143,7 +145,7 @@
     '...',
     'OH.',
     'IDENTITY CONFIRMED: a GUEST',
-    'WHAT want you?',
+    'Now, tell me what you want.',
     '',
   ];
 
@@ -323,6 +325,7 @@
   });
 
   function startTyping() {
+    cursor.style.display = 'inline-block';
     let lineIndex = 0, charIndex = 0, text = '', lastTime = 0;
     const charDelay = 35, pauseDelay = 280;
     function tick(ts) {
