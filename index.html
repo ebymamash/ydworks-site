@@ -190,12 +190,6 @@
   const visited = new Set();
   const startBtn = document.getElementById('start-btn');
 
-  function applyVisitedStyle(btn) {
-    if (btn.dataset.isback === 'true') return;
-    if (!visited.has(btn.dataset.target)) return;
-    btn.style.opacity = '0.4';
-  }
-
   function collapseIntro() {
     if (introCollapsed) return;
     introCollapsed = true;
@@ -238,7 +232,7 @@
       const isBack = btn.dataset.isback === 'true';
       if (!isBack) {
         if (itemColors[btn.dataset.target]) btn.style.color = itemColors[btn.dataset.target];
-        applyVisitedStyle(btn);
+        if (visited.has(btn.dataset.target)) btn.style.opacity = '0.4';
       }
       btn.addEventListener('click', handleClick);
     });
@@ -280,10 +274,8 @@
         const last = menuSpans[menuSpans.length - 1];
         last.classList.remove('disabled');
         last.querySelectorAll('.term-btn').forEach(b => {
-          b.style.pointerEvents = '';
           b.style.opacity = '';
-          b.style.textDecoration = '';
-          applyVisitedStyle(b);
+          b.style.pointerEvents = '';
         });
       }
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
@@ -295,7 +287,7 @@
     collapseIntro();
     visited.add(target);
     output.querySelectorAll(`.term-btn[data-target="${target}"]`).forEach(b => {
-      if (!b.closest('.term-menu-span.disabled')) applyVisitedStyle(b);
+      if (!b.closest('.term-menu-span.disabled')) b.style.opacity = '0.4';
     });
     disableLastMenu();
 
