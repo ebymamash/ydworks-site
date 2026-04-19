@@ -207,7 +207,7 @@
     const span = document.createElement('span');
     span.className = 'term-menu-span';
     let html = '\n';
-    const itemColors = { 'AUDIO': '#c8a800', 'DIGITAL': '#c8a800', 'AI': '#c8a800', 'OPERATOR': '#c8a800' };
+    const itemColors = { 'AUDIO': '#c8a800', 'DIGITAL': '#c8a800', 'AI': '#c8a800', 'OPERATOR': '#c8a800', 'WHAT IS MASTERING?': '#c8a800', 'THE PROCESS': '#c8a800', 'SPECS & DELIVERY': '#c8a800', 'PRICING': '#c8a800' };
     items.forEach(item => {
       const isBack = Array.isArray(item);
       const label  = isBack ? item[0] : item;
@@ -255,9 +255,14 @@
     const text = sectionContent[target] ? '\n' + sectionContent[target] + '\n' : '\n';
     typeText(text, section, () => {
       section.childNodes.forEach(node => {
-        if (node.nodeType === Node.TEXT_NODE && node.textContent.includes('DISCIPLINES.')) {
+        if (node.nodeType !== Node.TEXT_NODE) return;
+        if (node.textContent.includes('DISCIPLINES.')) {
           const wrap = document.createElement('span');
           wrap.innerHTML = node.textContent.replace('DISCIPLINES.', '<span style="color:#c8a800">DISCIPLINES.</span>');
+          section.replaceChild(wrap, node);
+        } else if (target === 'MASTERING' && node.textContent.includes('MASTERING.')) {
+          const wrap = document.createElement('span');
+          wrap.innerHTML = node.textContent.replace('MASTERING.', '<span style="color:#c8a800">MASTERING.</span>');
           section.replaceChild(wrap, node);
         }
       });
