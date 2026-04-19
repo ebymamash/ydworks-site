@@ -208,6 +208,7 @@
     const itemColors = { 'AUDIO': '#c8a800', 'DIGITAL': '#c8a800', 'AI': '#c8a800', 'OPERATOR': '#c8a800', 'WHAT IS MASTERING?': '#c8a800', 'THE PROCESS': '#c8a800', 'SPECS & DELIVERY': '#c8a800', 'PRICING': '#c8a800' };
     const span = document.createElement('span');
     span.className = 'term-menu-span';
+    span.dataset.name = sectionName;
     span.appendChild(document.createTextNode('\n'));
     parent.appendChild(span);
 
@@ -345,7 +346,10 @@
       return;
     }
 
-    const inSection = !!this.closest('.term-section');
+    const menuSpan = this.closest('.term-menu-span');
+    const menuName = menuSpan ? menuSpan.dataset.name : null;
+    const topLevelMenus = new Set(['intro', 'main', 'WHAT ARE YOU?']);
+    const inSection = !!this.closest('.term-section') && !topLevelMenus.has(menuName);
 
     if (inSection) {
       const parentSection = this.closest('.term-section');
