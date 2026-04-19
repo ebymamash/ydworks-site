@@ -188,6 +188,7 @@
   let skipped = false;
   let typingGen = 0;
   let noHeader = false;
+  const seenMenus = new Set();
   const startBtn = document.getElementById('start-btn');
 
   function clearOutput() {
@@ -226,7 +227,10 @@
       return [prefix, btn];
     }
 
-    if (skipped) {
+    const doInstant = skipped || seenMenus.has(sectionName);
+    seenMenus.add(sectionName);
+
+    if (doInstant) {
       items.forEach(item => {
         const [prefix, btn] = makeBtn(item);
         span.appendChild(prefix);
