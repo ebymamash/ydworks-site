@@ -384,7 +384,7 @@
     navigateTo(target, label, section, fast);
   }
 
-  function handleEnterCode(section) {
+  function handleEnterCode(section, fast) {
     const d = fast ? 40 : 80;
     typeText('\nARE YOU UP TO SOMETHING?\n> ', section, () => {
       const inp = document.createElement('input');
