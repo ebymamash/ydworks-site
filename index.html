@@ -199,7 +199,7 @@
     (container || output).appendChild(document.createTextNode(text));
   }
 
-  function showMenu(sectionName, container, forceAnimate) {
+  function showMenu(sectionName, container, forceAnimate, fast) {
     const parent = container || output;
     const items = sectionMenus[sectionName] || [['BACK', 'main']];
     const itemColors = { 'AUDIO': '#c8a800', 'DIGITAL': '#c8a800', 'AI': '#c8a800', 'OPERATOR': '#c8a800', 'WHAT IS MASTERING?': '#c8a800', 'THE PROCESS': '#c8a800', 'SPECS & DELIVERY': '#c8a800', 'PRICING': '#c8a800' };
