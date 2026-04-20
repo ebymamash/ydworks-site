@@ -41,6 +41,10 @@
     opacity: 1;
     filter: contrast(1) grayscale(0);
   }
+  @media (min-width: 1024px) and (min-aspect-ratio: 4/3) {
+    .hero { background: #000; }
+    .hero-img { object-fit: contain; }
+  }
   .hero::after {
     content: '';
     position: absolute;
