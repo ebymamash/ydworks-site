@@ -188,7 +188,7 @@
   let skipped = false;
   let introDone = false;
   let typingGen = 0;
-  const seenMenus = new Set();
+  const visitedSections = new Set();
   const startBtn = document.getElementById('start-btn');
 
   function clearOutput() {
@@ -225,8 +225,7 @@
       return [prefix, btn];
     }
 
-    const doInstant = !forceAnimate && (skipped || seenMenus.has(sectionName));
-    seenMenus.add(sectionName);
+    const doInstant = !forceAnimate && skipped;
 
     if (doInstant) {
       items.forEach(item => {
@@ -248,21 +247,22 @@
       span.appendChild(prefix);
       span.appendChild(btn);
       window.scrollTo({ top: document.body.scrollHeight });
-      setTimeout(addNext, 80);
+      setTimeout(addNext, fast ? 40 : 80);
     }
     addNext();
   }
 
-  function typeText(text, container, callback) {
+  function typeText(text, container, callback, fast) {
     const gen = ++typingGen;
     if (skipped) { appendText(text, container); callback(); return; }
     let i = 0, lastTime = 0;
+    const delay = fast ? 12 : 25;
     const node = document.createTextNode('');
     (container || output).appendChild(node);
     function tick(ts) {
       if (typingGen !== gen) return;
       if (skipped) { node.textContent = text; callback(); return; }
-      if (ts - lastTime < 25) { requestAnimationFrame(tick); return; }
+      if (ts - lastTime < delay) { requestAnimationFrame(tick); return; }
       lastTime = ts;
       if (i >= text.length) { callback(); return; }
       node.textContent += text[i++];
@@ -272,7 +272,7 @@
     requestAnimationFrame(tick);
   }
 
-  function typeSegments(segments, container, callback) {
+  function typeSegments(segments, container, callback, fast) {
     let i = 0;
     function next() {
       if (i >= segments.length) { callback(); return; }
@@ -281,15 +281,15 @@
         const s = document.createElement('span');
         s.style.color = color;
         container.appendChild(s);
-        typeText(text, s, next);
+        typeText(text, s, next, fast);
       } else {
-        typeText(text, container, next);
+        typeText(text, container, next, fast);
       }
     }
     next();
   }
 
-  function navigateTo(target, label, section) {
+  function navigateTo(target, label, section, fast) {
     const echoColors = { 'YD WORKS': '#cc2020' };
     const echo = document.createElement('span');
     if (echoColors[label]) echo.style.color = echoColors[label];
@@ -314,7 +314,7 @@
       segments = [{ text: rawText, color: null }];
     }
 
-    typeSegments(segments, section, () => showMenu(target, section));
+    typeSegments(segments, section, () => showMenu(target, section, false, fast), fast);
   }
 
   function handleClick(e) {
@@ -325,15 +325,7 @@
 
     if (isBack) {
       if (target === 'main') {
-        clearOutput();
-        const hLines = ['IDENTITY CONFIRMED: a GUEST', '\nNOW CHOOSE.\n'];
-        let hi = 0;
-        function addHeaderLine() {
-          if (hi >= hLines.length) { showMenu('main', null, true); return; }
-          output.appendChild(document.createTextNode(hLines[hi++]));
-          setTimeout(addHeaderLine, 80);
-        }
-        addHeaderLine();
+        showMainMenu();
       } else {
         const sections = output.querySelectorAll('.term-section');
         if (sections.length) sections[sections.length - 1].remove();
@@ -345,7 +337,8 @@
           if (menu) {
             const sectionName = menu.dataset.name;
             menu.remove();
-            showMenu(sectionName, prev, true);
+            const fast = visitedSections.has(sectionName);
+            showMenu(sectionName, prev, true, fast);
           }
         }
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
@@ -374,56 +367,74 @@
     }
 
     if (target === 'ENTER CODE') {
+      const fast = visitedSections.has(target);
+      visitedSections.add(target);
       const section = document.createElement('span');
       section.className = 'term-section';
       output.appendChild(section);
-      handleEnterCode(section);
+      handleEnterCode(section, fast);
       return;
     }
 
+    const fast = visitedSections.has(target);
+    visitedSections.add(target);
     const section = document.createElement('span');
     section.className = 'term-section';
     output.appendChild(section);
-    navigateTo(target, label, section);
+    navigateTo(target, label, section, fast);
   }
 
   function handleEnterCode(section) {
-    appendText('\nARE YOU UP TO SOMETHING?\n> ', section);
-    const inp = document.createElement('input');
-    inp.type = 'text';
-    inp.className = 'term-input';
-    inp.autocomplete = 'off';
-    inp.spellcheck = false;
-    section.appendChild(inp);
+    const d = fast ? 40 : 80;
+    typeText('\nARE YOU UP TO SOMETHING?\n> ', section, () => {
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = 'term-input';
+      inp.autocomplete = 'off';
+      inp.spellcheck = false;
+      section.appendChild(inp);
+      setTimeout(() => inp.focus(), 50);
 
-    const btnWrap = document.createElement('span');
-    btnWrap.innerHTML = '\n\n<a class="term-btn" id="code-no">[NO]</a>  <a class="term-btn" id="code-enter">[ENTER]</a>';
-    section.appendChild(btnWrap);
-
-    function submit() {
-      inp.disabled = true;
-      btnWrap.style.display = 'none';
-      appendText('\n\nINCORRECT. I AM WATCHING YOU.\n', section);
-      showMenu('main', section);
-    }
-
-    btnWrap.querySelector('#code-no').addEventListener('click', function(e) {
-      e.preventDefault();
-      clearOutput();
-      typeText('IDENTITY CONFIRMED: a GUEST\nNOW CHOOSE.\n', output, () => {
-        showMenu('main', null);
+      function submit() {
+        inp.disabled = true;
+        appendText('\n\nINCORRECT. I AM WATCHING YOU.\n', section);
+        showMenu('main', section);
+      }
+      inp.addEventListener('keydown', function(e) {
+        if (e.key !== 'Enter') return;
+        submit();
       });
-    });
-    btnWrap.querySelector('#code-enter').addEventListener('click', function(e) {
-      e.preventDefault();
-      submit();
-    });
 
-    setTimeout(() => inp.focus(), 50);
-    inp.addEventListener('keydown', function(e) {
-      if (e.key !== 'Enter') return;
-      submit();
-    });
+      setTimeout(() => {
+        section.appendChild(document.createTextNode('\n\n'));
+        const noBtn = document.createElement('a');
+        noBtn.className = 'term-btn';
+        noBtn.textContent = '[NO]';
+        noBtn.addEventListener('click', function(e) { e.preventDefault(); showMainMenu(); });
+        section.appendChild(noBtn);
+        setTimeout(() => {
+          section.appendChild(document.createTextNode('  '));
+          const enterBtn = document.createElement('a');
+          enterBtn.className = 'term-btn';
+          enterBtn.textContent = '[ENTER]';
+          enterBtn.addEventListener('click', function(e) { e.preventDefault(); submit(); });
+          section.appendChild(enterBtn);
+          window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }, d);
+      }, d);
+    }, fast);
+  }
+
+  function showMainMenu() {
+    clearOutput();
+    const hLines = ['IDENTITY CONFIRMED: a GUEST', '\nNOW CHOOSE.\n'];
+    let hi = 0;
+    function addHeaderLine() {
+      if (hi >= hLines.length) { showMenu('main', null, true); return; }
+      output.appendChild(document.createTextNode(hLines[hi++]));
+      setTimeout(addHeaderLine, 80);
+    }
+    addHeaderLine();
   }
 
   function showFull() {
