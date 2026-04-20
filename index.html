@@ -342,7 +342,11 @@
           const prev = remaining[remaining.length - 1];
           prev.style.opacity = '1';
           const menu = prev.querySelector('.term-menu-span');
-          if (menu) menu.style.display = '';
+          if (menu) {
+            const sectionName = menu.dataset.name;
+            menu.remove();
+            showMenu(sectionName, prev, true);
+          }
         }
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
       }
