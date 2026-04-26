@@ -101,7 +101,7 @@
     background: var(--bg);
     padding: 12rem 2rem 3rem;
     font-family: 'Lucida Console', 'Courier New', monospace;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     line-height: 1.6;
     flex-direction: column;
     align-items: center;
@@ -476,7 +476,7 @@
     if (!started) { started = true; startBtn.style.display = 'none'; }
     if (!introDone) {
       showFull();
-      document.getElementById('terminal').scrollIntoView({ behavior: 'smooth' });
+      document.querySelector('.monitor-wrap').scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
   });
 
@@ -486,7 +486,7 @@
     started = true;
     startBtn.style.display = 'none';
     const terminal = document.getElementById('terminal');
-    terminal.scrollIntoView({ behavior: 'smooth' });
+    document.querySelector('.monitor-wrap').scrollIntoView({ behavior: 'smooth', block: 'end' });
     setTimeout(startTyping, 400);
   });
 
