@@ -180,27 +180,22 @@
     width: 15ch;
     caret-color: var(--text);
   }
-  footer {
-    padding: 2rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    font-family: 'Lucida Console', 'Courier New', monospace;
-    font-size: 0.75rem;
+  #term-footer {
+    position: absolute;
+    bottom: 3%;
+    left: 10%;
+    right: 10%;
+    font-size: clamp(0.45rem, 0.7vw, 0.7rem);
     color: var(--muted);
+    text-align: center;
+    line-height: 1.6;
+    pointer-events: auto;
   }
-  footer nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1.5rem;
-    position: static;
-    padding: 0;
-  }
-  footer a {
+  #term-footer a {
     color: var(--muted);
     text-decoration: none;
   }
-  footer a:hover {
+  #term-footer a:hover {
     color: var(--text);
   }
   @media (max-width: 768px) {
@@ -237,18 +232,16 @@
     <div id="term-wrap">
       <pre id="term-output"></pre><span id="term-cursor"></span>
     </div>
+    <div id="term-footer">
+      © 2025 Yegor Demchenko &nbsp;|&nbsp;
+      <a href="/impressum">Impressum</a> &nbsp;|&nbsp;
+      <a href="/datenschutz">Datenschutzerklärung</a> &nbsp;|&nbsp;
+      <a href="/cookies">Cookie-Richtlinie</a> &nbsp;|&nbsp;
+      <a href="/haftung">Haftungsausschluss</a>
+    </div>
   </section>
   <img class="crt-frame" src="crt-frame.png" alt="" loading="eager">
 </div>
-<footer>
-  <span>© 2025 Yegor Demchenko. All rights reserved.</span>
-  <nav>
-    <a href="/impressum">Impressum</a>
-    <a href="/datenschutz">Datenschutzerklärung</a>
-    <a href="/cookies">Cookie-Richtlinie</a>
-    <a href="/haftung">Haftungsausschluss</a>
-  </nav>
-</footer>
 <script>
   const introLines = [
     'BOOTING...',
