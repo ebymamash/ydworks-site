@@ -113,7 +113,7 @@
     width: 100%; height: 100%;
     background: var(--bg);
     padding: 18.5% 10% 5% 10%;
-    font-family: 'VT323', monospace;
+    font-family: 'Lucida Console', 'Courier New', monospace;
     font-size: 1.6rem;
     line-height: 1.5;
     flex-direction: column;
@@ -281,7 +281,7 @@
       const isBack = Array.isArray(item);
       const label = isBack ? item[0] : item;
       const target = isBack ? item[1] : item;
-      const prefix = document.createTextNode(isBack ? '\n' : '\n        > ');
+      const prefix = document.createTextNode(isBack ? '\n' : '\n   > ');
       const btn = document.createElement('a');
       btn.className = 'term-btn';
       btn.dataset.target = target;
