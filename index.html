@@ -6,6 +6,7 @@
 <title>YD Works</title>
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<link rel="preload" href="crt-frame.png" as="image">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -153,7 +154,7 @@
       <pre id="term-output"></pre><span id="term-cursor"></span>
     </div>
   </section>
-  <img class="crt-frame" src="crt-frame.png" alt="">
+  <img class="crt-frame" src="crt-frame.png" alt="" loading="eager">
 </div>
 <script>
   const introLines = [
