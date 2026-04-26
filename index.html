@@ -214,7 +214,7 @@
     userScrolled = termEl.scrollHeight - termEl.scrollTop - termEl.clientHeight > 40;
   });
   function autoScroll() {
-    if (!userScrolled) autoScroll();
+    if (!userScrolled) termEl.scrollTop = termEl.scrollHeight;
   }
   const cursor = document.getElementById('term-cursor');
   let started = false;
