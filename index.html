@@ -107,22 +107,23 @@
     user-select: none;
   }
   #terminal {
-    display: block;
+    display: flex;
     position: absolute;
     top: 0; left: 0;
     width: 100%; height: 100%;
     background: var(--bg);
+    padding: 10%;
     font-family: 'Lucida Console', 'Courier New', monospace;
     font-size: 1.4rem;
     line-height: 1.6;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     z-index: 1;
-    overflow: hidden;
+    overflow: clip;
   }
   #term-wrap {
-    position: absolute;
-    top: 50%;
-    left: 10%; right: 10%;
-    transform: translateY(-50%);
+    width: 80%;
   }
   #term-output {
     white-space: pre-wrap;
@@ -169,8 +170,11 @@
       width: 133.33vh;
       height: auto;
     }
+    #terminal {
+      padding: 5%;
+    }
     #term-wrap {
-      left: 5%; right: 5%;
+      width: 90%;
     }
   }
 </style>
