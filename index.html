@@ -324,6 +324,7 @@
   let navItems = [];
   let navIndex = 0;
   let inEnterCode = false;
+  let lastTarget = null;
 
   function setNavIndex(i) {
     navItems.forEach(({ btn, prefixEl }, idx) => {
@@ -340,7 +341,12 @@
   function setupNav(collected) {
     navItems = collected;
     navIndex = 0;
-    if (collected.length > 0) setNavIndex(0);
+    if (lastTarget !== null) {
+      const idx = collected.findIndex(({ btn }) => btn.dataset.label === lastTarget);
+      if (idx !== -1) navIndex = idx;
+      lastTarget = null;
+    }
+    if (collected.length > 0) setNavIndex(navIndex);
   }
 
   function clearOutput() {
@@ -495,11 +501,17 @@
 
   function handleClick(e) {
     e.preventDefault();
+    const isBack = this.dataset.isback === 'true';
+    if (isBack) {
+      const menuSpan = this.closest('.term-menu-span');
+      lastTarget = menuSpan ? menuSpan.dataset.name : null;
+    } else {
+      lastTarget = null;
+    }
     navItems = [];
     navIndex = 0;
     const target = this.dataset.target;
     const label  = this.dataset.label;
-    const isBack = this.dataset.isback === 'true';
 
     if (isBack) {
       if (target === 'main') {
