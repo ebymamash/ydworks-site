@@ -520,6 +520,7 @@
   }
 
   function handleEnterCode(section, fast) {
+    inEnterCode = true;
     termEl.classList.remove('submenu');
     termEl.classList.add('main-menu');
     const d = fast ? 40 : 80;
@@ -565,6 +566,7 @@
   }
 
   function showMainMenu() {
+    inEnterCode = false;
     termEl.classList.remove('submenu');
     termEl.classList.add('main-menu');
     clearOutput();
@@ -594,6 +596,8 @@
     } else if (e.key === 'Enter' && started && introDone && navItems.length > 0 && tag !== 'INPUT' && tag !== 'A') {
       e.preventDefault();
       navItems[navIndex].btn.click();
+    } else if (e.key === 'Escape' && inEnterCode) {
+      showMainMenu();
     } else if (e.key === 'ArrowDown' && navItems.length > 0) {
       e.preventDefault();
       setNavIndex((navIndex + 1) % navItems.length);
