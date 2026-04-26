@@ -112,16 +112,19 @@
     top: 0; left: 0;
     width: 100%; height: 100%;
     background: var(--bg);
-    padding: 26% 10% 5% 10%;
+    padding: 21% 10% 3% 10%;
     font-family: 'Lucida Console', 'Courier New', monospace;
     font-size: 1.6rem;
-    line-height: 1.5;
+    line-height: 1.4;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     z-index: 1;
     overflow: clip;
     overflow-anchor: none;
+  }
+  #terminal.submenu {
+    padding-top: 10%;
   }
   #term-wrap {
     width: auto;
@@ -359,6 +362,8 @@
   }
 
   function navigateTo(target, label, section, fast) {
+    if (target === 'WHAT ARE YOU?') termEl.classList.add('submenu');
+    else termEl.classList.remove('submenu');
     const echoColors = { 'YD WORKS': '#cc2020' };
     const echo = document.createElement('span');
     if (echoColors[label]) echo.style.color = echoColors[label];
@@ -496,6 +501,7 @@
   }
 
   function showMainMenu() {
+    termEl.classList.remove('submenu');
     clearOutput();
     const hLines = ['IDENTITY CONFIRMED: a GUEST', '\nNOW CHOOSE.\n'];
     let hi = 0;
