@@ -281,7 +281,7 @@
       const isBack = Array.isArray(item);
       const label = isBack ? item[0] : item;
       const target = isBack ? item[1] : item;
-      const prefix = document.createTextNode(isBack ? '\n' : '\n   > ');
+      const prefix = document.createTextNode(isBack ? '\n' : '\n  > ');
       const btn = document.createElement('a');
       btn.className = 'term-btn';
       btn.dataset.target = target;
