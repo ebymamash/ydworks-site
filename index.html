@@ -327,16 +327,14 @@
     const delay = fast ? 12 : 25;
     const node = document.createTextNode('');
     (container || output).appendChild(node);
-    function tick(ts) {
+    function tick() {
       if (typingGen !== gen) return;
       if (skipped) { node.textContent = text; callback(); return; }
-      if (ts - lastTime < delay) { requestAnimationFrame(tick); return; }
-      lastTime = ts;
       if (i >= text.length) { callback(); return; }
       node.textContent += text[i++];
-            requestAnimationFrame(tick);
+      setTimeout(tick, delay);
     }
-    requestAnimationFrame(tick);
+    setTimeout(tick, delay);
   }
 
   function typeSegments(segments, container, callback, fast) {
@@ -547,13 +545,10 @@
   });
 
   function startTyping() {
-    let lineIndex = 0, charIndex = 0, text = '', lastTime = 0;
+    let lineIndex = 0, charIndex = 0, text = '';
     const charDelay = 35, pauseDelay = 280;
-    function tick(ts) {
+    function tick() {
       if (skipped) return;
-      const delay = introLines[lineIndex] === '' ? pauseDelay : charDelay;
-      if (ts - lastTime < delay) { requestAnimationFrame(tick); return; }
-      lastTime = ts;
       if (lineIndex >= introLines.length) {
         cursor.style.display = 'none';
         introDone = true;
@@ -561,15 +556,16 @@
         return;
       }
       const line = introLines[lineIndex];
+      const delay = line === '' ? pauseDelay : charDelay;
       if (charIndex >= line.length) {
         text += '\n'; lineIndex++; charIndex = 0;
       } else {
         text += line[charIndex++];
       }
       output.textContent = text;
-      requestAnimationFrame(tick);
+      setTimeout(tick, delay);
     }
-    requestAnimationFrame(tick);
+    tick();
   }
 </script>
 </body>
