@@ -159,6 +159,18 @@
   .term-btn:hover {
     opacity: 0.6;
   }
+  .menu-prefix.active {
+    animation: arrow-glitch 1.1s step-end infinite;
+  }
+  @keyframes arrow-glitch {
+    0%   { opacity: 1; }
+    72%  { opacity: 1; }
+    74%  { opacity: 0; }
+    76%  { opacity: 1; }
+    78%  { opacity: 0; }
+    82%  { opacity: 1; }
+    100% { opacity: 1; }
+  }
   .term-input {
     background: none;
     border: none;
@@ -267,6 +279,26 @@
   let typingGen = 0;
   const visitedSections = new Set();
   const startBtn = document.getElementById('start-btn');
+  let navItems = [];
+  let navIndex = 0;
+
+  function setNavIndex(i) {
+    navItems.forEach(({ btn, prefixEl }, idx) => {
+      const isBack = btn.dataset.isback === 'true';
+      const active = idx === i;
+      prefixEl.textContent = active
+        ? (isBack ? '\n> ' : '\n  > ')
+        : (isBack ? '\n  ' : '\n    ');
+      prefixEl.classList.toggle('active', active);
+    });
+    navIndex = i;
+  }
+
+  function setupNav(collected) {
+    navItems = collected;
+    navIndex = 0;
+    if (collected.length > 0) setNavIndex(0);
+  }
 
   function clearOutput() {
     output.textContent = '';
@@ -286,11 +318,15 @@
     span.appendChild(document.createTextNode('\n'));
     parent.appendChild(span);
 
+    const collected = [];
+
     function makeBtn(item) {
       const isBack = Array.isArray(item);
       const label = isBack ? item[0] : item;
       const target = isBack ? item[1] : item;
-      const prefix = document.createTextNode(isBack ? '\n' : '\n  > ');
+      const prefixEl = document.createElement('span');
+      prefixEl.className = 'menu-prefix';
+      prefixEl.textContent = isBack ? '\n  ' : '\n    ';
       const btn = document.createElement('a');
       btn.className = 'term-btn';
       btn.dataset.target = target;
@@ -315,7 +351,8 @@
       }
       if (!isBack && itemColors[target]) btn.style.color = itemColors[target];
       btn.addEventListener('click', handleClick);
-      return [prefix, btn];
+      collected.push({ btn, prefixEl });
+      return [prefixEl, btn];
     }
 
     const doInstant = !forceAnimate && skipped;
@@ -326,18 +363,20 @@
         span.appendChild(prefix);
         span.appendChild(btn);
       });
-            return;
+      setupNav(collected);
+      return;
     }
 
     let i = 0;
     function addNext() {
       if (i >= items.length) {
-                return;
+        setupNav(collected);
+        return;
       }
       const [prefix, btn] = makeBtn(items[i++]);
       span.appendChild(prefix);
       span.appendChild(btn);
-            setTimeout(addNext, fast ? 40 : 80);
+      setTimeout(addNext, fast ? 40 : 80);
     }
     addNext();
   }
@@ -413,6 +452,8 @@
 
   function handleClick(e) {
     e.preventDefault();
+    navItems = [];
+    navIndex = 0;
     const target = this.dataset.target;
     const label  = this.dataset.label;
     const isBack = this.dataset.isback === 'true';
@@ -546,9 +587,19 @@
   }
 
   document.addEventListener('keydown', function(e) {
+    const tag = e.target.tagName;
     if (e.key === 'Enter' && !started) {
       startBtn.click();
-    } else if (e.key === ' ' && e.target.tagName !== 'INPUT') {
+    } else if (e.key === 'Enter' && started && introDone && navItems.length > 0 && tag !== 'INPUT' && tag !== 'A') {
+      e.preventDefault();
+      navItems[navIndex].btn.click();
+    } else if (e.key === 'ArrowDown' && navItems.length > 0) {
+      e.preventDefault();
+      setNavIndex((navIndex + 1) % navItems.length);
+    } else if (e.key === 'ArrowUp' && navItems.length > 0) {
+      e.preventDefault();
+      setNavIndex((navIndex - 1 + navItems.length) % navItems.length);
+    } else if (e.key === ' ' && tag !== 'INPUT') {
       e.preventDefault();
       if (started && !introDone) {
         showFull();
