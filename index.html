@@ -323,15 +323,19 @@
   function typeText(text, container, callback, fast) {
     const gen = ++typingGen;
     if (skipped) { appendText(text, container); callback(); return; }
-    let i = 0, lastTime = 0;
+    let i = 0;
     const delay = fast ? 12 : 22;
     const node = document.createTextNode('');
     (container || output).appendChild(node);
+    let lastTick = Date.now();
     function tick() {
       if (typingGen !== gen) return;
       if (skipped) { node.textContent = text; callback(); return; }
       if (i >= text.length) { callback(); return; }
-      node.textContent += text[i++];
+      const catchUp = Math.max(1, Math.round((Date.now() - lastTick) / delay));
+      lastTick = Date.now();
+      for (let j = 0; j < catchUp && i < text.length; j++) node.textContent += text[i++];
+      if (i >= text.length) { callback(); return; }
       setTimeout(tick, delay);
     }
     setTimeout(tick, delay);
@@ -551,6 +555,7 @@
   function startTyping() {
     let lineIndex = 0, charIndex = 0, text = '';
     const charDelay = 31, pauseDelay = 246;
+    let lastTick = Date.now();
     function tick() {
       if (skipped) return;
       if (lineIndex >= introLines.length) {
@@ -561,10 +566,13 @@
       }
       const line = introLines[lineIndex];
       const delay = line === '' ? pauseDelay : charDelay;
-      if (charIndex >= line.length) {
-        text += '\n'; lineIndex++; charIndex = 0;
-      } else {
-        text += line[charIndex++];
+      const catchUp = line === '' ? 1 : Math.max(1, Math.round((Date.now() - lastTick) / charDelay));
+      lastTick = Date.now();
+      for (let j = 0; j < catchUp; j++) {
+        if (lineIndex >= introLines.length) break;
+        const l = introLines[lineIndex];
+        if (charIndex >= l.length) { text += '\n'; lineIndex++; charIndex = 0; }
+        else { text += l[charIndex++]; }
       }
       output.textContent = text;
       setTimeout(tick, delay);
