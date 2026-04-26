@@ -63,7 +63,7 @@
   }
   .start-btn {
     position: fixed;
-    top: 1rem;
+    top: calc(1rem + 80px + 0.5rem);
     left: 1.5rem;
     z-index: 10;
     display: block;
@@ -247,6 +247,9 @@
     'SUBMIT FILES':     [['BACK', 'main']],
     'CONTACT':          [['BACK', 'main']],
   };
+
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
 
   const output = document.getElementById('term-output');
   const cursor = document.getElementById('term-cursor');
