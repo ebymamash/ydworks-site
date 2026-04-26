@@ -523,25 +523,29 @@
   });
 
   const monitorWrap = document.querySelector('.monitor-wrap');
+
+  function beginSession(scroll) {
+    if (started) return;
+    started = true;
+    startBtn.style.display = 'none';
+    if (scroll) monitorWrap.scrollIntoView({ behavior: 'instant', block: 'end' });
+    setTimeout(startTyping, 400);
+  }
+
   function checkScrollTrigger() {
     if (started) { window.removeEventListener('scroll', checkScrollTrigger); return; }
     const btnBottom = startBtn.getBoundingClientRect().bottom;
     const monitorTop = monitorWrap.getBoundingClientRect().top;
     if (monitorTop <= btnBottom) {
       window.removeEventListener('scroll', checkScrollTrigger);
-      startBtn.click();
+      beginSession(false);
     }
   }
   window.addEventListener('scroll', checkScrollTrigger, { passive: true });
 
   startBtn.addEventListener('click', function(e) {
     e.preventDefault();
-    if (started) return;
-    started = true;
-    startBtn.style.display = 'none';
-    const terminal = document.getElementById('terminal');
-    document.querySelector('.monitor-wrap').scrollIntoView({ behavior: 'instant', block: 'end' });
-    setTimeout(startTyping, 400);
+    beginSession(true);
   });
 
   function startTyping() {
