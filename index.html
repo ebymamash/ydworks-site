@@ -180,6 +180,29 @@
     width: 15ch;
     caret-color: var(--text);
   }
+  footer {
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-family: 'Lucida Console', 'Courier New', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  footer nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    position: static;
+    padding: 0;
+  }
+  footer a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  footer a:hover {
+    color: var(--text);
+  }
   @media (max-width: 768px) {
     .monitor-wrap {
       min-height: 100vh;
@@ -217,6 +240,15 @@
   </section>
   <img class="crt-frame" src="crt-frame.png" alt="" loading="eager">
 </div>
+<footer>
+  <span>© 2025 Yegor Demchenko. All rights reserved.</span>
+  <nav>
+    <a href="/impressum">Impressum</a>
+    <a href="/datenschutz">Datenschutzerklärung</a>
+    <a href="/cookies">Cookie-Richtlinie</a>
+    <a href="/haftung">Haftungsausschluss</a>
+  </nav>
+</footer>
 <script>
   const introLines = [
     'BOOTING...',
