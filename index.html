@@ -324,7 +324,7 @@
     const gen = ++typingGen;
     if (skipped) { appendText(text, container); callback(); return; }
     let i = 0, lastTime = 0;
-    const delay = fast ? 12 : 21;
+    const delay = fast ? 12 : 22;
     const node = document.createTextNode('');
     (container || output).appendChild(node);
     function tick() {
@@ -550,7 +550,7 @@
 
   function startTyping() {
     let lineIndex = 0, charIndex = 0, text = '';
-    const charDelay = 30, pauseDelay = 240;
+    const charDelay = 31, pauseDelay = 246;
     function tick() {
       if (skipped) return;
       if (lineIndex >= introLines.length) {
