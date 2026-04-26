@@ -121,9 +121,11 @@
     justify-content: center;
     z-index: 1;
     overflow: clip;
+    overflow-anchor: none;
   }
   #term-wrap {
     width: 80%;
+    overflow-anchor: none;
   }
   #term-output {
     white-space: pre-wrap;
@@ -513,7 +515,7 @@
     } else if (e.key === ' ' && started && !introDone) {
       e.preventDefault();
       showFull();
-      document.querySelector('.monitor-wrap').scrollIntoView({ behavior: 'smooth', block: 'end' });
+      document.querySelector('.monitor-wrap').scrollIntoView({ behavior: 'instant', block: 'end' });
     }
   });
 
@@ -523,7 +525,7 @@
     started = true;
     startBtn.style.display = 'none';
     const terminal = document.getElementById('terminal');
-    document.querySelector('.monitor-wrap').scrollIntoView({ behavior: 'smooth', block: 'end' });
+    document.querySelector('.monitor-wrap').scrollIntoView({ behavior: 'instant', block: 'end' });
     setTimeout(startTyping, 400);
   });
 
