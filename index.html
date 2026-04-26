@@ -87,8 +87,7 @@
     height: auto;
     display: block;
     position: relative;
-    z-index: 2;
-    mix-blend-mode: screen;
+    z-index: 1;
     pointer-events: none;
     user-select: none;
   }
@@ -97,14 +96,14 @@
     position: absolute;
     top: 16.7%; left: 4.2%;
     width: 91.6%; height: 72.2%;
-    background: #000;
+    background: transparent;
     overflow-y: auto;
     padding: 1.5rem 2rem 1.5rem 7rem;
     font-family: 'Lucida Console', 'Courier New', monospace;
     font-size: 1.5rem;
     line-height: 1.6;
     flex-direction: column;
-    z-index: 1;
+    z-index: 2;
   }
   #term-output {
     white-space: pre-wrap;
