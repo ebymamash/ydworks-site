@@ -107,20 +107,20 @@
     user-select: none;
   }
   #terminal {
-    display: block;
+    display: flex;
     position: absolute;
     top: 0; left: 0;
     width: 100%; height: 100%;
     background: var(--bg);
-    padding: 0 10%;
+    padding: 10%;
     font-family: 'Lucida Console', 'Courier New', monospace;
     font-size: 1.4rem;
     line-height: 1.6;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     z-index: 1;
     overflow: hidden;
-  }
-  #term-wrap {
-    will-change: transform;
   }
   #term-output {
     white-space: pre-wrap;
@@ -168,7 +168,7 @@
       height: auto;
     }
     #terminal {
-      padding: 0 5%;
+      padding: 5%;
     }
   }
 </style>
@@ -242,15 +242,6 @@
   const output = document.getElementById('term-output');
   const cursor = document.getElementById('term-cursor');
   const termEl = document.getElementById('terminal');
-  const termWrap = document.getElementById('term-wrap');
-
-  function syncTermWrap() {
-    const wh = termWrap.offsetHeight;
-    const th = termEl.offsetHeight;
-    termWrap.style.transform = 'translateY(' + (th * 0.5 - wh) + 'px)';
-  }
-  new MutationObserver(syncTermWrap).observe(termWrap, { childList: true, subtree: true, characterData: true });
-  syncTermWrap();
   let started = false;
   let skipped = false;
   let introDone = false;
