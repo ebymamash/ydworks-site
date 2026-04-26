@@ -80,8 +80,9 @@
   }
   .monitor-wrap {
     position: relative;
-    width: 100%;
+    width: min(100vw, 133.33vh);
     aspect-ratio: 4/3;
+    margin: 0 auto;
     background: #000;
   }
   .crt-frame {
@@ -97,7 +98,7 @@
     display: flex;
     height: 100%;
     background: var(--bg);
-    padding: 3rem 2rem 3rem;
+    padding: 12rem 2rem 3rem;
     font-family: 'Lucida Console', 'Courier New', monospace;
     font-size: 1.5rem;
     line-height: 1.6;
