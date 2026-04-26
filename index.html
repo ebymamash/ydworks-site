@@ -77,26 +77,33 @@
   .start-btn:hover {
     opacity: 0.6;
   }
+  .monitor-wrap {
+    position: relative;
+    width: 100%;
+    background: #000;
+  }
+  .crt-frame-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+    user-select: none;
+  }
   #terminal {
-    display: none;
-    min-height: 100vh;
-    background: var(--bg);
-    padding: 14rem 2rem 3rem;
+    display: flex;
+    position: absolute;
+    top: 16.7%; left: 4.2%;
+    width: 91.6%; height: 72.2%;
+    background: #000;
+    overflow-y: auto;
+    padding: 1rem 1.5rem;
     font-family: 'Lucida Console', 'Courier New', monospace;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     line-height: 1.6;
     flex-direction: column;
-    align-items: center;
-    position: relative;
-  }
-  .crt-frame {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    object-fit: contain;
-    mix-blend-mode: screen;
-    pointer-events: none;
-    z-index: 9;
+    z-index: 1;
   }
   #term-output {
     white-space: pre-wrap;
@@ -141,12 +148,14 @@
 <div class="hero">
   <img src="hero.jpg" class="hero-img">
 </div>
-<section id="terminal">
-  <img class="crt-frame" src="crt frame cropped.png" alt="">
-  <div id="term-wrap">
-    <pre id="term-output"></pre><span id="term-cursor"></span>
-  </div>
-</section>
+<div class="monitor-wrap">
+  <img class="crt-frame-img" src="crt frame cropped.png" alt="">
+  <section id="terminal">
+    <div id="term-wrap">
+      <pre id="term-output"></pre><span id="term-cursor"></span>
+    </div>
+  </section>
+</div>
 <script>
   const introLines = [
     'BOOTING...',
@@ -198,6 +207,7 @@
   };
 
   const output = document.getElementById('term-output');
+  const termEl = document.getElementById('terminal');
   const cursor = document.getElementById('term-cursor');
   let started = false;
   let skipped = false;
@@ -248,20 +258,20 @@
         span.appendChild(prefix);
         span.appendChild(btn);
       });
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      termEl.scrollTop = termEl.scrollHeight;
       return;
     }
 
     let i = 0;
     function addNext() {
       if (i >= items.length) {
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        termEl.scrollTop = termEl.scrollHeight;
         return;
       }
       const [prefix, btn] = makeBtn(items[i++]);
       span.appendChild(prefix);
       span.appendChild(btn);
-      window.scrollTo({ top: document.body.scrollHeight });
+      termEl.scrollTop = termEl.scrollHeight;
       setTimeout(addNext, fast ? 40 : 80);
     }
     addNext();
@@ -281,7 +291,7 @@
       lastTime = ts;
       if (i >= text.length) { callback(); return; }
       node.textContent += text[i++];
-      window.scrollTo({ top: document.body.scrollHeight });
+      termEl.scrollTop = termEl.scrollHeight;
       requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
@@ -356,7 +366,7 @@
             showMenu(sectionName, prev, true, fast);
           }
         }
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        termEl.scrollTop = termEl.scrollHeight;
       }
       return;
     }
@@ -437,7 +447,7 @@
           hint.textContent = 'logo click = animation skip';
           hint.style.cssText = 'display:block; margin-top:0.5em; padding-left:0.5em; color:#7a7875; font-style:italic;';
           section.appendChild(hint);
-          window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+          termEl.scrollTop = termEl.scrollHeight;
         }, d);
       }, d);
     }, fast);
@@ -459,7 +469,6 @@
     skipped = true;
     introDone = true;
     typingGen++;
-    document.getElementById('terminal').style.display = 'flex';
     output.textContent = introLines.join('\n');
     cursor.style.display = 'none';
     showMenu('intro', null);
@@ -480,7 +489,6 @@
     started = true;
     startBtn.style.display = 'none';
     const terminal = document.getElementById('terminal');
-    terminal.style.display = 'flex';
     terminal.scrollIntoView({ behavior: 'smooth' });
     setTimeout(startTyping, 400);
   });
