@@ -103,7 +103,7 @@
     background: var(--bg);
     padding: 12rem 2rem 3rem;
     font-family: 'Lucida Console', 'Courier New', monospace;
-    font-size: 1.1rem;
+    font-size: 1.4rem;
     line-height: 1.6;
     flex-direction: column;
     align-items: center;
@@ -148,7 +148,7 @@
 <body>
 <nav>
   <a href="#"><img src="logo.svg"></a>
-  <a href="#terminal" class="start-btn" id="start-btn">&gt;Start</a>
+  <a href="#terminal" class="start-btn" id="start-btn">&gt;Enter</a>
 </nav>
 <div class="hero">
   <img src="hero.jpg" class="hero-img">
@@ -473,10 +473,11 @@
     showMenu('intro', null);
   }
 
-  document.querySelector('nav a').addEventListener('click', function(e) {
-    e.preventDefault();
-    if (!started) { started = true; startBtn.style.display = 'none'; }
-    if (!introDone) {
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !started) {
+      startBtn.click();
+    } else if (e.key === ' ' && started && !introDone) {
+      e.preventDefault();
       showFull();
       document.querySelector('.monitor-wrap').scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
