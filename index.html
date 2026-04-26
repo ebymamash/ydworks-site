@@ -87,6 +87,16 @@
     line-height: 1.6;
     flex-direction: column;
     align-items: center;
+    position: relative;
+  }
+  .crt-frame {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: contain;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 9;
   }
   #term-output {
     white-space: pre-wrap;
@@ -132,6 +142,7 @@
   <img src="hero.jpg" class="hero-img">
 </div>
 <section id="terminal">
+  <img class="crt-frame" src="crt frame cropped.png" alt="">
   <div id="term-wrap">
     <pre id="term-output"></pre><span id="term-cursor"></span>
   </div>
