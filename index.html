@@ -24,10 +24,6 @@
     position: absolute;
     top: 0; left: 0;
     padding: 1rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.5rem;
     z-index: 10;
   }
   .hero {
@@ -66,11 +62,14 @@
     height: auto;
   }
   .start-btn {
+    position: fixed;
+    top: 1rem;
+    left: 1.5rem;
+    z-index: 10;
     display: block;
     font-family: 'Lucida Console', 'Courier New', monospace;
     font-size: 2.1rem;
     color: var(--text);
-    text-decoration: none;
     text-decoration: underline;
     text-underline-offset: 4px;
     letter-spacing: 0.1em;
@@ -186,8 +185,8 @@
 <body>
 <nav>
   <a href="#"><img src="logo.svg"></a>
-  <a href="#terminal" class="start-btn" id="start-btn">&gt;Enter</a>
 </nav>
+<a href="#terminal" class="start-btn" id="start-btn">&gt;Enter</a>
 <div class="hero">
   <img src="hero.jpg" class="hero-img">
 </div>
@@ -520,6 +519,18 @@
       document.querySelector('.monitor-wrap').scrollIntoView({ behavior: 'instant', block: 'end' });
     }
   });
+
+  const monitorWrap = document.querySelector('.monitor-wrap');
+  function checkScrollTrigger() {
+    if (started) { window.removeEventListener('scroll', checkScrollTrigger); return; }
+    const btnBottom = startBtn.getBoundingClientRect().bottom;
+    const monitorTop = monitorWrap.getBoundingClientRect().top;
+    if (monitorTop <= btnBottom) {
+      window.removeEventListener('scroll', checkScrollTrigger);
+      startBtn.click();
+    }
+  }
+  window.addEventListener('scroll', checkScrollTrigger, { passive: true });
 
   startBtn.addEventListener('click', function(e) {
     e.preventDefault();
