@@ -77,8 +77,22 @@
   .start-btn:hover {
     opacity: 0.6;
   }
+  .monitor-wrap {
+    position: relative;
+    width: 100%;
+    background: #000;
+  }
+  .crt-frame {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 2;
+  }
   #terminal {
-    display: none;
+    display: flex;
     min-height: 100vh;
     background: var(--bg);
     padding: 14rem 2rem 3rem;
@@ -88,15 +102,7 @@
     flex-direction: column;
     align-items: center;
     position: relative;
-  }
-  .crt-frame {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    object-fit: contain;
-    mix-blend-mode: screen;
-    pointer-events: none;
-    z-index: 9;
+    z-index: 1;
   }
   #term-output {
     white-space: pre-wrap;
@@ -141,12 +147,14 @@
 <div class="hero">
   <img src="hero.jpg" class="hero-img">
 </div>
-<section id="terminal">
+<div class="monitor-wrap">
+  <section id="terminal">
+    <div id="term-wrap">
+      <pre id="term-output"></pre><span id="term-cursor"></span>
+    </div>
+  </section>
   <img class="crt-frame" src="crt-frame.png" alt="">
-  <div id="term-wrap">
-    <pre id="term-output"></pre><span id="term-cursor"></span>
-  </div>
-</section>
+</div>
 <script>
   const introLines = [
     'BOOTING...',
@@ -459,7 +467,6 @@
     skipped = true;
     introDone = true;
     typingGen++;
-    document.getElementById('terminal').style.display = 'flex';
     output.textContent = introLines.join('\n');
     cursor.style.display = 'none';
     showMenu('intro', null);
@@ -480,7 +487,6 @@
     started = true;
     startBtn.style.display = 'none';
     const terminal = document.getElementById('terminal');
-    terminal.style.display = 'flex';
     terminal.scrollIntoView({ behavior: 'smooth' });
     setTimeout(startTyping, 400);
   });
