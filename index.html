@@ -124,7 +124,7 @@
     overflow-anchor: none;
   }
   #terminal.submenu {
-    padding-top: 10%;
+    padding-top: 13%;
   }
   #terminal.main-menu {
     padding-top: 30%;
@@ -531,10 +531,14 @@
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && !started) {
       startBtn.click();
-    } else if (e.key === ' ' && started && !introDone) {
+    } else if (e.key === ' ' && e.target.tagName !== 'INPUT') {
       e.preventDefault();
-      showFull();
-      document.querySelector('.monitor-wrap').scrollIntoView({ behavior: 'instant', block: 'end' });
+      if (started && !introDone) {
+        showFull();
+        document.querySelector('.monitor-wrap').scrollIntoView({ behavior: 'instant', block: 'end' });
+      } else if (started && introDone) {
+        skipped = true;
+      }
     }
   });
 
