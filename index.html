@@ -88,6 +88,7 @@
     display: block;
     position: relative;
     z-index: 2;
+    mix-blend-mode: screen;
     pointer-events: none;
     user-select: none;
   }
@@ -208,6 +209,14 @@
 
   const output = document.getElementById('term-output');
   const termEl = document.getElementById('terminal');
+
+  let userScrolled = false;
+  termEl.addEventListener('scroll', () => {
+    userScrolled = termEl.scrollHeight - termEl.scrollTop - termEl.clientHeight > 40;
+  });
+  function autoScroll() {
+    if (!userScrolled) autoScroll();
+  }
   const cursor = document.getElementById('term-cursor');
   let started = false;
   let skipped = false;
@@ -258,20 +267,20 @@
         span.appendChild(prefix);
         span.appendChild(btn);
       });
-      termEl.scrollTop = termEl.scrollHeight;
+      autoScroll();
       return;
     }
 
     let i = 0;
     function addNext() {
       if (i >= items.length) {
-        termEl.scrollTop = termEl.scrollHeight;
+        autoScroll();
         return;
       }
       const [prefix, btn] = makeBtn(items[i++]);
       span.appendChild(prefix);
       span.appendChild(btn);
-      termEl.scrollTop = termEl.scrollHeight;
+      autoScroll();
       setTimeout(addNext, fast ? 40 : 80);
     }
     addNext();
@@ -291,7 +300,7 @@
       lastTime = ts;
       if (i >= text.length) { callback(); return; }
       node.textContent += text[i++];
-      termEl.scrollTop = termEl.scrollHeight;
+      autoScroll();
       requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
@@ -366,7 +375,7 @@
             showMenu(sectionName, prev, true, fast);
           }
         }
-        termEl.scrollTop = termEl.scrollHeight;
+        autoScroll();
       }
       return;
     }
@@ -447,7 +456,7 @@
           hint.textContent = 'logo click = animation skip';
           hint.style.cssText = 'display:block; margin-top:0.5em; padding-left:0.5em; color:#7a7875; font-style:italic;';
           section.appendChild(hint);
-          termEl.scrollTop = termEl.scrollHeight;
+          autoScroll();
         }, d);
       }, d);
     }, fast);
