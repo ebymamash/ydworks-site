@@ -765,8 +765,8 @@
         s(); setTimeout(h, 120);
         setTimeout(() => s(), 240); setTimeout(h, 360);
         setTimeout(() => s(), 480); setTimeout(h, 600);
-        setTimeout(() => s(true), 720); setTimeout(h, 960);
-        setTimeout(() => { inp.style.width = ''; inp.focus(); }, 960);
+        setTimeout(() => s(true), 720);
+        setTimeout(() => { inp.style.width = ''; h(); inp.focus(); }, 1520);
       }
       function submit() {
         const code = inp.value.trim().toLowerCase();
