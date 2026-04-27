@@ -242,6 +242,84 @@
   #term-footer a:hover {
     color: var(--text);
   }
+  /* Mac OS 9 Modal */
+  .mac-modal {
+    position: absolute;
+    top: 14%;
+    left: 12%;
+    width: 76%;
+    max-width: 460px;
+    z-index: 8;
+    border: 2px solid;
+    border-color: #e0ddd8 #444 #444 #e0ddd8;
+    box-shadow: 1px 1px 0 #000, 3px 3px 8px rgba(0,0,0,0.7);
+    font-family: 'Lucida Console', 'Courier New', monospace;
+    cursor: default;
+  }
+  .mac-modal[hidden] { display: none; }
+  .mac-titlebar {
+    display: flex;
+    align-items: center;
+    padding: 3px 5px;
+    gap: 5px;
+    background: repeating-linear-gradient(
+      180deg,
+      #ccc8c0 0px, #ccc8c0 1px,
+      #a0a09a 1px, #a0a09a 2px
+    );
+    border-bottom: 2px solid;
+    border-color: #444 #e0e0e0 #e0e0e0 #444;
+    user-select: none;
+    cursor: grab;
+  }
+  .mac-titlebar:active { cursor: grabbing; }
+  .mac-close-box {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+    border: 1.5px solid;
+    border-color: #e8e8e8 #555 #555 #e8e8e8;
+    background: #c0bdb6;
+    cursor: pointer;
+  }
+  .mac-close-box:active {
+    border-color: #555 #e8e8e8 #e8e8e8 #555;
+    background: #9a9a94;
+  }
+  .mac-win-title {
+    flex: 1;
+    text-align: center;
+    font-size: 0.6rem;
+    font-weight: bold;
+    color: #111;
+    letter-spacing: 0.04em;
+    margin-right: 18px;
+  }
+  .mac-body {
+    background: #fff;
+    color: #111;
+    padding: 10px 14px 14px;
+    max-height: 50vh;
+    overflow-y: auto;
+    font-size: 0.6rem;
+    line-height: 1.65;
+  }
+  .mac-body h3 {
+    font-size: 0.62rem;
+    font-weight: bold;
+    margin: 10px 0 3px;
+    border-bottom: 1px solid #c0c0c0;
+    padding-bottom: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .mac-body h3:first-child { margin-top: 0; }
+  .mac-body p { margin: 0 0 5px; }
+  .mac-body a { color: #000099; }
+  @media (max-width: 768px) {
+    .mac-modal { left: 4%; width: 92%; top: 6%; }
+    .mac-body { max-height: 58vh; }
+  }
   @media (max-width: 768px) {
     .monitor-wrap {
       min-height: 100vh;
@@ -322,9 +400,16 @@
     </div>
     <div id="term-footer">
       © 2025 Yegor Demchenko &nbsp;|&nbsp;
-      <a href="/impressum">Impressum</a> &nbsp;|&nbsp;
-      <a href="/datenschutz">Datenschutzerklärung</a> &nbsp;|&nbsp;
-      <a href="/haftung">Haftungsausschluss</a>
+      <a href="#" data-modal="impressum">Impressum</a> &nbsp;|&nbsp;
+      <a href="#" data-modal="datenschutz">Datenschutzerklärung</a> &nbsp;|&nbsp;
+      <a href="#" data-modal="haftung">Haftungsausschluss</a>
+    </div>
+    <div class="mac-modal" id="mac-modal" hidden>
+      <div class="mac-titlebar" id="mac-titlebar">
+        <div class="mac-close-box" id="mac-close"></div>
+        <span class="mac-win-title" id="mac-win-title"></span>
+      </div>
+      <div class="mac-body" id="mac-body"></div>
     </div>
   </section>
   <img class="crt-frame" src="crt-frame.png" alt="" loading="eager">
@@ -810,6 +895,83 @@
     }
     tick();
   }
+
+  // Mac OS 9 Modal
+  const macModal = document.getElementById('mac-modal');
+  const macWinTitle = document.getElementById('mac-win-title');
+  const macBody = document.getElementById('mac-body');
+  const macTitlebar = document.getElementById('mac-titlebar');
+
+  const modalPages = {
+    impressum: {
+      title: 'Impressum',
+      html: `<h3>Angaben gemäß § 5 TMG</h3>
+<p>Yegor Demchenko<br>Bielefeld, Deutschland</p>
+<h3>Kontakt</h3>
+<p>E-Mail: chudooyudoo@gmail.com</p>
+<h3>Berufsbezeichnung</h3>
+<p>Audio Engineer / Mastering Engineer<br>DD Mastering, Oberhausen</p>
+<h3>Inhaltlich Verantwortlicher</h3>
+<p>Yegor Demchenko (Anschrift wie oben)</p>`
+    },
+    datenschutz: {
+      title: 'Datenschutzerklärung',
+      html: `<h3>Allgemein</h3>
+<p>Diese Website erhebt und speichert keine personenbezogenen Daten. Es werden keine Cookies gesetzt und kein Tracking durchgeführt.</p>
+<h3>Hosting</h3>
+<p>Vercel Inc., 340 Pine Street, San Francisco, CA 94104, USA. Beim Aufruf der Website werden technische Verbindungsdaten vorübergehend in Server-Logs gespeichert.</p>
+<h3>Ihre Rechte</h3>
+<p>Sie haben das Recht auf Auskunft, Berichtigung und Löschung Ihrer Daten. Kontakt: chudooyudoo@gmail.com</p>`
+    },
+    haftung: {
+      title: 'Haftungsausschluss',
+      html: `<h3>Haftung für Inhalte</h3>
+<p>Die Inhalte wurden mit größtmöglicher Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität übernehmen wir keine Gewähr gemäß § 7 Abs. 1 TMG.</p>
+<h3>Haftung für Links</h3>
+<p>Diese Website kann Links zu externen Webseiten enthalten. Auf deren Inhalte haben wir keinen Einfluss und übernehmen keine Haftung.</p>
+<h3>Urheberrecht</h3>
+<p>Die durch den Betreiber erstellten Inhalte sind urheberrechtlich geschützt. Vervielfältigung oder Verbreitung bedarf der schriftlichen Zustimmung.</p>`
+    }
+  };
+
+  document.getElementById('mac-close').addEventListener('click', () => {
+    macModal.hidden = true;
+  });
+
+  document.querySelectorAll('[data-modal]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const page = modalPages[link.dataset.modal];
+      if (!page) return;
+      macWinTitle.textContent = page.title;
+      macBody.innerHTML = page.html;
+      macModal.style.left = '';
+      macModal.style.top = '';
+      macModal.hidden = false;
+    });
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !macModal.hidden) macModal.hidden = true;
+  });
+
+  let dragOffset = null;
+  macTitlebar.addEventListener('mousedown', e => {
+    if (e.target.id === 'mac-close') return;
+    e.preventDefault();
+    const rect = macModal.getBoundingClientRect();
+    const termRect = termEl.getBoundingClientRect();
+    dragOffset = { x: e.clientX - (rect.left - termRect.left), y: e.clientY - (rect.top - termRect.top) };
+    macModal.style.left = (rect.left - termRect.left) + 'px';
+    macModal.style.top  = (rect.top  - termRect.top)  + 'px';
+    function onMove(e) {
+      const tr = termEl.getBoundingClientRect();
+      macModal.style.left = (e.clientX - tr.left - dragOffset.x) + 'px';
+      macModal.style.top  = (e.clientY - tr.top  - dragOffset.y) + 'px';
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', () => document.removeEventListener('mousemove', onMove), { once: true });
+  });
 </script>
 </body>
 </html>
