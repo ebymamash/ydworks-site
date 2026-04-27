@@ -245,7 +245,7 @@
   /* Mac OS 9 Modal */
   .mac-modal {
     position: absolute;
-    top: 22%;
+    top: 18%;
     left: 50%;
     transform: translateX(-50%);
     width: 64%;
@@ -972,7 +972,7 @@
       const modW  = macModal.offsetWidth;
       const modH  = macModal.offsetHeight;
       const bL = termW * 0.09, bR = termW * 0.09;
-      const bT = termH * 0.17, bB = termH * 0.10;
+      const bT = termH * 0.13, bB = termH * 0.10;
       const newLeft = parseFloat(macModal.style.left) + e.clientX - dragLast.x;
       const newTop  = parseFloat(macModal.style.top)  + e.clientY - dragLast.y;
       macModal.style.left = Math.max(bL, Math.min(newLeft, termW - modW - bR)) + 'px';
