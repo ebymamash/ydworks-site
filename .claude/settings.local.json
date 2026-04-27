@@ -10,7 +10,8 @@
       "Bash(\"c:/Users/SCO/Downloads/ffmpeg-8.0.1-essentials_build/bin/ffprobe.exe\" -v error -select_streams v:0 -show_entries stream=width,height -of csv=p=0 \"c:/Users/SCO/Desktop/ydworks website/ydworks-site/hero-16x9.jpg\")",
       "Bash(\"c:/Users/SCO/Downloads/ffmpeg-8.0.1-essentials_build/bin/ffprobe.exe\" -v error -select_streams v:0 -show_entries stream=width,height -of csv=p=0 \"c:/Users/SCO/Desktop/ydworks website/ydworks-site/hero-photo.jpg\")",
       "Bash(\"c:/Users/SCO/Downloads/ffmpeg-8.0.1-essentials_build/bin/ffmpeg.exe\" -i \"c:/Users/SCO/Desktop/ydworks website/ydworks-site/hero-photo.jpg\" -vf \"crop=2624:1476:0:246\" \"c:/Users/SCO/Desktop/ydworks website/ydworks-site/hero-photo-16x9.jpg\" -y)",
-      "Bash(\"c:/Users/SCO/Downloads/ffmpeg-8.0.1-essentials_build/bin/ffmpeg.exe\" -i \"c:/Users/SCO/Desktop/ydworks website/ydworks-site/hero-photo.jpg\" -vf \"crop=2624:1476:0:246\" -update 1 -frames:v 1 \"c:/Users/SCO/Desktop/ydworks website/ydworks-site/hero-photo-16x9.jpg\" -y)"
+      "Bash(\"c:/Users/SCO/Downloads/ffmpeg-8.0.1-essentials_build/bin/ffmpeg.exe\" -i \"c:/Users/SCO/Desktop/ydworks website/ydworks-site/hero-photo.jpg\" -vf \"crop=2624:1476:0:246\" -update 1 -frames:v 1 \"c:/Users/SCO/Desktop/ydworks website/ydworks-site/hero-photo-16x9.jpg\" -y)",
+      "Bash(\"c:/Users/SCO/Downloads/ffmpeg-8.0.1-essentials_build/bin/ffprobe.exe\" -v error -select_streams v:0 -show_entries stream=width,height -of csv=p=0 \"c:/Users/SCO/Desktop/ydworks website/ydworks-site/hero16x9newest.jpeg\")"
     ]
   }
 }
