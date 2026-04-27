@@ -39,7 +39,7 @@
     opacity: 1;
     filter: contrast(1) grayscale(0);
   }
-  @media (min-width: 1024px) and (min-aspect-ratio: 16/10) {
+  @media (min-width: 1024px) and (min-aspect-ratio: 21/9) {
     .hero { background: #000; }
     .hero-img { object-fit: contain; }
   }
@@ -242,7 +242,10 @@
 </nav>
 <a href="#terminal" class="start-btn" id="start-btn">&gt;Enter</a>
 <div class="hero">
-  <img src="hero.jpg" class="hero-img">
+  <picture>
+    <source media="(min-aspect-ratio: 16/9)" srcset="hero-16x9.jpg">
+    <img src="hero.jpg" class="hero-img">
+  </picture>
 </div>
 <div class="monitor-wrap">
   <section id="terminal">
