@@ -971,10 +971,12 @@
       const termH = termEl.offsetHeight;
       const modW  = macModal.offsetWidth;
       const modH  = macModal.offsetHeight;
+      const bL = termW * 0.09, bR = termW * 0.09;
+      const bT = termH * 0.14, bB = termH * 0.10;
       const newLeft = parseFloat(macModal.style.left) + e.clientX - dragLast.x;
       const newTop  = parseFloat(macModal.style.top)  + e.clientY - dragLast.y;
-      macModal.style.left = Math.max(0, Math.min(newLeft, termW - modW)) + 'px';
-      macModal.style.top  = Math.max(0, Math.min(newTop,  termH - modH)) + 'px';
+      macModal.style.left = Math.max(bL, Math.min(newLeft, termW - modW - bR)) + 'px';
+      macModal.style.top  = Math.max(bT, Math.min(newTop,  termH - modH - bB)) + 'px';
       dragLast = { x: e.clientX, y: e.clientY };
     }
     document.addEventListener('mousemove', onMove);
