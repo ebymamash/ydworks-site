@@ -252,9 +252,16 @@
     }
     #terminal.submenu {
       padding-top: 5%;
-      padding-bottom: 14%;
+      padding-bottom: 30%;
       justify-content: flex-end;
-      overflow: hidden auto;
+      font-size: 0.7rem;
+    }
+    #terminal.submenu .term-btn {
+      font-size: 0.82rem;
+    }
+    #terminal.submenu #term-wrap {
+      max-height: 68vh;
+      overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
   }
@@ -669,6 +676,22 @@
     cursor.style.display = 'none';
     showMenu('intro', null);
   }
+
+  let tapCount = 0, tapTimer = null;
+  document.addEventListener('touchend', function() {
+    tapCount++;
+    clearTimeout(tapTimer);
+    tapTimer = setTimeout(() => { tapCount = 0; }, 400);
+    if (tapCount >= 3) {
+      tapCount = 0;
+      if (started && !introDone) {
+        showFull();
+        document.querySelector('.monitor-wrap').scrollIntoView({ behavior: 'instant', block: 'end' });
+      } else if (started && introDone) {
+        skipped = true;
+      }
+    }
+  }, { passive: true });
 
   document.addEventListener('keydown', function(e) {
     const tag = e.target.tagName;
