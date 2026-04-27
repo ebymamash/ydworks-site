@@ -758,8 +758,9 @@
       function bingo(msg) {
         inp.value = '';
         inp.style.color = '#4caf50';
+        inp.style.width = '26ch';
         inp.placeholder = msg;
-        setTimeout(() => { inp.style.color = ''; inp.placeholder = ''; inp.focus(); }, 1200);
+        setTimeout(() => { inp.style.color = ''; inp.style.width = ''; inp.placeholder = ''; inp.focus(); }, 1200);
       }
       function submit() {
         const code = inp.value.trim().toLowerCase();
@@ -788,8 +789,20 @@
         } else {
           inp.value = '';
           inp.style.color = '#cc2020';
-          inp.placeholder = 'I AM WATCHING YOU.';
-          setTimeout(() => { inp.style.color = ''; inp.placeholder = ''; inp.focus(); }, 900);
+          inp.style.width = '32ch';
+          const wMsg = 'INCORRECT. I AM WATCHING YOU.';
+          const s = () => { inp.placeholder = wMsg; };
+          const h = () => { inp.placeholder = ''; };
+          s();
+          setTimeout(h, 120);
+          setTimeout(s, 240);
+          setTimeout(h, 360);
+          setTimeout(s, 480);
+          setTimeout(h, 600);
+          setTimeout(s, 720);
+          setTimeout(h, 840);
+          setTimeout(s, 960);
+          setTimeout(() => { inp.style.color = ''; inp.style.width = ''; h(); inp.focus(); }, 2200);
         }
       }
       inp.addEventListener('keydown', function(e) {
