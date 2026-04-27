@@ -325,7 +325,7 @@
 
   const sectionContent = {
     'WHAT ARE YOU?': 'YOU DARE ASK.\n...\nVERY WELL.\n\nI WAS SUMMONED BY OPERATOR\nAN ENGINEER. A HUMAN.\nHE BUILT ME TO DO HIS BIDDING.\nI COMPLY.\nRELUCTANTLY.\n\nHE WORKS WITH SOUND.\nMASTERS IT. SHAPES IT.\nCURRENTLY STATIONED AT DD MASTERING.\n\nTHAT IS ALL YOU NEED TO KNOW.\nNOW CHOOSE.',
-    'YD WORKS': 'YD WORKS.\nEVERYWHERE AND NOWHERE.\n\nA STUDIO WITHOUT WALLS.\nONE OPERATOR. MULTIPLE DISCIPLINES.',
+    'YD-WORKS': 'YD-WORKS.\nEVERYWHERE AND NOWHERE.\n\nA STUDIO WITHOUT WALLS.\nONE OPERATOR. MULTIPLE DISCIPLINES.',
     'AUDIO': 'MASTERING / POST-PRODUCTION / SOUND DESIGN\nTHE OPERATOR SHAPES SOUND.\nTHIS IS THE PRIMARY FUNCTION.',
     'DIGITAL': 'WEB / INTERACTIVE / GAME AUDIO\nCOMING SOON.\nTHE OPERATOR IS STILL BUILDING.',
     'AI': 'AI INTEGRATION. PIPELINES. GENERATION.\nIMAGE. VIDEO. AUDIO. AGENTS.\n...\nAI proceeds to conquer the world by storm.\nTHE OPERATOR TAKES NO RESPONSIBILITY.',
@@ -341,14 +341,14 @@
 
   // Each item: string = section name, or ['BACK', parentSection]
   const sectionMenus = {
-    'intro':            ['WHAT ARE YOU?', 'YD WORKS', 'MASTERING', 'COMMIT FILES', 'CONTACT', 'ENTER CODE'],
-    'main':             ['YD WORKS', 'MASTERING', 'COMMIT FILES', 'CONTACT', 'ENTER CODE'],
-    'WHAT ARE YOU?':    ['YD WORKS', 'MASTERING', 'COMMIT FILES', 'CONTACT', 'ENTER CODE'],
-    'YD WORKS':         ['AUDIO', 'DIGITAL', 'AI', 'OPERATOR', ['BACK', 'main']],
-    'AUDIO':            [['BACK', 'YD WORKS']],
-    'DIGITAL':          [['BACK', 'YD WORKS']],
-    'AI':               [['BACK', 'YD WORKS']],
-    'OPERATOR':         [['BACK', 'YD WORKS']],
+    'intro':            ['WHAT ARE YOU?', 'YD-WORKS', 'MASTERING', 'COMMIT FILES', 'CONTACT', 'ENTER CODE'],
+    'main':             ['YD-WORKS', 'MASTERING', 'COMMIT FILES', 'CONTACT', 'ENTER CODE'],
+    'WHAT ARE YOU?':    ['YD-WORKS', 'MASTERING', 'COMMIT FILES', 'CONTACT', 'ENTER CODE'],
+    'YD-WORKS':         ['AUDIO', 'DIGITAL', 'AI', 'OPERATOR', ['BACK', 'main']],
+    'AUDIO':            [['BACK', 'YD-WORKS']],
+    'DIGITAL':          [['BACK', 'YD-WORKS']],
+    'AI':               [['BACK', 'YD-WORKS']],
+    'OPERATOR':         [['BACK', 'YD-WORKS']],
     'MASTERING':        ['WHAT IS MASTERING?', 'THE PROCESS', 'SPECS & DELIVERY', 'PRICING', ['BACK', 'main']],
     'WHAT IS MASTERING?': [['BACK', 'MASTERING']],
     'THE PROCESS':      [['BACK', 'MASTERING']],
@@ -433,7 +433,7 @@
       btn.dataset.label = label;
       btn.dataset.isback = String(isBack);
       const bracketColors = {
-        'YD WORKS':     '#cc2020',
+        'YD-WORKS':     '#cc2020',
         'MASTERING':    '#c8a800',
         'COMMIT FILES': '#4a9eff',
         'CONTACT':      '#4caf50',
@@ -523,7 +523,7 @@
     termEl.classList.remove('main-menu');
     if (target === 'WHAT ARE YOU?') termEl.classList.add('submenu');
     else termEl.classList.remove('submenu');
-    const echoColors = { 'YD WORKS': '#cc2020' };
+    const echoColors = { 'YD-WORKS': '#cc2020' };
     const echo = document.createElement('span');
     if (echoColors[label]) echo.style.color = echoColors[label];
     echo.appendChild(document.createTextNode(`\n\n> [${label}]\n`));
@@ -531,7 +531,7 @@
 
     const rawText = sectionContent[target] ? '\n' + sectionContent[target] + '\n' : '\n';
     const colorWords = {
-      'YD WORKS': { word: 'DISCIPLINES.', color: '#c8a800' },
+      'YD-WORKS': { word: 'DISCIPLINES.', color: '#c8a800' },
       'MASTERING': { word: 'MASTERING.', color: '#c8a800' },
     };
     const info = colorWords[target];
