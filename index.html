@@ -787,9 +787,9 @@
           macModal.style.transform = '';
           macModal.hidden = false;
         } else {
-          appendText('\n\nINCORRECT.\nI AM WATCHING YOU.\n\n> ', section);
           inp.value = '';
-          inp.focus();
+          inp.style.color = '#cc2020';
+          setTimeout(() => { inp.style.color = ''; inp.focus(); }, 600);
         }
       }
       inp.addEventListener('keydown', function(e) {
