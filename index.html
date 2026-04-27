@@ -972,7 +972,7 @@
       const modW  = macModal.offsetWidth;
       const modH  = macModal.offsetHeight;
       const bL = termW * 0.09, bR = termW * 0.09;
-      const bT = termH * 0.145, bB = termH * 0.10;
+      const bT = termH * 0.1475, bB = termH * 0.10;
       const newLeft = parseFloat(macModal.style.left) + e.clientX - dragLast.x;
       const newTop  = parseFloat(macModal.style.top)  + e.clientY - dragLast.y;
       macModal.style.left = Math.max(bL, Math.min(newLeft, termW - modW - bR)) + 'px';
