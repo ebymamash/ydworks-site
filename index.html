@@ -44,6 +44,10 @@
     .hero-img { object-position: center 25%; }
   }
   .hero-video { display: none; }
+  .hero-papuna { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); max-width: 100%; max-height: 100%; object-fit: contain; }
+  .hero.papuna-mode .hero-video,
+  .hero.papuna-mode .hero-static { display: none !important; }
+  .hero.papuna-mode .hero-papuna { display: block; }
   @media (min-aspect-ratio: 16/9) {
     .hero-video { display: block; }
     .hero-static { display: none; }
@@ -405,6 +409,7 @@
 <div class="hero">
   <img src="hero16x9newest.jpeg" class="hero-img hero-video">
   <img src="hero-photo.jpg" class="hero-img hero-static">
+  <img src="papuna.jpg" class="hero-papuna">
 </div>
 <div class="monitor-wrap">
   <section id="terminal">
@@ -777,6 +782,9 @@
         } else if (code === 'eva14') {
           document.querySelector('.hero-video').src = 'eva14-16x9.jpg';
           document.querySelector('.hero-static').src = 'eva14.png';
+          bingo("Bingo. That's a bingo!");
+        } else if (code === 'papuna') {
+          document.querySelector('.hero').classList.add('papuna-mode');
           bingo("Bingo. That's a bingo!");
         } else if (code === 'cv01') {
           macWinTitle.textContent = 'Yegor Demchenko — CV';

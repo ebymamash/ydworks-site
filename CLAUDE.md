@@ -26,9 +26,23 @@ accent-grey:   #7a7875
 
 - Шрифт везде: `'Lucida Console', 'Courier New', monospace` — Windows XP / 2005 era эстетика
 - VT323 (Google Fonts) подключён но не используется в терминале
-- Hero: hero.jpg — TC6000 + рэк, аниме стиль (Grok img2img), `object-fit: cover`, никакого grayscale
-- Лого: logo.svg — три красных (#cc2020) синусоиды в квадрате, прозрачный фон, 80x80px
+- Лого: `logo new.png` (badge PNG, referenced as `logo%20new.png`) — 140px wide, nav padding 3rem 1.5rem
 - CRT рамка: crt-frame.png — Sony Trinitron Multiscan E450, `mix-blend-mode: screen` (чёрные пиксели прозрачны)
+
+---
+
+## Изображения
+
+| Файл | Использование |
+|---|---|
+| `logo%20new.png` | Badge лого в nav, 140px |
+| `hero16x9newest.jpeg` | Hero 16:9 (AI студия, 5508×3046) |
+| `hero-photo.jpg` | Hero 4:3 (реальное фото студии, 2624×1968) |
+| `hero-anime.jpg` | Hero 16:9 для кода `fms` (аниме студия, 5483×3060) |
+| `hero-anime-4x3.jpg` | Hero 4:3 для кода `fms` (ffmpeg crop 4080:3060:950:0) |
+| `eva14-16x9.jpg` | Hero 16:9 для кода `eva14` (фокус на TC6000 экран) |
+| `eva14.png` | Hero 4:3 для кода `eva14` (2304×1728) |
+| `crt-frame.png` | CRT оверлей, mix-blend-mode: screen |
 
 ---
 
@@ -36,11 +50,12 @@ accent-grey:   #7a7875
 
 ```html
 <nav>                          <!-- position:absolute, top-left hero -->
-  <a href="#"><img src="logo.svg"></a>
+  <a href="#"><img src="logo%20new.png"></a>
 </nav>
-<a class="start-btn" id="start-btn">>Enter</a>   <!-- position:fixed, под лого -->
+<a class="start-btn" id="start-btn"> >Enter</a>   <!-- position:fixed, под лого -->
 <div class="hero">
-  <img src="hero.jpg" class="hero-img">
+  <img src="hero16x9newest.jpeg" class="hero-img hero-video">
+  <img src="hero-photo.jpg" class="hero-img hero-static">
 </div>
 <div class="monitor-wrap">                        <!-- CRT секция -->
   <section id="terminal">
@@ -50,6 +65,7 @@ accent-grey:   #7a7875
     <div id="term-footer">...</div>              <!-- юридика, position:absolute bottom -->
   </section>
   <img class="crt-frame" src="crt-frame.png">    <!-- поверх терминала, mix-blend-mode:screen -->
+  <!-- Mac OS 9 modal живёт здесь, внутри monitor-wrap, снаружи terminal -->
 </div>
 ```
 
@@ -58,15 +74,23 @@ accent-grey:   #7a7875
 ## Ключевые CSS правила
 
 ```css
-/* Кнопка Enter — фиксированная, под логом */
-.start-btn {
-  position: fixed;
-  top: calc(1rem + 80px + 1.5rem);
-  left: 1.5rem;
-  width: 80px;
-  font-size: 1.8rem;
-  z-index: 10;
+/* Nav / Лого */
+nav { padding: 3rem 1.5rem; }
+nav img { display: block; width: 140px; height: auto; }
+.start-btn { position: fixed; top: calc(3rem + 60px + 1.8rem); left: 2rem; font-size: 1.8rem; z-index: 10; }
+
+/* Hero — два изображения, переключаются по aspect-ratio */
+.hero { width: 100%; height: 100vh; position: relative; overflow: hidden; }
+.hero-video { display: none; }
+@media (min-aspect-ratio: 16/9) {
+  .hero-video { display: block; }
+  .hero-static { display: none; }
 }
+/* Ken Burns + vignette */
+.hero-static, .hero-video { animation: kenburns 30s ease-in-out infinite; }
+.hero::after { content:''; position:absolute; inset:0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%);
+  animation: vignette-pulse 8s ease-in-out infinite; pointer-events:none; z-index:1; }
 
 /* Монитор */
 .monitor-wrap { position: relative; width: 100%; background: #000; z-index: 2; margin-top: -2px; }
@@ -82,42 +106,33 @@ accent-grey:   #7a7875
   font-size: clamp(0.8rem, 1.4vw, 1.6rem);
   line-height: 1.4;
   overflow: clip;                  /* ВАЖНО: не hidden! hidden создаёт scroll-контейнер */
-  overflow-anchor: none;           /* ВАЖНО: отключает scroll anchoring браузера */
+  overflow-anchor: none;
   z-index: 1;
+  animation: term-glitch 16s step-end infinite;
 }
-/* Три состояния padding-top через классы: */
-#terminal.main-menu { padding-top: 30%; }   /* главное меню после возврата */
+/* Три состояния padding-top: */
+#terminal.main-menu { padding-top: 75%; }   /* главное меню */
 #terminal.submenu   { padding-top: 13%; }   /* [WHAT ARE YOU?] */
-/* дефолт 21% = интро анимация и [ENTER CODE] тоже через .main-menu */
+/* дефолт 21% = интро */
 
-#term-wrap { width: auto; overflow-anchor: none; text-align: left; }
-#term-output { white-space: pre-wrap; font-family: inherit; }
-
-/* Курсор */
-#term-cursor { display: inline-block; width: 0.6em; height: 1.1em; background: var(--text);
-  vertical-align: text-bottom; animation: blink 0.8s step-end infinite; }
-
-/* Стрелка навигации */
-.menu-prefix.active { animation: arrow-glitch 1.1s step-end infinite; }
-@keyframes arrow-glitch {
-  0%,72%,76%,82%,100% { opacity: 1; }
-  74%,78% { opacity: 0; }
+/* Мобайл ≤430px */
+@media (max-width: 430px) {
+  #terminal { padding-top: 45%; padding-bottom: 12%; font-size: 0.82rem; }
+  #terminal.main-menu { padding-top: 75%; }
+  #terminal.submenu { padding-top: 5%; padding-bottom: 36%; justify-content: flex-end; font-size: 0.7rem; overflow: hidden; }
+  #terminal.submenu .term-btn { font-size: 0.82rem; }
+  #terminal.submenu #term-wrap { max-height: 68vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+}
+/* Высокие телефоны (≤430px + ≥800px высота) */
+@media (max-width: 430px) and (min-height: 800px) {
+  #terminal { padding-top: 60%; }
+  #terminal.submenu { padding-bottom: 52%; }
 }
 
-/* Футер внутри терминала */
-#term-footer {
-  position: absolute; bottom: 3%; left: 10%; right: 10%;
-  font-size: clamp(0.45rem, 0.7vw, 0.7rem);
-  color: var(--muted); text-align: center; line-height: 1.6;
-}
-
-/* Мобайл */
-@media (max-width: 768px) {
-  .monitor-wrap { min-height: 100vh; overflow: hidden; }
-  .crt-frame { position: absolute; top: 0; left: calc(50% - 66.67vh); width: 133.33vh; }
-  #terminal { padding: 5%; }
-  #term-wrap { width: 90%; }
-}
+/* Инпут ENTER CODE */
+.term-input { background:none; border:none; outline:none; font:inherit; color:inherit; width:15ch; caret-color:var(--text); }
+.term-input.bingo::placeholder { color: #4caf50; }
+.term-input.error::placeholder { color: #cc2020; }
 ```
 
 ---
@@ -126,44 +141,15 @@ accent-grey:   #7a7875
 
 ### Глобальные переменные
 ```javascript
-let started = false;      // запущена ли сессия
-let skipped = false;      // instant-режим (space после интро)
-let introDone = false;    // закончилось ли интро
-let typingGen = 0;        // генерация для отмены текущей анимации
-const visitedSections = new Set();  // для fast-режима повторных посещений
-let navItems = [];        // [{btn, prefixEl}] текущего меню
+let started = false;
+let skipped = false;
+let introDone = false;
+let typingGen = 0;
+const visitedSections = new Set();
+let navItems = [];
 let navIndex = 0;
-let inEnterCode = false;  // для Escape → [NO]
+let inEnterCode = false;
 ```
-
-### Запуск
-```javascript
-if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-window.scrollTo(0, 0);  // всегда hero при рефреше
-
-function beginSession(scroll) {
-  if (started) return;
-  started = true;
-  startBtn.style.display = 'none';
-  if (scroll) monitorWrap.scrollIntoView({ behavior: 'smooth', block: 'end' });
-  setTimeout(startTyping, 400);
-}
-
-// Скролл-триггер: когда кнопка >Enter доезжает до рамки монитора
-function checkScrollTrigger() {
-  const btnBottom = startBtn.getBoundingClientRect().bottom;
-  const monitorTop = monitorWrap.getBoundingClientRect().top;
-  if (monitorTop <= btnBottom) beginSession(false);
-}
-window.addEventListener('scroll', checkScrollTrigger, { passive: true });
-startBtn.addEventListener('click', e => { e.preventDefault(); beginSession(true); });
-```
-
-### Анимация печати
-- `startTyping()` — печатает introLines, charDelay:31ms, pauseDelay:246ms
-- `typeText(text, container, callback, fast)` — печатает строку в DOM-узел
-- Оба используют **catch-up механизм** через `Date.now()` (не requestAnimationFrame — работает в фоне)
-- `typingGen` — инкремент отменяет текущую анимацию без kill таймера
 
 ### Клавиши
 ```
@@ -175,19 +161,23 @@ Space (после интро)    → skipped = true (всё последующе
 Escape (в ENTER CODE)  → showMainMenu()
 ```
 
-### Меню — навигация
-- `showMenu(sectionName, container, forceAnimate, fast)` — рендерит пункты
-- `makeBtn(item)` — создаёт кнопку с цветными скобками и `span.menu-prefix`
-- `setupNav(collected)` — вызывается после рендера меню, устанавливает navItems
-- `setNavIndex(i)` — меняет текст prefix (`\n  > ` vs `\n    `) + класс `.active`
-- `navigateTo(target, label, section, fast)` — echo + typeText + showMenu
-- `handleClick()` — обрабатывает клик: `navItems = []`, затем логика навигации
-- `showMainMenu()` — сброс в главное меню: `inEnterCode=false`, `.main-menu` класс, clearOutput
-
 ### Padding классы (JS-управление)
 - `navigateTo`: `.remove('main-menu')`, если target==='WHAT ARE YOU?' → `.add('submenu')` иначе `.remove('submenu')`
 - `handleEnterCode`: `.add('main-menu')`
 - `showMainMenu`: `.remove('submenu')`, `.add('main-menu')`
+
+### ENTER CODE — feedback анимация
+4 флеша (120мс вкл/выкл), последний держится ~800мс (до 1520мс от старта).
+- Бинго: `inp.classList.add('bingo')` на 4-м флеше → placeholder зелёный
+- Ошибка: `inp.classList.add('error')` на 4-м флеше → placeholder красный
+- После сброса: `inp.style.width = ''`, `h()`, `inp.focus()`
+- Инпут/кнопки никогда не убираются — можно вводить коды последовательно
+
+### Mac OS 9 modal — drag
+- `dragLast = {x, y}` delta-метод
+- На mousedown: `macModal.style.transform = 'none'`, вычислить `left/top` в px относительно `termEl`
+- На open: `macModal.style.left = ''`, `top = ''`, `transform = ''`
+- Bounds: bL=bR=9%, bT=14.75%, bB=10% от размеров termEl
 
 ---
 
@@ -209,53 +199,67 @@ WHAT want you?
 ```
 
 ### Меню (sectionMenus)
-- `intro`: [WHAT ARE YOU?, YD WORKS, MASTERING, COMMIT FILES, CONTACT, ENTER CODE]
-- `main`: [YD WORKS, MASTERING, COMMIT FILES, CONTACT, ENTER CODE]
-- `WHAT ARE YOU?`: то же что main (без WHAT ARE YOU?)
-- `YD WORKS`: [AUDIO, DIGITAL, AI, OPERATOR, BACK→main]
+- `intro`: [WHAT ARE YOU?, YD-WORKS, MASTERING, COMMIT FILES, CONTACT, ENTER CODE]
+- `main`: [YD-WORKS, MASTERING, COMMIT FILES, CONTACT, ENTER CODE]
+- `WHAT ARE YOU?`: то же что main
+- `YD-WORKS`: [AUDIO, DIGITAL, AI, OPERATOR, BACK→main]
 - `MASTERING`: [WHAT IS MASTERING?, THE PROCESS, SPECS & DELIVERY, PRICING, BACK→main]
 - `COMMIT FILES`, `CONTACT`: [BACK→main]
-- Подпункты YD WORKS и MASTERING: [BACK→родитель]
+- Подпункты YD-WORKS и MASTERING: [BACK→родитель]
 
 ### Цвета скобок кнопок
 ```
-YD WORKS:     #cc2020 (красный)
+YD-WORKS:     #cc2020 (красный)
 MASTERING:    #c8a800 (жёлтый)
 COMMIT FILES: #4a9eff (синий)
 CONTACT:      #4caf50 (зелёный)
 ENTER CODE:   #7a7875 (серый)
 ```
-
-### Цвета подпунктов YD WORKS / MASTERING
-AUDIO, DIGITAL, AI, OPERATOR, WHAT IS MASTERING?, THE PROCESS, SPECS & DELIVERY, PRICING — весь текст кнопки #c8a800
+Подпункты YD-WORKS / MASTERING — весь текст кнопки #c8a800.
 
 ### ENTER CODE
 ```
 ARE YOU UP TO SOMETHING?
 > [input]
-[NO]  [ENTER]
-space click = animation skip
+[Esc]  [Enter]
+space click = animation skip / tap 3× on mobile
 ```
-Неверный код: `INCORRECT. I AM WATCHING YOU.`
-Верный код: скрытая страница — TBD, нужно минимум 2 кода
+Коды:
+- `fms` → меняет hero на аниме студию (hero-anime.jpg / hero-anime-4x3.jpg)
+- `eva14` → меняет hero на eva14 (eva14-16x9.jpg / eva14.png)
+- `cv01` → открывает Mac OS 9 modal с CV (тёмный вариант `.cv`)
+
+---
+
+## Mac OS 9 modal
+
+Живёт внутри `#terminal` (z-index 8). CRT frame (`mix-blend-mode: screen`) естественно оверлеит его.
+
+```css
+.mac-modal { position:absolute; top:18%; left:50%; transform:translateX(-50%);
+  width:64%; z-index:8; border:2px solid; border-color:#e0ddd8 #444 #444 #e0ddd8; }
+.mac-titlebar { background: repeating-linear-gradient(180deg, #ccc8c0 0px,#ccc8c0 1px,#a0a09a 1px,#a0a09a 2px); cursor:grab; }
+.mac-body { background:#fff; color:#111; padding:16px 22px 22px; max-height:74vh; }
+/* CV dark variant */
+.mac-modal.cv .mac-titlebar { background: repeating-linear-gradient(180deg,#888880 0px,#888880 1px,#606058 1px,#606058 2px); }
+.mac-modal.cv .mac-body { background:#2a2a28; color:#d8d8d0; }
+```
+
+Футер ссылки открывают модал: `data-modal="impressum"` / `"datenschutz"` / `"haftung"`.
 
 ---
 
 ## Футер (внутри терминала)
 ```html
-© 2025 Yegor Demchenko | Impressum | Datenschutzerklärung | Cookie-Richtlinie | Haftungsausschluss
+© 2025 Yegor Demchenko | Impressum | Datenschutzerklärung | Haftungsausschluss
 ```
-Ссылки: /impressum /datenschutz /cookies /haftung — страницы ещё не созданы
 
 ---
 
 ## Бэклог
-- [ ] Лого: стиль шрифта SONY через img2img (YD вместо SONY)
-- [ ] Анимация hero image
-- [ ] Страницы /impressum /datenschutz /cookies /haftung (наполнение)
-- [ ] Минимум 2 рабочих кода в [ENTER CODE] → скрытая страница
-- [ ] cv.html — секретная страница (CV + аниме девочка на TC6000), нигде не слинкована
-- [ ] Easter egg: кодовое слово → cv.html
+- [ ] Текст секций — файн-тюн (WHAT ARE YOU?, OPERATOR — убрать DD Mastering)
+- [ ] CV контент (сейчас TBD placeholder)
+- [ ] Страницы /impressum /datenschutz /haftung (сейчас через модал, наполнение)
 - [ ] Боковые маски на широких экранах — бегущий текст по бокам
 - [ ] Кастомный курсор — мигающий прямоугольник DOS стиль
 
@@ -263,5 +267,4 @@ space click = animation skip
 
 ## Владелец
 Yegor Demchenko, аудио инженер, Bielefeld DE
-DD Mastering, Fritz Fey, Oberhausen
 chudooyudoo@gmail.com
