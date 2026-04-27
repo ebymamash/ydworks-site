@@ -692,7 +692,7 @@
       tapCount = 0;
       if (started && !introDone) {
         showFull();
-        document.querySelector('.monitor-wrap').scrollIntoView({ behavior: 'instant', block: 'end' });
+        setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 50);
       } else if (started && introDone) {
         skipped = true;
       }
@@ -718,7 +718,7 @@
       e.preventDefault();
       if (started && !introDone) {
         showFull();
-        document.querySelector('.monitor-wrap').scrollIntoView({ behavior: 'instant', block: 'end' });
+        setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 50);
       } else if (started && introDone) {
         skipped = true;
       }
