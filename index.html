@@ -757,17 +757,18 @@
 
       function submit() {
         const code = inp.value.trim().toLowerCase();
-        inp.disabled = true;
+        inp.remove();
+        section.querySelectorAll('.term-btn, em').forEach(el => el.remove());
         if (code === 'fms') {
-          appendText('\n\nACCESS GRANTED.\n', section);
+          appendText('\n\nBingo.\n...That\'s a bingo!\n', section);
           document.querySelector('.hero-video').src = 'hero-anime.jpg';
           document.querySelector('.hero-static').src = 'hero-anime-4x3.jpg';
         } else if (code === 'eva14') {
-          appendText('\n\nACCESS GRANTED.\n', section);
+          appendText('\n\nBingo.\n...That\'s a bingo!\n', section);
           document.querySelector('.hero-video').src = 'eva14-16x9.jpg';
           document.querySelector('.hero-static').src = 'eva14.png';
         } else if (code === 'cv01') {
-          appendText('\n\nACCESS GRANTED.\n', section);
+          appendText('\n\nBingo.\n...That\'s a bingo!\n', section);
           macWinTitle.textContent = 'Yegor Demchenko — CV';
           macBody.innerHTML = `<h3>Audio Engineer / Mastering Engineer</h3>
 <p>YDWorks, Bielefeld DE<br>chudooyudoo@gmail.com</p>
@@ -781,7 +782,7 @@
           macModal.style.transform = '';
           macModal.hidden = false;
         } else {
-          appendText('\n\nINCORRECT. I AM WATCHING YOU.\n', section);
+          appendText('\n\nINCORRECT.\nI AM WATCHING YOU.\n', section);
         }
       }
       inp.addEventListener('keydown', function(e) {
