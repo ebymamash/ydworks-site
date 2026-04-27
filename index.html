@@ -755,39 +755,23 @@
       section.appendChild(inp);
       setTimeout(() => inp.focus(), 50);
 
-      function clearCodeUI() {
-        inp.remove();
-        section.querySelectorAll('.term-btn, em').forEach(el => el.remove());
-        Array.from(section.childNodes).forEach(n => {
-          if (n.nodeType === 3 && !n.textContent.trim()) n.remove();
-        });
-      }
-      function addAgainBtn() {
-        const again = document.createElement('a');
-        again.className = 'term-btn';
-        again.textContent = '[AGAIN]';
-        again.addEventListener('click', e => { e.preventDefault(); showMainMenu(); });
-        section.appendChild(document.createTextNode('\n\n'));
-        section.appendChild(again);
-        setupNav([{ btn: again, prefixEl: document.createElement('span') }]);
+      function bingo(msg) {
+        inp.value = '';
+        inp.style.color = '#4caf50';
+        inp.placeholder = msg;
+        setTimeout(() => { inp.style.color = ''; inp.placeholder = ''; inp.focus(); }, 1200);
       }
       function submit() {
         const code = inp.value.trim().toLowerCase();
         if (code === 'fms') {
-          clearCodeUI();
-          appendText('\n\nBingo.\n...That\'s a bingo!', section);
           document.querySelector('.hero-video').src = 'hero-anime.jpg';
           document.querySelector('.hero-static').src = 'hero-anime-4x3.jpg';
-          addAgainBtn();
+          bingo("Bingo. That's a bingo!");
         } else if (code === 'eva14') {
-          clearCodeUI();
-          appendText('\n\nBingo.\n...That\'s a bingo!', section);
           document.querySelector('.hero-video').src = 'eva14-16x9.jpg';
           document.querySelector('.hero-static').src = 'eva14.png';
-          addAgainBtn();
+          bingo("Bingo. That's a bingo!");
         } else if (code === 'cv01') {
-          clearCodeUI();
-          appendText('\n\nBingo.\n...That\'s a bingo!', section);
           macWinTitle.textContent = 'Yegor Demchenko — CV';
           macBody.innerHTML = `<h3>Audio Engineer / Mastering Engineer</h3>
 <p>YDWorks, Bielefeld DE<br>chudooyudoo@gmail.com</p>
@@ -800,7 +784,7 @@
           macModal.style.top = '';
           macModal.style.transform = '';
           macModal.hidden = false;
-          addAgainBtn();
+          bingo("Bingo. That's a bingo!");
         } else {
           inp.value = '';
           inp.style.color = '#cc2020';
