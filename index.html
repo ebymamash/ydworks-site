@@ -72,15 +72,15 @@
     0%, 100% { opacity: 0.75; }
     50%       { opacity: 1; }
   }
-  @keyframes hero-glitch {
-    0%, 91%, 100% { filter: brightness(1); }
-    92% { filter: brightness(1.12) hue-rotate(5deg) saturate(1.15); }
-    93% { filter: brightness(0.92); }
-    94% { filter: brightness(1.04) hue-rotate(-3deg); }
-    95% { filter: brightness(1); }
+  @keyframes term-glitch {
+    0%, 91%, 100% { opacity: 1; }
+    92%  { opacity: 0.85; }
+    93%  { opacity: 1; }
+    94%  { opacity: 0.9; }
+    95%  { opacity: 1; }
   }
-  .hero-static {
-    animation: kenburns 30s ease-in-out infinite, hero-glitch 14s step-end infinite;
+  .hero-static, .hero-video {
+    animation: kenburns 30s ease-in-out infinite;
   }
   nav img {
     display: block;
@@ -148,6 +148,7 @@
     z-index: 1;
     overflow: clip;
     overflow-anchor: none;
+    animation: term-glitch 16s step-end infinite;
   }
   #terminal.submenu {
     padding-top: 13%;
@@ -312,9 +313,7 @@
 </nav>
 <a href="#terminal" class="start-btn" id="start-btn"> &gt;Enter</a>
 <div class="hero">
-  <video class="hero-img hero-video" autoplay muted loop playsinline>
-    <source src="hero16x9vid_hq.mp4" type="video/mp4">
-  </video>
+  <img src="hero-16x9.jpg" class="hero-img hero-video">
   <img src="hero-photo.jpg" class="hero-img hero-static">
 </div>
 <div class="monitor-wrap">
