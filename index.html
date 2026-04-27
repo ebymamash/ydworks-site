@@ -252,13 +252,10 @@
     #terminal {
       padding-top: 45%;
       padding-bottom: 12%;
-      font-size: 0.72rem;
-    }
-    #terminal.section {
-      padding-top: 80%;
+      font-size: 0.82rem;
     }
     #terminal.main-menu {
-      padding-top: 20%;
+      padding-top: 45%;
     }
     #terminal.submenu {
       padding-top: 5%;
@@ -513,13 +510,8 @@
 
   function navigateTo(target, label, section, fast) {
     termEl.classList.remove('main-menu');
-    if (target === 'WHAT ARE YOU?') {
-      termEl.classList.add('submenu');
-      termEl.classList.remove('section');
-    } else {
-      termEl.classList.remove('submenu');
-      termEl.classList.add('section');
-    }
+    if (target === 'WHAT ARE YOU?') termEl.classList.add('submenu');
+    else termEl.classList.remove('submenu');
     const echoColors = { 'YD WORKS': '#cc2020' };
     const echo = document.createElement('span');
     if (echoColors[label]) echo.style.color = echoColors[label];
@@ -669,7 +661,7 @@
 
   function showMainMenu() {
     inEnterCode = false;
-    termEl.classList.remove('submenu', 'section');
+    termEl.classList.remove('submenu');
     termEl.classList.add('main-menu');
     clearOutput();
     const hLines = ['IDENTITY CONFIRMED: a GUEST', '\nNOW CHOOSE.\n'];
