@@ -814,14 +814,14 @@
         section.appendChild(document.createTextNode('\n\n'));
         const noBtn = document.createElement('a');
         noBtn.className = 'term-btn';
-        noBtn.textContent = '[NO]';
+        noBtn.textContent = '[Esc]';
         noBtn.addEventListener('click', function(e) { e.preventDefault(); showMainMenu(); });
         section.appendChild(noBtn);
         setTimeout(() => {
           section.appendChild(document.createTextNode('  '));
           const enterBtn = document.createElement('a');
           enterBtn.className = 'term-btn';
-          enterBtn.textContent = '[ENTER]';
+          enterBtn.textContent = '[Enter]';
           enterBtn.addEventListener('click', function(e) { e.preventDefault(); submit(); });
           section.appendChild(enterBtn);
           const hint = document.createElement('em');
