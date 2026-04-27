@@ -245,10 +245,10 @@
   /* Mac OS 9 Modal */
   .mac-modal {
     position: absolute;
-    top: 14%;
-    left: 12%;
-    width: 76%;
-    max-width: 460px;
+    top: 12%;
+    left: 6%;
+    width: 88%;
+    max-width: 640px;
     z-index: 8;
     border: 2px solid;
     border-color: #e0ddd8 #444 #444 #e0ddd8;
@@ -298,14 +298,14 @@
   .mac-body {
     background: #fff;
     color: #111;
-    padding: 10px 14px 14px;
-    max-height: 50vh;
+    padding: 14px 18px 18px;
+    max-height: 62vh;
     overflow-y: auto;
-    font-size: 0.6rem;
+    font-size: 0.78rem;
     line-height: 1.65;
   }
   .mac-body h3 {
-    font-size: 0.62rem;
+    font-size: 0.8rem;
     font-weight: bold;
     margin: 10px 0 3px;
     border-bottom: 1px solid #c0c0c0;
@@ -955,22 +955,24 @@
     if (e.key === 'Escape' && !macModal.hidden) macModal.hidden = true;
   });
 
-  let dragOffset = null;
+  let dragLast = null;
   macTitlebar.addEventListener('mousedown', e => {
     if (e.target.id === 'mac-close') return;
     e.preventDefault();
-    const rect = macModal.getBoundingClientRect();
-    const termRect = termEl.getBoundingClientRect();
-    dragOffset = { x: e.clientX - (rect.left - termRect.left), y: e.clientY - (rect.top - termRect.top) };
-    macModal.style.left = (rect.left - termRect.left) + 'px';
-    macModal.style.top  = (rect.top  - termRect.top)  + 'px';
+    if (!macModal.style.left) {
+      const r = macModal.getBoundingClientRect();
+      const t = termEl.getBoundingClientRect();
+      macModal.style.left = (r.left - t.left) + 'px';
+      macModal.style.top  = (r.top  - t.top)  + 'px';
+    }
+    dragLast = { x: e.clientX, y: e.clientY };
     function onMove(e) {
-      const tr = termEl.getBoundingClientRect();
-      macModal.style.left = (e.clientX - tr.left - dragOffset.x) + 'px';
-      macModal.style.top  = (e.clientY - tr.top  - dragOffset.y) + 'px';
+      macModal.style.left = (parseFloat(macModal.style.left) + e.clientX - dragLast.x) + 'px';
+      macModal.style.top  = (parseFloat(macModal.style.top)  + e.clientY - dragLast.y) + 'px';
+      dragLast = { x: e.clientX, y: e.clientY };
     }
     document.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseup', () => document.removeEventListener('mousemove', onMove), { once: true });
+    document.addEventListener('mouseup', () => { dragLast = null; document.removeEventListener('mousemove', onMove); }, { once: true });
   });
 </script>
 </body>
