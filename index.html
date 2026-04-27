@@ -316,6 +316,17 @@
   .mac-body h3:first-child { margin-top: 0; }
   .mac-body p { margin: 0 0 5px; }
   .mac-body a { color: #000099; }
+  .mac-modal.cv .mac-titlebar {
+    background: repeating-linear-gradient(
+      180deg,
+      #888880 0px, #888880 1px,
+      #606058 1px, #606058 2px
+    );
+  }
+  .mac-modal.cv .mac-win-title { color: #e8e8e0; }
+  .mac-modal.cv .mac-close-box { background: #707068; border-color: #a0a098 #383830 #383830 #a0a098; }
+  .mac-modal.cv .mac-body { background: #2a2a28; color: #d8d8d0; }
+  .mac-modal.cv .mac-body h3 { border-color: #505048; color: #c8c8c0; }
   @media (max-width: 768px) {
     .mac-modal { left: 4%; width: 92%; top: 6%; }
     .mac-body { max-height: 58vh; }
@@ -745,8 +756,28 @@
       setTimeout(() => inp.focus(), 50);
 
       function submit() {
+        const code = inp.value.trim().toLowerCase();
         inp.disabled = true;
-        appendText('\n\nINCORRECT. I AM WATCHING YOU.\n', section);
+        if (code === 'eva14') {
+          appendText('\n\nACCESS GRANTED.\n', section);
+          document.querySelectorAll('.hero-static, .hero-video').forEach(img => { img.src = 'hero-anime.jpg'; });
+        } else if (code === 'cv01') {
+          appendText('\n\nACCESS GRANTED.\n', section);
+          macWinTitle.textContent = 'Yegor Demchenko — CV';
+          macBody.innerHTML = `<h3>Audio Engineer / Mastering Engineer</h3>
+<p>YDWorks, Bielefeld DE<br>chudooyudoo@gmail.com</p>
+<h3>Experience</h3>
+<p>— TBD —</p>
+<h3>Skills</h3>
+<p>— TBD —</p>`;
+          macModal.classList.add('cv');
+          macModal.style.left = '';
+          macModal.style.top = '';
+          macModal.style.transform = '';
+          macModal.hidden = false;
+        } else {
+          appendText('\n\nINCORRECT. I AM WATCHING YOU.\n', section);
+        }
       }
       inp.addEventListener('keydown', function(e) {
         if (e.key !== 'Enter') return;
@@ -936,6 +967,7 @@
 
   document.getElementById('mac-close').addEventListener('click', () => {
     macModal.hidden = true;
+    macModal.classList.remove('cv');
   });
 
   document.querySelectorAll('[data-modal]').forEach(link => {
