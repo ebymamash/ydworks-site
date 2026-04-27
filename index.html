@@ -802,8 +802,8 @@
           s(); setTimeout(h, 120);
           setTimeout(() => s(), 240); setTimeout(h, 360);
           setTimeout(() => s(), 480); setTimeout(h, 600);
-          setTimeout(() => s(true), 720); setTimeout(h, 840);
-          setTimeout(() => { inp.style.width = ''; inp.focus(); }, 840);
+          setTimeout(() => s(true), 720);
+          setTimeout(() => { inp.style.color = ''; inp.style.width = ''; h(); inp.focus(); }, 1520);
         }
       }
       inp.addEventListener('keydown', function(e) {
