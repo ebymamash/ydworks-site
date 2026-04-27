@@ -255,7 +255,7 @@
       font-size: 0.82rem;
     }
     #terminal.main-menu {
-      padding-top: 78%;
+      padding-top: 75%;
     }
     #terminal.submenu {
       padding-top: 5%;
@@ -387,6 +387,8 @@
       lastTarget = null;
     }
     if (collected.length > 0) setNavIndex(navIndex);
+    const tw = document.getElementById('term-wrap');
+    if (tw) tw.scrollTop = tw.scrollHeight;
   }
 
   function clearOutput() {
