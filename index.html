@@ -645,6 +645,7 @@
         a.target = '_blank';
         a.rel = 'noopener';
         a.style.color = color || '#ff6900';
+        a.style.textShadow = 'none';
         container.appendChild(a);
         typeText(text, a, next, fast);
       } else if (color) {
@@ -662,7 +663,7 @@
   function navigateTo(target, label, section, fast) {
     termEl.classList.remove('main-menu');
     const targetMenu = sectionMenus[target] || [['BACK', 'main']];
-    const longSections = new Set(['SPECS & DELIVERY', 'THE SETUP', 'WHAT IS MASTERING?', 'AUDIO']);
+    const longSections = new Set(['SPECS & DELIVERY', 'THE SETUP', 'AUDIO']);
     const isLeaf = targetMenu.every(item => Array.isArray(item) && item[0] === 'BACK');
     if (isLeaf) termEl.classList.add('nav-section');
     else termEl.classList.remove('nav-section');
