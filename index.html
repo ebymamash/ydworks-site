@@ -157,10 +157,13 @@
     padding-top: 7%;
   }
   #terminal.nav-section {
-    padding-top: 20%;
+    padding-top: 25%;
   }
   #terminal.nav-section-long {
     padding-top: 12%;
+  }
+  #terminal.nav-section-center {
+    padding-top: 35%;
   }
   #terminal.main-menu {
     padding-top: 30%;
@@ -664,11 +667,14 @@
     termEl.classList.remove('main-menu');
     const targetMenu = sectionMenus[target] || [['BACK', 'main']];
     const longSections = new Set(['SPECS & DELIVERY', 'THE SETUP', 'AUDIO']);
+    const centerSections = new Set(['CONTACT']);
     const isLeaf = targetMenu.every(item => Array.isArray(item) && item[0] === 'BACK');
     if (isLeaf) termEl.classList.add('nav-section');
     else termEl.classList.remove('nav-section');
     if (isLeaf && longSections.has(target)) termEl.classList.add('nav-section-long');
     else termEl.classList.remove('nav-section-long');
+    if (isLeaf && centerSections.has(target)) termEl.classList.add('nav-section-center');
+    else termEl.classList.remove('nav-section-center');
     if (target === 'WHAT ARE YOU?') termEl.classList.add('submenu');
     else termEl.classList.remove('submenu');
     const echoColors = { 'YD-WORKS': '#cc2020' };
@@ -739,11 +745,14 @@
             menu.remove();
             const parentMenuItems = sectionMenus[sectionName] || [['BACK', 'main']];
             const parentIsLeaf = parentMenuItems.every(item => Array.isArray(item) && item[0] === 'BACK');
-            const longSects = new Set(['SPECS & DELIVERY', 'THE SETUP', 'WHAT IS MASTERING?', 'AUDIO']);
+            const longSects = new Set(['SPECS & DELIVERY', 'THE SETUP', 'AUDIO']);
+            const centerSects = new Set(['CONTACT']);
             if (parentIsLeaf) termEl.classList.add('nav-section');
             else termEl.classList.remove('nav-section');
             if (parentIsLeaf && longSects.has(sectionName)) termEl.classList.add('nav-section-long');
             else termEl.classList.remove('nav-section-long');
+            if (parentIsLeaf && centerSects.has(sectionName)) termEl.classList.add('nav-section-center');
+            else termEl.classList.remove('nav-section-center');
             if (sectionName === 'WHAT ARE YOU?') termEl.classList.add('submenu');
             else termEl.classList.remove('submenu');
             const fast = visitedSections.has(sectionName);
