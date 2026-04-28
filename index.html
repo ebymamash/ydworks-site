@@ -666,7 +666,7 @@
   function navigateTo(target, label, section, fast) {
     termEl.classList.remove('main-menu');
     const targetMenu = sectionMenus[target] || [['BACK', 'main']];
-    const longSections = new Set(['SPECS & DELIVERY', 'THE SETUP', 'AUDIO']);
+    const longSections = new Set(['SPECS & DELIVERY', 'THE SETUP', 'AUDIO', 'WHAT IS MASTERING?']);
     const centerSections = new Set(['CONTACT']);
     const isLeaf = targetMenu.every(item => Array.isArray(item) && item[0] === 'BACK');
     if (isLeaf) termEl.classList.add('nav-section');
@@ -745,7 +745,7 @@
             menu.remove();
             const parentMenuItems = sectionMenus[sectionName] || [['BACK', 'main']];
             const parentIsLeaf = parentMenuItems.every(item => Array.isArray(item) && item[0] === 'BACK');
-            const longSects = new Set(['SPECS & DELIVERY', 'THE SETUP', 'AUDIO']);
+            const longSects = new Set(['SPECS & DELIVERY', 'THE SETUP', 'AUDIO', 'WHAT IS MASTERING?']);
             const centerSects = new Set(['CONTACT']);
             if (parentIsLeaf) termEl.classList.add('nav-section');
             else termEl.classList.remove('nav-section');
