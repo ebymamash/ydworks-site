@@ -754,6 +754,7 @@
         if (remaining.length) {
           const prev = remaining[remaining.length - 1];
           prev.style.opacity = '1';
+          prev.classList.remove('term-section-dim');
           const menu = prev.querySelector('.term-menu-span');
           if (menu) {
             const sectionName = menu.dataset.name;
