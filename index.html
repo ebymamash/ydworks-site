@@ -156,6 +156,9 @@
   #terminal.submenu {
     padding-top: 7%;
   }
+  #terminal.nav-section {
+    padding-top: 7%;
+  }
   #terminal.main-menu {
     padding-top: 30%;
   }
@@ -638,7 +641,7 @@
         a.href = href;
         a.target = '_blank';
         a.rel = 'noopener';
-        a.style.color = color || '#ff3300';
+        a.style.color = color || '#ff6900';
         container.appendChild(a);
         typeText(text, a, next, fast);
       } else if (color) {
@@ -655,6 +658,7 @@
 
   function navigateTo(target, label, section, fast) {
     termEl.classList.remove('main-menu');
+    termEl.classList.add('nav-section');
     if (target === 'WHAT ARE YOU?') termEl.classList.add('submenu');
     else termEl.classList.remove('submenu');
     const echoColors = { 'YD-WORKS': '#cc2020' };
@@ -669,7 +673,7 @@
       'MASTERING': { word: 'MASTERING.', color: '#c8a800' },
     };
     const linkWords = {
-      'THE SETUP': { word: '→ DD-MASTERING.DE', href: 'https://www.dd-mm.de/', color: '#ff3300' },
+      'THE SETUP': { word: '→ DD-MASTERING.DE', href: 'https://www.dd-mm.de/', color: '#ff6900' },
     };
     const info = colorWords[target];
     const linkInfo = linkWords[target];
@@ -866,6 +870,7 @@
   function showMainMenu() {
     inEnterCode = false;
     termEl.classList.remove('submenu');
+    termEl.classList.remove('nav-section');
     termEl.classList.add('main-menu');
     clearOutput();
     const hLines = ['IDENTITY CONFIRMED: a GUEST', '\nNOW CHOOSE.\n'];
