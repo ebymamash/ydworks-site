@@ -390,7 +390,7 @@
     }
     #terminal.nav-section { padding-top: 52%; }
     #terminal.nav-section-long { padding-top: 28%; font-size: 0.78rem; }
-    #terminal.nav-section-med { padding-top: 28%; }
+    #terminal.nav-section-med { padding-top: 28%; font-size: 0.72rem; }
     #terminal.nav-section-center { padding-top: 58%; }
     #terminal.main-menu {
       padding-top: 75%;
@@ -678,7 +678,7 @@
   function navigateTo(target, label, section, fast) {
     termEl.classList.remove('main-menu');
     const targetMenu = sectionMenus[target] || [['BACK', 'main']];
-    const longSections = new Set(['SPECS & DELIVERY', 'AUDIO']);
+    const longSections = new Set(['SPECS & DELIVERY']);
     const medSections = new Set(['WHAT IS MASTERING?', 'THE SETUP']);
     const centerSections = new Set(['CONTACT']);
     const isLeaf = targetMenu.every(item => Array.isArray(item) && item[0] === 'BACK');
@@ -761,7 +761,7 @@
             menu.remove();
             const parentMenuItems = sectionMenus[sectionName] || [['BACK', 'main']];
             const parentIsLeaf = parentMenuItems.every(item => Array.isArray(item) && item[0] === 'BACK');
-            const longSects = new Set(['SPECS & DELIVERY', 'THE SETUP', 'AUDIO']);
+            const longSects = new Set(['SPECS & DELIVERY']);
             const medSects = new Set(['WHAT IS MASTERING?', 'THE SETUP']);
             const centerSects = new Set(['CONTACT']);
             if (parentIsLeaf) termEl.classList.add('nav-section');
