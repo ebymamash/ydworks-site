@@ -730,6 +730,12 @@
           if (menu) {
             const sectionName = menu.dataset.name;
             menu.remove();
+            const parentMenuItems = sectionMenus[sectionName] || [['BACK', 'main']];
+            const parentIsLeaf = parentMenuItems.every(item => Array.isArray(item) && item[0] === 'BACK');
+            if (parentIsLeaf) termEl.classList.add('nav-section');
+            else termEl.classList.remove('nav-section');
+            if (sectionName === 'WHAT ARE YOU?') termEl.classList.add('submenu');
+            else termEl.classList.remove('submenu');
             const fast = visitedSections.has(sectionName);
             showMenu(sectionName, prev, true, fast);
           }
