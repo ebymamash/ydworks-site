@@ -868,10 +868,7 @@
 <h3>Skills</h3>
 <p>— TBD —</p>`;
           macModal.classList.add('cv');
-          macModal.style.left = '';
-          macModal.style.top = '';
-          macModal.style.transform = '';
-          macModal.hidden = false;
+          openModal();
           bingo("Bingo. That's a bingo!");
         } else {
           inp.value = '';
@@ -1043,6 +1040,24 @@
   const macModal = document.getElementById('mac-modal');
   const macWinTitle = document.getElementById('mac-win-title');
   const macBody = document.getElementById('mac-body');
+  const macModalOriginalParent = macModal.parentNode;
+
+  function openModal() {
+    macModal.style.left = '';
+    macModal.style.top = '';
+    macModal.style.transform = '';
+    if (window.innerWidth <= 768) {
+      document.body.appendChild(macModal);
+    }
+    macModal.hidden = false;
+  }
+  function closeModal() {
+    macModal.hidden = true;
+    macModal.classList.remove('cv');
+    if (macModal.parentNode !== macModalOriginalParent) {
+      macModalOriginalParent.appendChild(macModal);
+    }
+  }
   const macTitlebar = document.getElementById('mac-titlebar');
 
   const modalPages = {
@@ -1078,8 +1093,7 @@
   };
 
   document.getElementById('mac-close').addEventListener('click', () => {
-    macModal.hidden = true;
-    macModal.classList.remove('cv');
+    closeModal();
   });
 
   document.querySelectorAll('[data-modal]').forEach(link => {
@@ -1089,15 +1103,12 @@
       if (!page) return;
       macWinTitle.textContent = page.title;
       macBody.innerHTML = page.html;
-      macModal.style.left = '';
-      macModal.style.top = '';
-      macModal.style.transform = '';
-      macModal.hidden = false;
+      openModal();
     });
   });
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && !macModal.hidden) macModal.hidden = true;
+    if (e.key === 'Escape' && !macModal.hidden) closeModal();
   });
 
   let dragLast = null;
