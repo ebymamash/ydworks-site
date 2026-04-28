@@ -373,6 +373,7 @@
     #terminal {
       font-size: 0.85rem;
     }
+    .term-section-dim { display: none; }
     .footer-copy { display: block; margin-bottom: 0.3em; }
     #term-footer {
       font-size: 0.55rem;
@@ -387,10 +388,10 @@
       padding-bottom: 12%;
       font-size: 0.9rem;
     }
-    #terminal.nav-section { padding-top: 45%; }
-    #terminal.nav-section-long { padding-top: 30%; }
-    #terminal.nav-section-med { padding-top: 38%; }
-    #terminal.nav-section-center { padding-top: 52%; }
+    #terminal.nav-section { padding-top: 52%; }
+    #terminal.nav-section-long { padding-top: 35%; }
+    #terminal.nav-section-med { padding-top: 44%; }
+    #terminal.nav-section-center { padding-top: 58%; }
     #terminal.main-menu {
       padding-top: 75%;
     }
@@ -410,13 +411,14 @@
     }
   }
   @media (max-width: 430px) and (min-height: 800px) {
+    .term-section-dim { display: block; }
     #terminal {
       padding-top: 60%;
     }
-    #terminal.nav-section { padding-top: 60%; }
-    #terminal.nav-section-long { padding-top: 40%; }
-    #terminal.nav-section-med { padding-top: 50%; }
-    #terminal.nav-section-center { padding-top: 65%; }
+    #terminal.nav-section { padding-top: 67%; }
+    #terminal.nav-section-long { padding-top: 45%; }
+    #terminal.nav-section-med { padding-top: 56%; }
+    #terminal.nav-section-center { padding-top: 72%; }
     #terminal.submenu {
       padding-bottom: 52%;
     }
@@ -787,6 +789,7 @@
     if (inSection) {
       const parentSection = this.closest('.term-section');
       parentSection.style.opacity = '0.6';
+      parentSection.classList.add('term-section-dim');
       const menu = parentSection.querySelector('.term-menu-span');
       if (menu) menu.style.display = 'none';
     } else if (menuName === 'WHAT ARE YOU?') {
