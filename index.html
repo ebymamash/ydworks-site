@@ -157,7 +157,7 @@
     padding-top: 7%;
   }
   @media (min-aspect-ratio: 16/9) {
-    #terminal { padding-top: 22%; font-size: clamp(0.9rem, 1.55vw, 1.8rem); }
+    #terminal { padding-top: 25%; font-size: clamp(0.9rem, 1.55vw, 1.8rem); }
     #terminal.main-menu { padding-top: 32%; }
   }
   #terminal.nav-section {
@@ -683,7 +683,7 @@
     termEl.classList.remove('main-menu');
     const targetMenu = sectionMenus[target] || [['BACK', 'main']];
     const longSections = new Set(['SPECS & DELIVERY']);
-    const medSections = new Set(['WHAT IS MASTERING?', 'THE SETUP']);
+    const medSections = new Set(['WHAT IS MASTERING?', 'THE SETUP', 'AUDIO', 'OPERATOR']);
     const centerSections = new Set(['CONTACT']);
     const isLeaf = targetMenu.every(item => Array.isArray(item) && item[0] === 'BACK');
     if (isLeaf) termEl.classList.add('nav-section');
