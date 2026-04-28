@@ -346,8 +346,9 @@
   .mac-modal.cv .mac-body { background: #2a2a28; color: #d8d8d0; }
   .mac-modal.cv .mac-body h3 { border-color: #505048; color: #c8c8c0; }
   @media (max-width: 768px) {
-    .mac-modal { left: 4%; width: 92%; top: 6%; }
-    .mac-body { max-height: 58vh; }
+    .mac-modal { position: fixed; left: 0; top: 0; width: 100%; height: 100%; transform: none; z-index: 100; }
+    .mac-body { max-height: calc(100vh - 28px); overflow-y: auto; }
+    .mac-close-box { width: 22px; height: 22px; }
   }
   @media (max-width: 768px) {
     .monitor-wrap {
@@ -372,8 +373,10 @@
     #terminal {
       font-size: 0.85rem;
     }
+    .footer-sep { display: none; }
+    #term-footer a { display: block; margin-top: 0.4em; }
     #term-footer {
-      font-size: 0.48rem;
+      font-size: 0.55rem;
       line-height: 1;
       left: 5%;
       right: 5%;
@@ -385,12 +388,10 @@
       padding-bottom: 12%;
       font-size: 0.9rem;
     }
-    #terminal.nav-section,
-    #terminal.nav-section-long,
-    #terminal.nav-section-med,
-    #terminal.nav-section-center {
-      padding-top: 30%;
-    }
+    #terminal.nav-section { padding-top: 45%; }
+    #terminal.nav-section-long { padding-top: 30%; }
+    #terminal.nav-section-med { padding-top: 38%; }
+    #terminal.nav-section-center { padding-top: 52%; }
     #terminal.main-menu {
       padding-top: 75%;
     }
@@ -413,12 +414,10 @@
     #terminal {
       padding-top: 60%;
     }
-    #terminal.nav-section,
-    #terminal.nav-section-long,
-    #terminal.nav-section-med,
-    #terminal.nav-section-center {
-      padding-top: 40%;
-    }
+    #terminal.nav-section { padding-top: 60%; }
+    #terminal.nav-section-long { padding-top: 40%; }
+    #terminal.nav-section-med { padding-top: 50%; }
+    #terminal.nav-section-center { padding-top: 65%; }
     #terminal.submenu {
       padding-bottom: 52%;
     }
@@ -441,10 +440,10 @@
       <pre id="term-output"></pre><span id="term-cursor"></span>
     </div>
     <div id="term-footer">
-      © 2025 Yegor Demchenko &nbsp;|&nbsp;
-      <a href="#" data-modal="impressum">Impressum</a> &nbsp;|&nbsp;
-      <a href="#" data-modal="datenschutz">Datenschutzerklärung</a> &nbsp;|&nbsp;
-      <a href="#" data-modal="haftung">Haftungsausschluss</a>
+      © 2025 Yegor Demchenko
+      <span class="footer-sep"> &nbsp;|&nbsp; </span><a href="#" data-modal="impressum">Impressum</a>
+      <span class="footer-sep"> &nbsp;|&nbsp; </span><a href="#" data-modal="datenschutz">Datenschutzerklärung</a>
+      <span class="footer-sep"> &nbsp;|&nbsp; </span><a href="#" data-modal="haftung">Haftungsausschluss</a>
     </div>
     <div class="mac-modal" id="mac-modal" hidden>
       <div class="mac-titlebar" id="mac-titlebar">
@@ -920,6 +919,9 @@
     inEnterCode = false;
     termEl.classList.remove('submenu');
     termEl.classList.remove('nav-section');
+    termEl.classList.remove('nav-section-long');
+    termEl.classList.remove('nav-section-med');
+    termEl.classList.remove('nav-section-center');
     termEl.classList.add('main-menu');
     clearOutput();
     const hLines = ['IDENTITY CONFIRMED: a GUEST', '\nNOW CHOOSE.\n'];
