@@ -162,6 +162,9 @@
   #terminal.nav-section-long {
     padding-top: 12%;
   }
+  #terminal.nav-section-med {
+    padding-top: 15%;
+  }
   #terminal.nav-section-center {
     padding-top: 35%;
   }
@@ -666,13 +669,16 @@
   function navigateTo(target, label, section, fast) {
     termEl.classList.remove('main-menu');
     const targetMenu = sectionMenus[target] || [['BACK', 'main']];
-    const longSections = new Set(['SPECS & DELIVERY', 'THE SETUP', 'AUDIO', 'WHAT IS MASTERING?']);
+    const longSections = new Set(['SPECS & DELIVERY', 'THE SETUP', 'AUDIO']);
+    const medSections = new Set(['WHAT IS MASTERING?']);
     const centerSections = new Set(['CONTACT']);
     const isLeaf = targetMenu.every(item => Array.isArray(item) && item[0] === 'BACK');
     if (isLeaf) termEl.classList.add('nav-section');
     else termEl.classList.remove('nav-section');
     if (isLeaf && longSections.has(target)) termEl.classList.add('nav-section-long');
     else termEl.classList.remove('nav-section-long');
+    if (isLeaf && medSections.has(target)) termEl.classList.add('nav-section-med');
+    else termEl.classList.remove('nav-section-med');
     if (isLeaf && centerSections.has(target)) termEl.classList.add('nav-section-center');
     else termEl.classList.remove('nav-section-center');
     if (target === 'WHAT ARE YOU?') termEl.classList.add('submenu');
@@ -745,12 +751,15 @@
             menu.remove();
             const parentMenuItems = sectionMenus[sectionName] || [['BACK', 'main']];
             const parentIsLeaf = parentMenuItems.every(item => Array.isArray(item) && item[0] === 'BACK');
-            const longSects = new Set(['SPECS & DELIVERY', 'THE SETUP', 'AUDIO', 'WHAT IS MASTERING?']);
+            const longSects = new Set(['SPECS & DELIVERY', 'THE SETUP', 'AUDIO']);
+            const medSects = new Set(['WHAT IS MASTERING?']);
             const centerSects = new Set(['CONTACT']);
             if (parentIsLeaf) termEl.classList.add('nav-section');
             else termEl.classList.remove('nav-section');
             if (parentIsLeaf && longSects.has(sectionName)) termEl.classList.add('nav-section-long');
             else termEl.classList.remove('nav-section-long');
+            if (parentIsLeaf && medSects.has(sectionName)) termEl.classList.add('nav-section-med');
+            else termEl.classList.remove('nav-section-med');
             if (parentIsLeaf && centerSects.has(sectionName)) termEl.classList.add('nav-section-center');
             else termEl.classList.remove('nav-section-center');
             if (sectionName === 'WHAT ARE YOU?') termEl.classList.add('submenu');
