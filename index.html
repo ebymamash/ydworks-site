@@ -214,6 +214,7 @@
     #terminal.nav-section { padding-top: 16%; font-size: clamp(0.75rem, 1.1vw, 1.35rem); }
     #terminal.nav-section-med { padding-top: 14%; font-size: clamp(0.75rem, 1.1vw, 1.35rem); }
     #terminal.nav-section-lo { padding-top: 14%; }
+    #terminal.nav-section-center { justify-content: center; padding-top: 18%; padding-bottom: 10%; }
     #terminal.nav-section-long { font-size: clamp(0.8rem, 1.1vw, 1.3rem); }
   }
   #terminal::after {
@@ -731,7 +732,7 @@
     const medSections    = new Set(['AUDIO', 'OPERATOR', 'AI']);
     const loSections     = new Set(['WHAT IS MASTERING?', 'THE SETUP']);
     const deepSections   = new Set(['THE PROCESS']);
-    const centerSections = new Set(['CONTACT', 'PRICING']);
+    const centerSections = new Set(['CONTACT', 'PRICING', 'COMMIT FILES']);
     const isLeaf = targetMenu.every(item => Array.isArray(item) && item[0] === 'BACK');
     if (isLeaf) termEl.classList.add('nav-section');
     else termEl.classList.remove('nav-section');
@@ -821,7 +822,7 @@
             const medSects    = new Set(['AUDIO', 'OPERATOR', 'AI']);
             const loSects     = new Set(['WHAT IS MASTERING?', 'THE SETUP']);
             const deepSects   = new Set(['THE PROCESS']);
-            const centerSects = new Set(['CONTACT', 'PRICING']);
+            const centerSects = new Set(['CONTACT', 'PRICING', 'COMMIT FILES']);
             if (parentIsLeaf) termEl.classList.add('nav-section');
             else termEl.classList.remove('nav-section');
             if (parentIsLeaf && longSects.has(sectionName)) termEl.classList.add('nav-section-long');
