@@ -537,10 +537,10 @@
 
   // Each item: string = section name, or ['BACK', parentSection]
   const sectionMenus = {
-    'intro':            ['WHAT ARE YOU?', 'MASTERING', 'YD-WORKS', 'COMMIT FILES', 'CONTACT', 'ENTER CODE'],
+    'intro':            ['WHAT ARE YOU?', 'MASTERING', 'YD-WORKS', 'COMMIT FILES', 'CONTACT', 'PANDORA', 'ENTER CODE'],
     'quest-intro':      ['WHAT ARE YOU?'],
-    'main':             ['MASTERING', 'YD-WORKS', 'COMMIT FILES', 'CONTACT', 'ENTER CODE'],
-    'WHAT ARE YOU?':    ['MASTERING', 'YD-WORKS', 'COMMIT FILES', 'CONTACT', 'ENTER CODE'],
+    'main':             ['MASTERING', 'YD-WORKS', 'COMMIT FILES', 'CONTACT', 'PANDORA', 'ENTER CODE'],
+    'WHAT ARE YOU?':    ['MASTERING', 'YD-WORKS', 'COMMIT FILES', 'CONTACT', 'PANDORA', 'ENTER CODE'],
     'YD-WORKS':         ['AUDIO', 'DIGITAL', 'AI', 'OPERATOR', ['BACK', 'main']],
     'AUDIO':            [['BACK', 'YD-WORKS']],
     'DIGITAL':          [['BACK', 'YD-WORKS']],
@@ -554,6 +554,7 @@
     'PRICING':          [['BACK', 'MASTERING']],
     'COMMIT FILES':     [['BACK', 'main']],
     'CONTACT':          [['BACK', 'main']],
+    'PANDORA':          [['BACK', 'main']],
   };
 
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -642,6 +643,7 @@
         'COMMIT FILES': '#4a9eff',
         'CONTACT':      '#4caf50',
         'ENTER CODE':   '#7a7875',
+        'PANDORA':      '#ff6eb4',
       };
       const bColor = bracketColors[label];
       if (bColor) {
