@@ -1079,9 +1079,12 @@
   function beginSession(scroll) {
     if (started) return;
     started = true;
+    introDone = true;
+    skipped = true;
     startBtn.style.display = 'none';
+    cursor.style.display = 'none';
     if (scroll) monitorWrap.scrollIntoView({ behavior: 'smooth', block: 'end' });
-    setTimeout(startTyping, 400);
+    setTimeout(showMainMenu, 400);
   }
 
   function checkScrollTrigger() {
