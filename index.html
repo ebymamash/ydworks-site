@@ -158,7 +158,18 @@
   }
   @media (min-width: 769px) {
     body {
-      background: #3f6878;
+      background-color: #3f6878;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 18%;
+      background: linear-gradient(to bottom, transparent, #3f6878);
+      pointer-events: none;
+      z-index: 2;
     }
     .monitor-wrap {
       max-width: 133.33vh;
