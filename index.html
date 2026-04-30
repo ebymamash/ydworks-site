@@ -930,7 +930,15 @@
           document.querySelector('.hero').classList.add('papuna-mode');
           bingo("Bingo. That's a bingo!");
         } else if (code === 'quest') {
-          bingo('QUEST MODE: ACTIVATED');
+          inp.value = '';
+          inp.style.width = '12ch';
+          const qMsg = 'Awakening';
+          const qs = (on) => { inp.placeholder = qMsg; if (on) inp.classList.add('error'); };
+          const qh = () => { inp.placeholder = ''; inp.classList.remove('error'); };
+          qs(); setTimeout(qh, 120);
+          setTimeout(() => qs(), 240); setTimeout(qh, 360);
+          setTimeout(() => qs(), 480); setTimeout(qh, 600);
+          setTimeout(() => qs(true), 720);
           setTimeout(() => playQuest(), 1600);
         } else if (code === 'cv01') {
           macWinTitle.textContent = 'Yegor Demchenko — CV';
