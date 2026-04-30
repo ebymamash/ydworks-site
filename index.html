@@ -194,17 +194,25 @@
   #terminal.nav-section-center {
     padding-top: 35%;
   }
+  #terminal.nav-section-lo {
+    padding-top: 26%;
+  }
+  #terminal.nav-section-deep {
+    padding-top: 35%;
+  }
   #terminal.main-menu {
     padding-top: 30%;
   }
   @media (min-aspect-ratio: 16/9) {
     #terminal { padding-top: 20%; font-size: clamp(0.85rem, 1.3vw, 1.55rem); }
     #terminal.submenu { font-size: clamp(0.75rem, 1.1vw, 1.3rem); }
-    #terminal.main-menu { padding-top: 25%; }
+    #terminal.main-menu { padding-top: 32%; }
     #terminal.nav-section { padding-top: 24%; }
-    #terminal.nav-section-long { padding-top: 10%; }
+    #terminal.nav-section-long { padding-top: 14%; font-size: clamp(0.8rem, 1.1vw, 1.3rem); }
     #terminal.nav-section-med { padding-top: 16%; }
-    #terminal.nav-section-center { padding-top: 30%; }
+    #terminal.nav-section-lo { padding-top: 26%; }
+    #terminal.nav-section-deep { padding-top: 35%; }
+    #terminal.nav-section-center { padding-top: 38%; }
   }
   #terminal::after {
     content: '';
@@ -426,6 +434,8 @@
     #terminal.nav-section { padding-top: 52%; }
     #terminal.nav-section-long { padding-top: 28%; font-size: 0.78rem; }
     #terminal.nav-section-med { padding-top: 42%; font-size: 0.72rem; }
+    #terminal.nav-section-lo { padding-top: 52%; }
+    #terminal.nav-section-deep { padding-top: 58%; }
     #terminal.nav-section-center { padding-top: 58%; }
     #terminal.main-menu {
       padding-top: 75%;
@@ -453,6 +463,8 @@
     #terminal.nav-section { padding-top: 73%; }
     #terminal.nav-section-long { padding-top: 45%; }
     #terminal.nav-section-med { padding-top: 52%; font-size: 0.82rem; }
+    #terminal.nav-section-lo { padding-top: 73%; }
+    #terminal.nav-section-deep { padding-top: 72%; }
     #terminal.nav-section-center { padding-top: 72%; }
     #terminal.submenu {
       padding-bottom: 52%;
@@ -713,9 +725,11 @@
   function navigateTo(target, label, section, fast) {
     termEl.classList.remove('main-menu');
     const targetMenu = sectionMenus[target] || [['BACK', 'main']];
-    const longSections = new Set(['SPECS & DELIVERY']);
-    const medSections = new Set(['THE SETUP', 'AUDIO', 'OPERATOR']);
-    const centerSections = new Set(['CONTACT']);
+    const longSections   = new Set(['SPECS & DELIVERY']);
+    const medSections    = new Set(['AUDIO', 'OPERATOR']);
+    const loSections     = new Set(['WHAT IS MASTERING?', 'THE SETUP']);
+    const deepSections   = new Set(['THE PROCESS']);
+    const centerSections = new Set(['CONTACT', 'PRICING']);
     const isLeaf = targetMenu.every(item => Array.isArray(item) && item[0] === 'BACK');
     if (isLeaf) termEl.classList.add('nav-section');
     else termEl.classList.remove('nav-section');
@@ -723,6 +737,10 @@
     else termEl.classList.remove('nav-section-long');
     if (isLeaf && medSections.has(target)) termEl.classList.add('nav-section-med');
     else termEl.classList.remove('nav-section-med');
+    if (isLeaf && loSections.has(target)) termEl.classList.add('nav-section-lo');
+    else termEl.classList.remove('nav-section-lo');
+    if (isLeaf && deepSections.has(target)) termEl.classList.add('nav-section-deep');
+    else termEl.classList.remove('nav-section-deep');
     if (isLeaf && centerSections.has(target)) termEl.classList.add('nav-section-center');
     else termEl.classList.remove('nav-section-center');
     if (target === 'WHAT ARE YOU?') termEl.classList.add('submenu');
@@ -797,15 +815,21 @@
             menu.remove();
             const parentMenuItems = sectionMenus[sectionName] || [['BACK', 'main']];
             const parentIsLeaf = parentMenuItems.every(item => Array.isArray(item) && item[0] === 'BACK');
-            const longSects = new Set(['SPECS & DELIVERY']);
-            const medSects = new Set(['WHAT IS MASTERING?', 'THE SETUP']);
-            const centerSects = new Set(['CONTACT']);
+            const longSects   = new Set(['SPECS & DELIVERY']);
+            const medSects    = new Set(['AUDIO', 'OPERATOR']);
+            const loSects     = new Set(['WHAT IS MASTERING?', 'THE SETUP']);
+            const deepSects   = new Set(['THE PROCESS']);
+            const centerSects = new Set(['CONTACT', 'PRICING']);
             if (parentIsLeaf) termEl.classList.add('nav-section');
             else termEl.classList.remove('nav-section');
             if (parentIsLeaf && longSects.has(sectionName)) termEl.classList.add('nav-section-long');
             else termEl.classList.remove('nav-section-long');
             if (parentIsLeaf && medSects.has(sectionName)) termEl.classList.add('nav-section-med');
             else termEl.classList.remove('nav-section-med');
+            if (parentIsLeaf && loSects.has(sectionName)) termEl.classList.add('nav-section-lo');
+            else termEl.classList.remove('nav-section-lo');
+            if (parentIsLeaf && deepSects.has(sectionName)) termEl.classList.add('nav-section-deep');
+            else termEl.classList.remove('nav-section-deep');
             if (parentIsLeaf && centerSects.has(sectionName)) termEl.classList.add('nav-section-center');
             else termEl.classList.remove('nav-section-center');
             if (sectionName === 'WHAT ARE YOU?') termEl.classList.add('submenu');
@@ -954,6 +978,8 @@
     termEl.classList.remove('nav-section');
     termEl.classList.remove('nav-section-long');
     termEl.classList.remove('nav-section-med');
+    termEl.classList.remove('nav-section-lo');
+    termEl.classList.remove('nav-section-deep');
     termEl.classList.remove('nav-section-center');
     termEl.classList.add('main-menu');
     clearOutput();
