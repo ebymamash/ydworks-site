@@ -538,6 +538,7 @@
   // Each item: string = section name, or ['BACK', parentSection]
   const sectionMenus = {
     'intro':            ['WHAT ARE YOU?', 'YD-WORKS', 'MASTERING', 'COMMIT FILES', 'CONTACT', 'ENTER CODE'],
+    'quest-intro':      ['WHAT ARE YOU?'],
     'main':             ['YD-WORKS', 'MASTERING', 'COMMIT FILES', 'CONTACT', 'ENTER CODE'],
     'WHAT ARE YOU?':    ['YD-WORKS', 'MASTERING', 'COMMIT FILES', 'CONTACT', 'ENTER CODE'],
     'YD-WORKS':         ['AUDIO', 'DIGITAL', 'AI', 'OPERATOR', ['BACK', 'main']],
@@ -565,6 +566,8 @@
   let skipped = false;
   let introDone = false;
   let typingGen = 0;
+  let introEndMenu = 'intro';
+  let questMode = false;
   const visitedSections = new Set();
   const startBtn = document.getElementById('start-btn');
   let navItems = [];
@@ -608,6 +611,10 @@
   function showMenu(sectionName, container, forceAnimate, fast) {
     const parent = container || output;
     const items = sectionMenus[sectionName] || [['BACK', 'main']];
+    if (sectionName === 'WHAT ARE YOU?' && questMode) {
+      questMode = false;
+      parent.appendChild(document.createTextNode('\nIDENTITY CONFIRMED: a GUEST\nNOW CHOOSE.'));
+    }
     const itemColors = { 'AUDIO': '#c8a800', 'DIGITAL': '#c8a800', 'AI': '#c8a800', 'OPERATOR': '#c8a800', 'WHAT IS MASTERING?': '#c8a800', 'THE PROCESS': '#c8a800', 'SPECS & DELIVERY': '#c8a800', 'THE SETUP': '#c8a800', 'PRICING': '#c8a800' };
     const span = document.createElement('span');
     span.className = 'term-menu-span';
@@ -922,6 +929,9 @@
         } else if (code === 'papuna') {
           document.querySelector('.hero').classList.add('papuna-mode');
           bingo("Bingo. That's a bingo!");
+        } else if (code === 'quest') {
+          bingo('QUEST MODE: ACTIVATED');
+          setTimeout(() => playQuest(), 1600);
         } else if (code === 'cv01') {
           macWinTitle.textContent = 'Yegor Demchenko — CV';
           macBody.innerHTML = `<h3>Audio Engineer / Mastering Engineer</h3>
@@ -975,6 +985,20 @@
     }, fast);
   }
 
+  function playQuest() {
+    inEnterCode = false;
+    skipped = false;
+    introDone = false;
+    typingGen++;
+    questMode = true;
+    introEndMenu = 'quest-intro';
+    clearOutput();
+    ['main-menu','submenu','nav-section','nav-section-long','nav-section-med',
+     'nav-section-lo','nav-section-deep','nav-section-center'].forEach(c => termEl.classList.remove(c));
+    cursor.style.display = '';
+    startTyping();
+  }
+
   function showMainMenu() {
     inEnterCode = false;
     termEl.classList.remove('submenu');
@@ -986,23 +1010,18 @@
     termEl.classList.remove('nav-section-center');
     termEl.classList.add('main-menu');
     clearOutput();
-    const hLines = ['IDENTITY CONFIRMED: a GUEST', '\nNOW CHOOSE.\n'];
-    let hi = 0;
-    function addHeaderLine() {
-      if (hi >= hLines.length) { showMenu('main', null, true); return; }
-      output.appendChild(document.createTextNode(hLines[hi++]));
-      setTimeout(addHeaderLine, 80);
-    }
-    addHeaderLine();
+    showMenu('main', null, true);
   }
 
   function showFull() {
     skipped = true;
     introDone = true;
     typingGen++;
+    const endMenu = introEndMenu;
+    introEndMenu = 'intro';
     output.textContent = introLines.join('\n');
     cursor.style.display = 'none';
-    showMenu('intro', null);
+    showMenu(endMenu, null);
   }
 
   let tapCount = 0, tapTimer = null;
@@ -1082,7 +1101,9 @@
       if (lineIndex >= introLines.length) {
         cursor.style.display = 'none';
         introDone = true;
-        showMenu('intro', null);
+        const endMenu = introEndMenu;
+        introEndMenu = 'intro';
+        showMenu(endMenu, null);
         return;
       }
       const line = introLines[lineIndex];
