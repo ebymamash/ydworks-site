@@ -182,13 +182,6 @@
       right: calc(50% - 50vw);
     }
   }
-  @media (min-aspect-ratio: 16/9) {
-    #terminal { padding-top: 20%; font-size: clamp(0.85rem, 1.3vw, 1.55rem); }
-    #terminal.main-menu { padding-top: 17%; }
-    #terminal.nav-section { padding-top: 8%; }
-    #terminal.nav-section-long { padding-top: 7%; }
-    #terminal.nav-section-med { padding-top: 6%; }
-  }
   #terminal.nav-section {
     padding-top: 22%;
   }
@@ -203,6 +196,13 @@
   }
   #terminal.main-menu {
     padding-top: 30%;
+  }
+  @media (min-aspect-ratio: 16/9) {
+    #terminal { padding-top: 20%; font-size: clamp(0.85rem, 1.3vw, 1.55rem); }
+    #terminal.main-menu { padding-top: 17%; }
+    #terminal.nav-section { padding-top: 8%; }
+    #terminal.nav-section-long { padding-top: 7%; }
+    #terminal.nav-section-med { padding-top: 6%; }
   }
   #terminal::after {
     content: '';
