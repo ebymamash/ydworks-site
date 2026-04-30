@@ -156,6 +156,13 @@
   #terminal.submenu {
     padding-top: 7%;
   }
+  @media (min-aspect-ratio: 16/9) and (min-width: 769px) {
+    .monitor-wrap {
+      max-width: 133.33vh;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
   @media (min-aspect-ratio: 16/9) {
     #terminal { padding-top: 25%; font-size: clamp(0.9rem, 1.55vw, 1.8rem); }
     #terminal.main-menu { padding-top: 32%; }
