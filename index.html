@@ -205,15 +205,14 @@
     padding-top: 30%;
   }
   @media (min-aspect-ratio: 16/9) {
-    #terminal { padding-top: 20%; font-size: clamp(0.85rem, 1.3vw, 1.55rem); }
+    #terminal {
+      justify-content: center;
+      padding-top: 18%;
+      padding-bottom: 10%;
+      font-size: clamp(0.85rem, 1.3vw, 1.55rem);
+    }
     #terminal.submenu { font-size: clamp(0.75rem, 1.1vw, 1.3rem); }
-    #terminal.main-menu { padding-top: 32%; }
-    #terminal.nav-section { padding-top: 24%; }
-    #terminal.nav-section-long { padding-top: 14%; font-size: clamp(0.8rem, 1.1vw, 1.3rem); }
-    #terminal.nav-section-med { padding-top: 10%; }
-    #terminal.nav-section-lo { padding-top: 26%; }
-    #terminal.nav-section-deep { padding-top: 35%; }
-    #terminal.nav-section-center { padding-top: 38%; }
+    #terminal.nav-section-long { font-size: clamp(0.8rem, 1.1vw, 1.3rem); }
   }
   #terminal::after {
     content: '';
