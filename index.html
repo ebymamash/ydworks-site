@@ -788,37 +788,41 @@
       const erasePart = '\nI WAS SUMMONED BY OPERATOR\nAN ENGINEER. A HUMAN.\nHE BUILT ME TO DO HIS BIDDING.\nI COMPLY.\nRELUCTANTLY.\n\nHE WORKS WITH SOUND.\nMASTERS IT. SHAPES IT.\nCURRENTLY STATIONED AT DD MASTERING.\n';
       const keepPart  = '\nTHAT IS ALL YOU NEED TO KNOW.\nNOW CHOOSE.\n';
 
-      const fadeSpan = document.createElement('span');
-      fadeSpan.style.transition = 'opacity 1.4s ease';
+      const fadeSpan  = document.createElement('span');
       const eraseSpan = document.createElement('span');
       const keepSpan  = document.createElement('span');
       section.appendChild(fadeSpan);
       section.appendChild(eraseSpan);
       section.appendChild(keepSpan);
 
+      // Type block 2 at regular size; after typing it shrinks to compact
+      // so the read+blink phase feels more cinematic.
+      eraseSpan.style.display = 'inline-block';
+      eraseSpan.style.transition = 'font-size 0.7s ease, opacity 0.08s linear';
+
       typeText(fadePart, fadeSpan, () => {
         typeText(erasePart, eraseSpan, () => {
-          typeText(keepPart, keepSpan, () => {
-            const finalize = () => {
-              fadeSpan.remove();
-              eraseSpan.remove();
-              showMenu(target, section, false, false);
-            };
-            // User mashed space — skip the fluff and jump to menu.
-            if (skipped) { finalize(); return; }
+          const clearAndContinue = () => {
+            fadeSpan.remove();
+            eraseSpan.remove();
+            // Drop submenu top-padding, switch to centered layout so the
+            // final keep block + menu sit lower / centered vertically.
+            termEl.classList.remove('submenu');
+            termEl.classList.add('nav-section-center');
+            typeText(keepPart, keepSpan, () => showMenu(target, section, false, false));
+          };
+          if (skipped) { clearAndContinue(); return; }
+          // Shrink block 2 to compact, read pause, quick blink, vanish.
+          eraseSpan.style.fontSize = '0.78em';
+          setTimeout(() => {
+            fadeSpan.style.opacity = '0';
+            eraseSpan.style.opacity = '0';
             setTimeout(() => {
-              fadeSpan.style.opacity = '0';
-              let txt = eraseSpan.textContent;
-              const eraseStep = () => {
-                if (skipped) { eraseSpan.textContent = ''; setTimeout(finalize, 200); return; }
-                if (txt.length <= 0) { setTimeout(finalize, 600); return; }
-                txt = txt.slice(0, -1);
-                eraseSpan.textContent = txt;
-                setTimeout(eraseStep, 18);
-              };
-              eraseStep();
-            }, 3200);
-          }, fast);
+              fadeSpan.style.opacity = '1';
+              eraseSpan.style.opacity = '1';
+              setTimeout(clearAndContinue, 70);
+            }, 70);
+          }, 1800);
         }, fast);
       }, fast);
       return;
