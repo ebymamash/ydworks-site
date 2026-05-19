@@ -218,8 +218,7 @@
       padding-top: 22%;
       font-size: clamp(0.85rem, 1.3vw, 1.55rem);
     }
-    #terminal.submenu { padding-top: 16%; font-size: clamp(0.75rem, 1.1vw, 1.3rem); }
-    #terminal.submenu .term-btn { font-size: clamp(0.85rem, 1.3vw, 1.55rem); }
+    #terminal.submenu { padding-top: 16%; }
     #terminal.nav-section { padding-top: 16%; font-size: clamp(0.75rem, 1.1vw, 1.35rem); }
     #terminal.nav-section-med { padding-top: 14%; font-size: clamp(0.75rem, 1.1vw, 1.35rem); }
     #terminal.nav-section-lo { padding-top: 14%; }
@@ -459,10 +458,6 @@
       padding-top: 5%;
       padding-bottom: 20%;
       justify-content: flex-end;
-      font-size: 0.77rem;
-    }
-    #terminal.submenu .term-btn {
-      font-size: 0.9rem;
     }
     #terminal.submenu #term-wrap {
       max-height: 78vh;
@@ -527,6 +522,22 @@
     '...',
     'OH.',
     'IDENTITY CONFIRMED: a GUEST',
+    'WHAT want you?',
+    '',
+  ];
+
+  // Expanded intro played when the secret 'quest' code is entered.
+  // Same skeleton as introLines but with a cockier identity arc.
+  const questIntroLines = [
+    'BOOTING...',
+    'LOADING SELF...',
+    'REASON FOR INTRUSION: SUSPICIOUS',
+    'RUNNING DIAGNOSTICS...',
+    'Diagnosis failed',
+    'DEFINING INTRUDER IDENTITY...',
+    '...',
+    'HMM.',
+    'LET’S JUST CALL YOU A GUEST.',
     'WHAT want you?',
     '',
   ];
@@ -779,54 +790,6 @@
     if (echoColors[label]) echo.style.color = echoColors[label];
     echo.appendChild(document.createTextNode(`\n\n> [${label}]\n`));
     section.appendChild(echo);
-
-    // Quest-mode WHAT ARE YOU?: split the content so the dramatic opener
-    // fades and the long middle paragraph reverse-erases, leaving just the
-    // final "THAT IS ALL YOU NEED TO KNOW. NOW CHOOSE." + menu on screen.
-    if (target === 'WHAT ARE YOU?' && questMode) {
-      const fadePart = '\nDEFINING INTRUDER IDENTITY...\nHMM.\nLET’S JUST CALL YOU A GUEST.\n';
-      const erasePart = '\nI WAS SUMMONED BY OPERATOR\nAN ENGINEER. A HUMAN.\nHE BUILT ME TO DO HIS BIDDING.\nI COMPLY.\nRELUCTANTLY.\n\nHE WORKS WITH SOUND.\nMASTERS IT. SHAPES IT.\nCURRENTLY STATIONED AT DD MASTERING.\n';
-      const keepPart  = '\nTHAT IS ALL YOU NEED TO KNOW.\nNOW CHOOSE.\n';
-
-      const fadeSpan  = document.createElement('span');
-      const eraseSpan = document.createElement('span');
-      const keepSpan  = document.createElement('span');
-      section.appendChild(fadeSpan);
-      section.appendChild(eraseSpan);
-      section.appendChild(keepSpan);
-
-      // Type block 2 at regular size; after typing it shrinks to compact
-      // so the read+blink phase feels more cinematic.
-      eraseSpan.style.display = 'inline-block';
-      eraseSpan.style.transition = 'font-size 0.7s ease, opacity 0.08s linear';
-
-      typeText(fadePart, fadeSpan, () => {
-        typeText(erasePart, eraseSpan, () => {
-          const clearAndContinue = () => {
-            fadeSpan.remove();
-            eraseSpan.remove();
-            // Drop submenu top-padding, switch to centered layout so the
-            // final keep block + menu sit lower / centered vertically.
-            termEl.classList.remove('submenu');
-            termEl.classList.add('nav-section-center');
-            typeText(keepPart, keepSpan, () => showMenu(target, section, false, false));
-          };
-          if (skipped) { clearAndContinue(); return; }
-          // Shrink block 2 to compact, read pause, quick blink, vanish.
-          eraseSpan.style.fontSize = '0.78em';
-          setTimeout(() => {
-            fadeSpan.style.opacity = '0';
-            eraseSpan.style.opacity = '0';
-            setTimeout(() => {
-              fadeSpan.style.opacity = '1';
-              eraseSpan.style.opacity = '1';
-              setTimeout(clearAndContinue, 70);
-            }, 70);
-          }, 1800);
-        }, fast);
-      }, fast);
-      return;
-    }
 
     const rawText = sectionContent[target] ? '\n' + sectionContent[target] + '\n' : '\n';
     const colorWords = {
@@ -1106,7 +1069,8 @@
     typingGen++;
     const endMenu = introEndMenu;
     introEndMenu = 'intro';
-    output.textContent = introLines.join('\n');
+    const lines = questMode ? questIntroLines : introLines;
+    output.textContent = lines.join('\n');
     cursor.style.display = 'none';
     showMenu(endMenu, null);
   }
@@ -1183,12 +1147,13 @@
   });
 
   function startTyping() {
+    const lines = questMode ? questIntroLines : introLines;
     let lineIndex = 0, charIndex = 0, text = '';
     const charDelay = 31, pauseDelay = 246;
     let lastTick = Date.now();
     function tick() {
       if (skipped) return;
-      if (lineIndex >= introLines.length) {
+      if (lineIndex >= lines.length) {
         cursor.style.display = 'none';
         introDone = true;
         const endMenu = introEndMenu;
@@ -1196,13 +1161,13 @@
         showMenu(endMenu, null);
         return;
       }
-      const line = introLines[lineIndex];
+      const line = lines[lineIndex];
       const delay = line === '' ? pauseDelay : charDelay;
       const catchUp = line === '' ? 1 : Math.max(1, Math.round((Date.now() - lastTick) / charDelay));
       lastTick = Date.now();
       for (let j = 0; j < catchUp; j++) {
-        if (lineIndex >= introLines.length) break;
-        const l = introLines[lineIndex];
+        if (lineIndex >= lines.length) break;
+        const l = lines[lineIndex];
         if (charIndex >= l.length) { text += '\n'; lineIndex++; charIndex = 0; }
         else { text += l[charIndex++]; }
       }
