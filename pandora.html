@@ -967,11 +967,11 @@
     addNext();
   }
 
-  function typeText(text, container, callback, fast) {
+  function typeText(text, container, callback, fast, customDelay) {
     const gen = ++typingGen;
     if (skipped) { appendText(text, container); callback(); return; }
     let i = 0;
-    const delay = fast ? 12 : 22;
+    const delay = customDelay || (fast ? 12 : 22);
     const node = document.createTextNode('');
     (container || output).appendChild(node);
     let lastTick = Date.now();
@@ -1066,6 +1066,8 @@
         showMenu(target, section, false, false);
       };
 
+      // 28ms/char ≈ 27% slower than the default 22ms — gives the lore a
+      // beat that matches its dramatic role.
       typeText(bodyText, bodySpan, () => {
         typeText(finalText, finalSpan, () => {
           if (skipped) {
@@ -1091,8 +1093,8 @@
               }, 650);
             }, 60);
           }, 400);
-        }, fast);
-      }, fast);
+        }, fast, 28);
+      }, fast, 28);
       return;
     }
 
