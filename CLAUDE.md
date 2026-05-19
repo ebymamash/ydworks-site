@@ -219,7 +219,7 @@ ENTER CODE:   #7a7875 (серый)
 
 ### ENTER CODE
 ```
-ARE YOU UP TO SOMETHING?
+ARE YOU A SPECIAL GUEST?
 > [input]
 [Esc]  [Enter]
 space click = animation skip / tap 3× on mobile
