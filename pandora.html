@@ -280,11 +280,13 @@
     letter-spacing: 0.06em;
     font-size: 0.82rem;
   }
+  /* Logo and Enter button aren't shown on the Pandora landing — the hero
+     speaks for itself and the elements would just overlap the copy.
+     !important because the base .start-btn { display: block } rule is
+     defined later in the source and would otherwise win the cascade. */
+  nav, .start-btn { display: none !important; }
+
   @media (max-width: 768px) {
-    /* Logo and Enter button overlap the hero on phones — hide them.
-       !important because the base .start-btn { display: block } rule is
-       defined later in the source and would otherwise win the cascade. */
-    nav, .start-btn { display: none !important; }
     .hero { height: auto; min-height: 100vh; }
     .pandora-stage {
       position: relative;
@@ -702,10 +704,10 @@
 </style>
 </head>
 <body>
-<nav>
+<nav hidden aria-hidden="true">
   <a href="/"><img src="logo%20new.png"></a>
 </nav>
-<a href="#terminal" class="start-btn" id="start-btn"> &gt;Enter</a>
+<a href="#terminal" class="start-btn" id="start-btn" hidden aria-hidden="true"> &gt;Enter</a>
 <div class="hero">
   <div class="pandora-stage">
     <div class="pandora-copy">
