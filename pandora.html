@@ -118,14 +118,49 @@
   .pandora-features .row { display: block; }
   .pandora-features .bracket { color: #ff6eb4; }
   .pandora-features .row b { color: var(--text); font-weight: normal; }
+
+  /* ── Download CTA ───────────────────────────────────────────────── */
+  .pandora-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 22px;
+    background: var(--text);
+    color: #0a0a0c;
+    text-decoration: none;
+    border: 1px solid var(--text);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.4), 0 0 30px rgba(238,236,232,0.18);
+    transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+    margin-bottom: 1.4rem;
+  }
+  .pandora-cta:hover {
+    background: #ff6eb4;
+    color: #0a0a0c;
+    border-color: #ff6eb4;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.4), 0 0 40px rgba(255,110,180,0.5);
+  }
+  .pandora-cta .win-logo { flex-shrink: 0; }
+  .pandora-cta .cta-text { display: flex; flex-direction: column; line-height: 1.1; }
+  .pandora-cta .cta-main {
+    font-size: clamp(0.85rem, 1.05vw, 1.05rem);
+    font-weight: bold;
+    letter-spacing: 0.06em;
+  }
+  .pandora-cta .cta-sub {
+    font-size: clamp(0.6rem, 0.7vw, 0.72rem);
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+    margin-top: 3px;
+  }
+
   .pandora-hint {
-    font-size: clamp(0.7rem, 0.85vw, 0.95rem);
+    font-size: clamp(0.65rem, 0.78vw, 0.85rem);
     color: var(--muted);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
   }
   .pandora-hint .arrow {
     display: inline-block;
-    margin-right: 0.5em;
+    margin: 0 0.3em;
     animation: blink 1.2s step-end infinite;
   }
 
@@ -618,17 +653,26 @@
 <div class="hero">
   <div class="pandora-stage">
     <div class="pandora-copy">
-      <div class="pandora-tag">YD-WORKS / AI / TOOL</div>
+      <div class="pandora-tag">YD-WORKS / TOOL</div>
       <h1 class="pandora-title">PANDORA<span class="accent">.</span></h1>
-      <p class="pandora-sub">AI stem splitter for vocal coaches.<br>Vocals out. Instrumentals in. Pitch on the fly.</p>
+      <p class="pandora-sub">A local stem separation tool.<br>Split any track into vocals, drums, bass and more &mdash; on your own machine.</p>
       <div class="pandora-features">
-        <span class="row"><span class="bracket">&gt;</span> <b>2 / 4 / 6 stems</b> &mdash; demucs htdemucs ensemble</span>
-        <span class="row"><span class="bracket">&gt;</span> <b>pitch-shift preview</b> &mdash; &plusmn;12 st, real time</span>
-        <span class="row"><span class="bracket">&gt;</span> <b>batch + watch folder</b> &mdash; drop folder, walk away</span>
-        <span class="row"><span class="bracket">&gt;</span> <b>fully offline</b> &mdash; models bundled, no upload</span>
-        <span class="row"><span class="bracket">&gt;</span> <b>CUDA + CPU fallback</b> &mdash; AMD welcome</span>
+        <span class="row"><span class="bracket">&gt;</span> <b>private</b> &mdash; runs offline, files never leave your computer</span>
+        <span class="row"><span class="bracket">&gt;</span> <b>fast</b> &mdash; ~30 seconds per song on an NVIDIA GPU</span>
+        <span class="row"><span class="bracket">&gt;</span> <b>batch mode</b> &mdash; drop a folder, walk away</span>
+        <span class="row"><span class="bracket">&gt;</span> <b>pitch shift</b> &mdash; &plusmn;12 semitones, live preview</span>
+        <span class="row"><span class="bracket">&gt;</span> <b>free</b> &mdash; no account, no subscription, no upload</span>
       </div>
-      <div class="pandora-hint"><span class="arrow">&darr;</span>SCROLL · OPEN TERMINAL · [PANDORA] · DOWNLOAD</div>
+      <a href="https://yegordworks.fromsmash.com/pandora-closed-beta-2" target="_blank" rel="noopener" class="pandora-cta">
+        <svg class="win-logo" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+          <path fill="currentColor" d="M3 5.5L11 4v8H3V5.5zM12 3.9L22 2.5V12H12V3.9zM3 13h8v7.5L3 19V13zM12 13h10v8.5L12 20.1V13z"/>
+        </svg>
+        <span class="cta-text">
+          <span class="cta-main">DOWNLOAD FOR WINDOWS</span>
+          <span class="cta-sub">v1.15.13 &middot; closed beta</span>
+        </span>
+      </a>
+      <div class="pandora-hint">macOS coming soon &middot; <span class="arrow">&darr;</span> scroll for more</div>
     </div>
 
     <div class="pandora-window" aria-hidden="true">
