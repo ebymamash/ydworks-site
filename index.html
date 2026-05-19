@@ -817,23 +817,23 @@
             return;
           }
           // 1) Whole-section blink (single flash)
-          section.style.transition = 'opacity 0.07s linear';
+          section.style.transition = 'opacity 0.05s linear';
           setTimeout(() => {
             section.style.opacity = '0';
             setTimeout(() => {
               section.style.opacity = '1';
-              // 2) NOW CHOOSE starts blinking
+              // 2) NOW CHOOSE starts blinking (continues through and after fade)
               finalSpan.style.animation = 'blink 0.8s step-end infinite';
-              // 3) Pause for read, then fade rest away
+              // 3) Short read pause, then fade rest away
               setTimeout(() => {
-                bodySpan.style.transition = 'opacity 0.45s ease';
-                echo.style.transition     = 'opacity 0.45s ease';
+                bodySpan.style.transition = 'opacity 0.25s ease';
+                echo.style.transition     = 'opacity 0.25s ease';
                 bodySpan.style.opacity = '0';
                 echo.style.opacity     = '0';
-                setTimeout(goCentered, 500);
-              }, 1500);
-            }, 90);
-          }, 1100);
+                setTimeout(goCentered, 270);
+              }, 650);
+            }, 60);
+          }, 400);
         }, fast);
       }, fast);
       return;
