@@ -804,6 +804,7 @@
       const goCentered = () => {
         bodySpan.remove();
         if (echo && echo.parentNode) echo.remove();
+        finalSpan.style.animation = 'none';
         termEl.classList.remove('submenu');
         termEl.classList.add('nav-section-center');
         showMenu(target, section, false, false);
