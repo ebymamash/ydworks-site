@@ -434,6 +434,16 @@
      to the 16/9-style centering for this range too. */
   @media (min-aspect-ratio: 5/4) and (max-aspect-ratio: 16/9) {
     #terminal.nav-section-center { justify-content: center; padding-top: 12%; padding-bottom: 8%; }
+    /* Parent breadcrumb sections take too much vertical space on 4:3-ish
+       monitors and push the active section off-screen. Hide them like on
+       mobile — they re-appear on BACK because the JS removes the class. */
+    .term-section-dim { display: none; }
+    #terminal.nav-section-lo { padding-top: 10%; }
+    #terminal.nav-section    { padding-top: 12%; }
+    #terminal.nav-section-med { padding-top: 10%; }
+    #terminal.nav-section-long { padding-top: 8%; }
+    #terminal.nav-section-deep { padding-top: 16%; }
+    #terminal.nav-section-op   { padding-top: 14%; }
   }
   @media (min-aspect-ratio: 16/9) {
     #terminal {
