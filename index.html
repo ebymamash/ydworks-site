@@ -201,6 +201,9 @@
   #terminal.nav-section-deep {
     padding-top: 35%;
   }
+  #terminal.nav-section-op {
+    padding-top: 26%;
+  }
   #terminal.main-menu {
     padding-top: 30%;
   }
@@ -222,6 +225,8 @@
     #terminal.nav-section-lo { padding-top: 14%; }
     #terminal.nav-section-center { justify-content: center; padding-top: 18%; padding-bottom: 10%; }
     #terminal.nav-section-long { padding-top: 12%; font-size: clamp(0.8rem, 1.1vw, 1.3rem); }
+    #terminal.nav-section-deep { padding-top: 20%; }
+    #terminal.nav-section-op   { padding-top: 18%; font-size: clamp(0.75rem, 1.1vw, 1.35rem); }
   }
   #terminal::after {
     content: '';
@@ -443,6 +448,7 @@
     #terminal.nav-section { padding-top: 52%; }
     #terminal.nav-section-long { padding-top: 28%; font-size: 0.78rem; }
     #terminal.nav-section-med { padding-top: 42%; font-size: 0.72rem; }
+    #terminal.nav-section-op  { padding-top: 50%; font-size: 0.72rem; }
     #terminal.nav-section-lo { padding-top: 52%; }
     #terminal.nav-section-deep { padding-top: 58%; }
     #terminal.nav-section-center { padding-top: 58%; }
@@ -472,6 +478,7 @@
     #terminal.nav-section { padding-top: 73%; }
     #terminal.nav-section-long { padding-top: 45%; }
     #terminal.nav-section-med { padding-top: 52%; font-size: 0.82rem; }
+    #terminal.nav-section-op  { padding-top: 62%; font-size: 0.82rem; }
     #terminal.nav-section-lo { padding-top: 73%; }
     #terminal.nav-section-deep { padding-top: 72%; }
     #terminal.nav-section-center { padding-top: 72%; }
@@ -745,9 +752,10 @@
     termEl.classList.remove('main-menu');
     const targetMenu = sectionMenus[target] || [['BACK', 'main']];
     const longSections   = new Set(['SPECS & DELIVERY']);
-    const medSections    = new Set(['AUDIO', 'OPERATOR', 'AI']);
+    const medSections    = new Set(['AUDIO', 'AI']);
     const loSections     = new Set(['WHAT IS MASTERING?', 'THE SETUP']);
     const deepSections   = new Set(['THE PROCESS']);
+    const opSections     = new Set(['OPERATOR']);
     const centerSections = new Set(['CONTACT', 'PRICING', 'COMMIT FILES']);
     const isLeaf = targetMenu.every(item => Array.isArray(item) && item[0] === 'BACK');
     if (isLeaf) termEl.classList.add('nav-section');
@@ -760,6 +768,8 @@
     else termEl.classList.remove('nav-section-lo');
     if (isLeaf && deepSections.has(target)) termEl.classList.add('nav-section-deep');
     else termEl.classList.remove('nav-section-deep');
+    if (isLeaf && opSections.has(target)) termEl.classList.add('nav-section-op');
+    else termEl.classList.remove('nav-section-op');
     if (isLeaf && centerSections.has(target)) termEl.classList.add('nav-section-center');
     else termEl.classList.remove('nav-section-center');
     if (target === 'WHAT ARE YOU?') termEl.classList.add('submenu');
@@ -843,9 +853,10 @@
             const parentMenuItems = sectionMenus[sectionName] || [['BACK', 'main']];
             const parentIsLeaf = parentMenuItems.every(item => Array.isArray(item) && item[0] === 'BACK');
             const longSects   = new Set(['SPECS & DELIVERY']);
-            const medSects    = new Set(['AUDIO', 'OPERATOR', 'AI']);
+            const medSects    = new Set(['AUDIO', 'AI']);
             const loSects     = new Set(['WHAT IS MASTERING?', 'THE SETUP']);
             const deepSects   = new Set(['THE PROCESS']);
+            const opSects     = new Set(['OPERATOR']);
             const centerSects = new Set(['CONTACT', 'PRICING', 'COMMIT FILES']);
             if (parentIsLeaf) termEl.classList.add('nav-section');
             else termEl.classList.remove('nav-section');
@@ -857,6 +868,8 @@
             else termEl.classList.remove('nav-section-lo');
             if (parentIsLeaf && deepSects.has(sectionName)) termEl.classList.add('nav-section-deep');
             else termEl.classList.remove('nav-section-deep');
+            if (parentIsLeaf && opSects.has(sectionName)) termEl.classList.add('nav-section-op');
+            else termEl.classList.remove('nav-section-op');
             if (parentIsLeaf && centerSects.has(sectionName)) termEl.classList.add('nav-section-center');
             else termEl.classList.remove('nav-section-center');
             if (sectionName === 'WHAT ARE YOU?') termEl.classList.add('submenu');
@@ -1019,7 +1032,7 @@
     introEndMenu = 'quest-intro';
     clearOutput();
     ['main-menu','submenu','nav-section','nav-section-long','nav-section-med',
-     'nav-section-lo','nav-section-deep','nav-section-center'].forEach(c => termEl.classList.remove(c));
+     'nav-section-lo','nav-section-deep','nav-section-op','nav-section-center'].forEach(c => termEl.classList.remove(c));
     cursor.style.display = '';
     startTyping();
   }
@@ -1032,6 +1045,7 @@
     termEl.classList.remove('nav-section-med');
     termEl.classList.remove('nav-section-lo');
     termEl.classList.remove('nav-section-deep');
+    termEl.classList.remove('nav-section-op');
     termEl.classList.remove('nav-section-center');
     termEl.classList.add('main-menu');
     clearOutput();
