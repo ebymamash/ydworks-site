@@ -103,11 +103,18 @@
   }
   .pandora-title .accent { color: #ff6eb4; }
   .pandora-sub {
-    font-size: clamp(0.9rem, 1.2vw, 1.35rem);
-    line-height: 1.4;
-    color: var(--text);
-    max-width: 32ch;
+    font-size: clamp(0.85rem, 1.05vw, 1.2rem);
+    line-height: 1.5;
+    color: var(--muted);
+    max-width: 52ch;
     margin-bottom: 2rem;
+  }
+  .pandora-sub .lead {
+    display: block;
+    color: var(--text);
+    font-size: clamp(1rem, 1.25vw, 1.4rem);
+    margin-bottom: 0.5em;
+    letter-spacing: 0.01em;
   }
   .pandora-features {
     font-size: clamp(0.75rem, 0.95vw, 1.05rem);
@@ -693,7 +700,11 @@
     <div class="pandora-copy">
       <div class="pandora-tag">YD-WORKS / TOOL</div>
       <h1 class="pandora-title">PANDORA<span class="accent">.</span></h1>
-      <p class="pandora-sub">A local stem separation tool.<br>Split any track into vocals, drums, bass and more &mdash; on your own machine.</p>
+      <p class="pandora-sub">
+        <span class="lead">Stem separation that just works.</span>
+        No subscription. No upload queue. No &ldquo;server not responding&rdquo;. No file size limits.<br>
+        Drop a track, get stems. On your machine, in seconds.
+      </p>
       <div class="pandora-features">
         <span class="row"><span class="bracket">&gt;</span> <b>private</b> &mdash; runs offline, files never leave your computer</span>
         <span class="row"><span class="bracket">&gt;</span> <b>fast</b> &mdash; ~30 seconds per song on an NVIDIA GPU</span>
