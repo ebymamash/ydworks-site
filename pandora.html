@@ -164,7 +164,36 @@
     animation: blink 1.2s step-end infinite;
   }
 
-  /* ── App window mockup ──────────────────────────────────────────── */
+  /* ── Live preview iframe ────────────────────────────────────────── */
+  .pandora-frame-wrap {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .pandora-frame {
+    width: 100%;
+    aspect-ratio: 420 / 552;
+    border: 1px solid #4a4a48;
+    background: #0e0e12;
+    box-shadow: 0 0 80px rgba(255, 110, 180, 0.18), 0 0 0 1px rgba(255,255,255,0.04);
+    display: block;
+    transition: box-shadow 0.3s;
+  }
+  .pandora-frame:hover {
+    box-shadow: 0 0 100px rgba(255, 110, 180, 0.28), 0 0 0 1px rgba(255,255,255,0.06);
+  }
+  .pandora-frame-caption {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ── App window mockup (legacy, unused now) ─────────────────────── */
   .pandora-window {
     width: 100%;
     max-width: 360px;
@@ -247,14 +276,17 @@
   @media (max-width: 768px) {
     .pandora-stage {
       grid-template-columns: 1fr;
-      padding: 6vh 8vw 4vh;
+      padding: 6vh 6vw 4vh;
       align-content: center;
       gap: 3vh;
+      overflow-y: auto;
     }
+    .pandora-frame-wrap { max-width: 300px; order: 2; }
     .pandora-window { max-width: 240px; order: 2; }
     .pandora-copy { order: 1; text-align: center; }
     .pandora-sub, .pandora-features { margin-left: auto; margin-right: auto; }
     .pandora-features { max-width: 30ch; }
+    .pandora-cta { margin-left: auto; margin-right: auto; }
   }
   nav img {
     display: block;
@@ -661,7 +693,6 @@
         <span class="row"><span class="bracket">&gt;</span> <b>fast</b> &mdash; ~30 seconds per song on an NVIDIA GPU</span>
         <span class="row"><span class="bracket">&gt;</span> <b>batch mode</b> &mdash; drop a folder, walk away</span>
         <span class="row"><span class="bracket">&gt;</span> <b>pitch shift</b> &mdash; &plusmn;12 semitones, live preview</span>
-        <span class="row"><span class="bracket">&gt;</span> <b>free</b> &mdash; no account, no subscription, no upload</span>
       </div>
       <a href="https://yegordworks.fromsmash.com/pandora-closed-beta-2" target="_blank" rel="noopener" class="pandora-cta">
         <svg class="win-logo" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
@@ -675,36 +706,15 @@
       <div class="pandora-hint">macOS coming soon &middot; <span class="arrow">&darr;</span> scroll for more</div>
     </div>
 
-    <div class="pandora-window" aria-hidden="true">
-      <div class="pw-titlebar">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-        <span class="title">PANDORA</span>
-      </div>
-      <div class="pw-body">
-        <div class="pw-head">
-          <svg class="cube" width="22" height="22" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
-            <polygon points="24,6 44,17 24,28 4,17"/>
-            <polyline points="4,17 4,33 24,44 24,28"/>
-            <polyline points="44,17 44,33 24,44"/>
-          </svg>
-          <span class="label">STEM SPLITTER</span>
-        </div>
-        <div class="pw-drop">
-          <div class="t1">Drop a track here</div>
-          <div class="t2">WAV · MP3 · FLAC · MP4</div>
-        </div>
-        <div class="pw-modes">
-          <div class="pw-mode">2</div>
-          <div class="pw-mode active">4</div>
-          <div class="pw-mode">6</div>
-        </div>
-        <div class="pw-pitch">
-          <span>pitch</span>
-          <div class="track"></div>
-          <span>+0 st</span>
-        </div>
-        <div class="pw-go">SEPARATE</div>
-      </div>
+    <div class="pandora-frame-wrap">
+      <iframe
+        class="pandora-frame"
+        src="pandora-preview/"
+        title="Pandora live preview"
+        loading="lazy"
+        sandbox="allow-scripts allow-same-origin allow-popups"
+      ></iframe>
+      <div class="pandora-frame-caption">live UI &middot; click around</div>
     </div>
   </div>
 </div>

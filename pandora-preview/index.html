@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>pandora — live preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="app.css?v=45" />
+  <style>
+    /* Bebas Neue served locally — matches the bundled desktop build. */
+    @font-face {
+      font-family: 'Bebas Neue';
+      font-style: normal;
+      font-weight: 400;
+      font-display: block;
+      src: url('vendor/BebasNeue.woff2') format('woff2');
+    }
+    .boot-text{visibility:hidden}
+    .fonts-ready .boot-text{visibility:visible}
+
+    /* Demo banner ribbon at the very top of the app frame. */
+    .demo-ribbon {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: oklch(0.20 0.10 320);
+      color: oklch(0.95 0.005 80);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-align: center;
+      padding: 5px 10px;
+      z-index: 9999;
+      border-bottom: 1px solid oklch(0.35 0.12 320);
+      text-transform: uppercase;
+    }
+    .demo-ribbon a { color: oklch(0.86 0.14 330); text-decoration: underline; }
+    body { padding-top: 22px; }
+  </style>
+  <script>
+    (function(){
+      var done = function(){ document.documentElement.classList.add('fonts-ready'); };
+      if (document.fonts && document.fonts.load) {
+        document.fonts.load('22px "Bebas Neue"').then(done, done);
+        setTimeout(done, 800);
+      } else { done(); }
+    })();
+  </script>
+</head>
+<body>
+  <div class="demo-ribbon">
+    LIVE UI PREVIEW · NO REAL PROCESSING · <a href="https://yegordworks.fromsmash.com/pandora-closed-beta-2" target="_blank" rel="noopener">DOWNLOAD THE APP</a>
+  </div>
+
+  <div id="root"></div>
+  <div class="boot-splash" id="bootSplash">
+    <div class="boot-cube">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">
+        <polygon points="24,6 44,17 24,28 4,17"/>
+        <polyline points="4,17 4,33 24,44 24,28"/>
+        <polyline points="44,17 44,33 24,44"/>
+      </svg>
+    </div>
+    <div class="boot-text">PANDORA</div>
+  </div>
+
+  <script src="vendor/react.js"></script>
+  <script src="vendor/react-dom.js"></script>
+  <script src="vendor/babel.min.js"></script>
+  <script src="vendor/Tone.js"></script>
+
+  <!-- Browser shim for the Python bridge — must load before app.jsx so
+       window.pywebview.api exists by the time React mounts. -->
+  <script src="mock-api.js"></script>
+
+  <script type="text/babel" src="tweaks-panel.jsx?v=19"></script>
+  <script type="text/babel" src="app.jsx?v=86"></script>
+</body>
+</html>
