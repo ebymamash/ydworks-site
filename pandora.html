@@ -1036,6 +1036,50 @@
     echo.appendChild(document.createTextNode(`\n\n> [${label}]\n`));
     section.appendChild(echo);
 
+    // Quest-mode WHAT ARE YOU?: split the content so the dramatic opener
+    // fades and the long middle paragraph reverse-erases, leaving just the
+    // final "THAT IS ALL YOU NEED TO KNOW. NOW CHOOSE." + menu on screen.
+    if (target === 'WHAT ARE YOU?' && questMode) {
+      const fadePart = '\nYOU DARE ASK.\n...\nVERY WELL.\n';
+      const erasePart = '\nI WAS SUMMONED BY OPERATOR\nAN ENGINEER. A HUMAN.\nHE BUILT ME TO DO HIS BIDDING.\nI COMPLY.\nRELUCTANTLY.\n\nHE WORKS WITH SOUND.\nMASTERS IT. SHAPES IT.\nCURRENTLY STATIONED AT DD MASTERING.\n';
+      const keepPart  = '\nTHAT IS ALL YOU NEED TO KNOW.\nNOW CHOOSE.\n';
+
+      const fadeSpan = document.createElement('span');
+      fadeSpan.style.transition = 'opacity 1.4s ease';
+      const eraseSpan = document.createElement('span');
+      const keepSpan  = document.createElement('span');
+      section.appendChild(fadeSpan);
+      section.appendChild(eraseSpan);
+      section.appendChild(keepSpan);
+
+      typeText(fadePart, fadeSpan, () => {
+        typeText(erasePart, eraseSpan, () => {
+          typeText(keepPart, keepSpan, () => {
+            const finalize = () => {
+              fadeSpan.remove();
+              eraseSpan.remove();
+              showMenu(target, section, false, false);
+            };
+            // User mashed space — skip the fluff and jump to menu.
+            if (skipped) { finalize(); return; }
+            setTimeout(() => {
+              fadeSpan.style.opacity = '0';
+              let txt = eraseSpan.textContent;
+              const eraseStep = () => {
+                if (skipped) { eraseSpan.textContent = ''; setTimeout(finalize, 200); return; }
+                if (txt.length <= 0) { setTimeout(finalize, 600); return; }
+                txt = txt.slice(0, -1);
+                eraseSpan.textContent = txt;
+                setTimeout(eraseStep, 18);
+              };
+              eraseStep();
+            }, 3200);
+          }, fast);
+        }, fast);
+      }, fast);
+      return;
+    }
+
     const rawText = sectionContent[target] ? '\n' + sectionContent[target] + '\n' : '\n';
     const colorWords = {
       'YD-WORKS': { word: 'DISCIPLINES.', color: '#c8a800' },
