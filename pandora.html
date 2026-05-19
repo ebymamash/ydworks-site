@@ -406,6 +406,12 @@
   #terminal.main-menu {
     padding-top: 30%;
   }
+  /* 4:3 → 16:9 range: % padding is computed from width, so on wider-than-tall
+     monitors the default 35% top would land halfway down the page. Fall back
+     to the 16/9-style centering for this range too. */
+  @media (min-aspect-ratio: 5/4) and (max-aspect-ratio: 16/9) {
+    #terminal.nav-section-center { justify-content: center; padding-top: 12%; padding-bottom: 8%; }
+  }
   @media (min-aspect-ratio: 16/9) {
     #terminal {
       padding-top: 22%;
@@ -714,7 +720,6 @@
         loading="lazy"
         sandbox="allow-scripts allow-same-origin allow-popups"
       ></iframe>
-      <div class="pandora-frame-caption">live UI &middot; click around</div>
     </div>
   </div>
 </div>

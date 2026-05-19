@@ -27,16 +27,19 @@
       background: oklch(0.20 0.10 320);
       color: oklch(0.95 0.005 80);
       font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.08em;
+      font-size: 10px;
+      letter-spacing: 0.06em;
       text-align: center;
-      padding: 5px 10px;
+      padding: 3px 8px;
       z-index: 9999;
       border-bottom: 1px solid oklch(0.35 0.12 320);
       text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .demo-ribbon a { color: oklch(0.86 0.14 330); text-decoration: underline; }
-    body { padding-top: 22px; }
+    body { padding-top: 16px; }
   </style>
   <script>
     (function(){
@@ -50,7 +53,7 @@
 </head>
 <body>
   <div class="demo-ribbon">
-    LIVE UI PREVIEW · NO REAL PROCESSING · <a href="https://yegordworks.fromsmash.com/pandora-closed-beta-2" target="_blank" rel="noopener">DOWNLOAD THE APP</a>
+    PREVIEW · <a href="https://yegordworks.fromsmash.com/pandora-closed-beta-2" target="_blank" rel="noopener">DOWNLOAD THE APP →</a>
   </div>
 
   <div id="root"></div>
