@@ -811,7 +811,7 @@
     'SPECS & DELIVERY': 'SEND:\nDEMO. REFERENCE TRACKS. YOUR FILE.\n\nFILE SPECS:\nWAV / AIFF. 16BIT+. 44.1KHZ+.\nNO LIMITER. COMPRESSION — UP TO YOU.\nHEADROOM — IF POSSIBLE.\nMASTER CLIPS — SEND FLOATING POINT.\n\nRECEIVE:\nMASTER WAV + LIMITED DEMO FOR PREVIEW.\nALBUM SEQUENCING AVAILABLE.\nCD / DDP ON REQUEST.',
     'THE SETUP': 'YDW HOME:\nTREATED ROOM. 2.2 MONITORING SETUP.\nREAPER. TC ELECTRONIC SYSTEM 6000.\nASSORTED BARBITURATES AND TRANQUILIZERS.\n\nTHE STUDIO — DD MASTERING, OBERHAUSEN:\nFRITZ FEY. MASTERING SINCE FOREVER.\n5 MONITORS. 4 SUBS. DOUBLE BASS ARRAY.\nSTATE OF THE ART ACOUSTICS AND GEAR.\n→ DD-MASTERING.DE',
     'PRICING': 'DEPENDS ON THE PROJECT.\nWRITE FIRST. WE TALK.\nchudooyudoo@gmail.com',
-    'PANDORA': '...\n\nyegordworks.fromsmash.com/pandora-closed-beta-2',
+    'PANDORA': '...\n\nMADE IT FOR MYSELF.\nTWEAKING BALANCES.\n\nA STEM MASTERING TOOL.\nPITCH SHIFT. BATCH. LIVE PREVIEW.\n\nHANDY FOR ANYONE WHO SINGS\nOR TEACHES VOCALS.\n\nyegordworks.fromsmash.com/pandora-closed-beta-2',
     'COMMIT FILES': 'AWAITING PAYLOAD...\n\nFILES:\nSMASH — yegordworks.fromsmash.com/request/WnodjBOesY-dd\n\nDOCS & INVOICES:\nchudooyudoo@gmail.com',
     'CONTACT': 'chudooyudoo@gmail.com\nSEND YOUR MESSAGE. I WILL COMPLY.',
   };
@@ -1022,7 +1022,7 @@
     const loSections     = new Set(['WHAT IS MASTERING?', 'THE SETUP']);
     const deepSections   = new Set(['THE PROCESS']);
     const opSections     = new Set(['OPERATOR']);
-    const centerSections = new Set(['CONTACT', 'PRICING', 'COMMIT FILES']);
+    const centerSections = new Set(['CONTACT', 'PRICING', 'COMMIT FILES', 'PANDORA']);
     const isLeaf = targetMenu.every(item => Array.isArray(item) && item[0] === 'BACK');
     if (isLeaf) termEl.classList.add('nav-section');
     else termEl.classList.remove('nav-section');
@@ -1168,7 +1168,7 @@
             const loSects     = new Set(['WHAT IS MASTERING?', 'THE SETUP']);
             const deepSects   = new Set(['THE PROCESS']);
             const opSects     = new Set(['OPERATOR']);
-            const centerSects = new Set(['CONTACT', 'PRICING', 'COMMIT FILES']);
+            const centerSects = new Set(['CONTACT', 'PRICING', 'COMMIT FILES', 'PANDORA']);
             if (parentIsLeaf) termEl.classList.add('nav-section');
             else termEl.classList.remove('nav-section');
             if (parentIsLeaf && longSects.has(sectionName)) termEl.classList.add('nav-section-long');
