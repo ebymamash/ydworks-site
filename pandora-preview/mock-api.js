@@ -19,8 +19,8 @@
 
   // Internal demo state — what the app would normally be told by Python.
   const state = {
-    output_dir:  persisted.output_dir  || '',
-    watch_dir:   persisted.watch_dir   || '',
+    output_dir:  persisted.output_dir  || 'C:\\Users\\You\\Desktop\\pandora-output',
+    watch_dir:   persisted.watch_dir   || 'C:\\Users\\You\\Desktop\\pandora-input',
     skip_vocals: !!persisted.skip_vocals,
     stem_mode:   persisted.stem_mode   || '4',
     hq_preview:  !!persisted.hq_preview,
