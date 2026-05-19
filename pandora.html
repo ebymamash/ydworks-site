@@ -281,6 +281,9 @@
     font-size: 0.82rem;
   }
   @media (max-width: 768px) {
+    /* Logo and Enter button overlap the hero on phones — hide them.
+       Terminal access is still available by scrolling. */
+    nav, .start-btn { display: none; }
     .pandora-stage {
       grid-template-columns: 1fr;
       padding: 6vh 6vw 4vh;
