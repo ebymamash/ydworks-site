@@ -461,6 +461,15 @@
     #terminal.nav-section-deep { padding-top: 8%;  padding-bottom: 8%; }
     /* PRICING (shares class with CONTACT / COMMIT FILES) — +2% lower. */
     #terminal.nav-section-center { padding-top: 8%; padding-bottom: 8%; }
+    /* All YD-WORKS leaves — AUDIO / AI (med), OPERATOR (op), DIGITAL
+       (plain leaf via :not chain so the override only catches sections
+       with no other modifier). +3% lower. */
+    #terminal.nav-section-med { padding-top: 9%; padding-bottom: 8%; }
+    #terminal.nav-section-op  { padding-top: 9%; padding-bottom: 8%; }
+    #terminal.nav-section:not(.nav-section-med):not(.nav-section-lo):not(.nav-section-long):not(.nav-section-deep):not(.nav-section-op):not(.nav-section-center) {
+      padding-top: 9%;
+      padding-bottom: 8%;
+    }
   }
   @media (min-aspect-ratio: 16/9) {
     #terminal {
@@ -839,7 +848,7 @@
     'THE SETUP': 'YDW HOME:\nTREATED ROOM. 2.2 MONITORING SETUP.\nREAPER. TC ELECTRONIC SYSTEM 6000.\nASSORTED BARBITURATES AND TRANQUILIZERS.\n\nTHE STUDIO — DD MASTERING, OBERHAUSEN:\nFRITZ FEY. MASTERING SINCE FOREVER.\n5 MONITORS. 4 SUBS. DOUBLE BASS ARRAY.\nSTATE OF THE ART ACOUSTICS AND GEAR.\n→ DD-MASTERING.DE',
     'PRICING': 'DEPENDS ON THE PROJECT.\nWRITE FIRST. WE TALK.\nchudooyudoo@gmail.com',
     'PANDORA': '...\n\nINHOUSE TOOL.\nSTEM MASTERING ASSISTANT.\n\nTWEAKING BALANCES. PULLING ELEMENTS APART.\n\nLATER OPTIMIZED FOR COACHES AND VOCALISTS.\nINSTRUMENTALS. PITCH SHIFTING. BATCH RUNS. LIVE PREVIEW.\n\nRUNS LOCALLY. NO SUBSCRIPTIONS. NO LIMITS.\n\nyegordworks.fromsmash.com/pandora-closed-beta-2',
-    'COMMIT FILES': 'AWAITING PAYLOAD...\n\nFILES:\nSMASH — yegordworks.fromsmash.com/request/WnodjBOesY-dd\n\nDOCS & INVOICES:\nchudooyudoo@gmail.com',
+    'COMMIT FILES': 'AWAITING PAYLOAD...\n\nFILES:\nSMASH — yegordworks.fromsmash.com/request/sTNbaiQan.-dd\n\nDOCS & INVOICES:\nchudooyudoo@gmail.com',
     'CONTACT': 'chudooyudoo@gmail.com\nSEND YOUR MESSAGE. I WILL COMPLY.',
   };
 
@@ -1132,7 +1141,7 @@
     };
     const linkWords = {
       'THE SETUP':    { word: '→ DD-MASTERING.DE', href: 'https://www.dd-mm.de/', color: '#ff6900' },
-      'COMMIT FILES': { word: 'yegordworks.fromsmash.com/request/WnodjBOesY-dd', href: 'https://yegordworks.fromsmash.com/request/WnodjBOesY-dd', color: '#4a9eff' },
+      'COMMIT FILES': { word: 'yegordworks.fromsmash.com/request/sTNbaiQan.-dd', href: 'https://yegordworks.fromsmash.com/request/sTNbaiQan.-dd', color: '#4a9eff' },
       'PANDORA':      { word: 'yegordworks.fromsmash.com/pandora-closed-beta-2', href: 'https://yegordworks.fromsmash.com/pandora-closed-beta-2', color: '#ff6eb4' },
     };
     const info = colorWords[target];
