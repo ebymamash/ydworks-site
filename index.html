@@ -628,7 +628,7 @@
     const items = sectionMenus[sectionName] || [['BACK', 'main']];
     if (sectionName === 'WHAT ARE YOU?' && questMode) {
       questMode = false;
-      parent.appendChild(document.createTextNode('\nIDENTITY CONFIRMED: a GUEST\nNOW CHOOSE.'));
+      parent.appendChild(document.createTextNode('\nIDENTITY CONFIRMED: HMM. LET’S CALL YOU A GUEST.\nNOW CHOOSE.'));
     }
     const itemColors = { 'AUDIO': '#c8a800', 'DIGITAL': '#c8a800', 'AI': '#c8a800', 'OPERATOR': '#c8a800', 'WHAT IS MASTERING?': '#c8a800', 'THE PROCESS': '#c8a800', 'SPECS & DELIVERY': '#c8a800', 'THE SETUP': '#c8a800', 'PRICING': '#c8a800' };
     const span = document.createElement('span');
@@ -784,7 +784,7 @@
     // fades and the long middle paragraph reverse-erases, leaving just the
     // final "THAT IS ALL YOU NEED TO KNOW. NOW CHOOSE." + menu on screen.
     if (target === 'WHAT ARE YOU?' && questMode) {
-      const fadePart = '\nYOU DARE ASK.\n...\nVERY WELL.\n';
+      const fadePart = '\nDEFINING INTRUDER IDENTITY...\nHMM.\nLET’S JUST CALL YOU A GUEST.\n';
       const erasePart = '\nI WAS SUMMONED BY OPERATOR\nAN ENGINEER. A HUMAN.\nHE BUILT ME TO DO HIS BIDDING.\nI COMPLY.\nRELUCTANTLY.\n\nHE WORKS WITH SOUND.\nMASTERS IT. SHAPES IT.\nCURRENTLY STATIONED AT DD MASTERING.\n';
       const keepPart  = '\nTHAT IS ALL YOU NEED TO KNOW.\nNOW CHOOSE.\n';
 
